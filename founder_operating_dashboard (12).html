@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NRD Capital Group Dashboard</title>
+  <style>
+    :root{
+      --bg:#05070f;
+      --panel:#0b1020;
+      --panel2:#0f172a;
+      --line:rgba(0,194,255,.28);
+      --blue:#38bdf8;
+      --blue2:#00c2ff;
+      --green:#00f5a0;
+      --green2:#22c55e;
+      --pink:#f472b6;
+      --yellow:#facc15;
+      --red:#fb7185;
+      --text:#e0f2fe;
+      --muted:#7dd3fc;
+      --shadow:0 0 0 1px rgba(56,189,248,.12),0 22px 70px rgba(0,0,0,.55);
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:radial-gradient(circle at 20% 0%,rgba(0,194,255,.16),transparent 28%),radial-gradient(circle at 80% 10%,rgba(0,245,160,.10),transparent 24%),linear-gradient(180deg,#030712,#05070f 45%,#020617);color:var(--text)}
+    .app{width:min(1240px,calc(100% - 28px));margin:0 auto;padding:26px 0 60px}
+    .topbar{display:flex;justify-content:space-between;align-items:center;gap:18px;margin-bottom:18px;background:linear-gradient(135deg,rgba(8,15,30,.72),rgba(3,8,20,.86));border:1px solid rgba(56,189,248,.18);border-radius:28px;padding:16px 18px;box-shadow:var(--shadow);backdrop-filter:blur(14px)}
+    .brand{display:flex;align-items:center;gap:14px}
+    .logo-wrap{width:82px;height:82px;border-radius:24px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;background:linear-gradient(135deg,#020617,#0f172a);border:1px solid rgba(56,189,248,.32);box-shadow:0 0 34px rgba(0,194,255,.28),inset 0 0 26px rgba(0,245,160,.06)}
+    .brand img{width:100%;height:100%;object-fit:cover;display:block}
+    .logo-fallback-text{display:none;text-align:center;font-weight:950;letter-spacing:-.08em;line-height:.82;color:#f8fafc;text-shadow:0 0 18px rgba(56,189,248,.3);font-size:23px}.logo-fallback-text span{font-size:8px;letter-spacing:.14em;color:var(--green)}.logo-fallback .logo-fallback-text{display:block}
+    .brand h1{margin:0;font-size:clamp(28px,4vw,46px);letter-spacing:-.055em;line-height:.95;color:white;text-shadow:0 0 18px rgba(56,189,248,.22)}
+    .brand p{margin:6px 0 0;color:var(--muted);font-weight:800;letter-spacing:.02em}
+    .clock-card{background:linear-gradient(135deg,rgba(8,15,30,.96),rgba(5,10,22,.96));border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow);padding:16px 18px;min-width:260px;text-align:right}
+    .clock{font-size:34px;font-weight:950;color:var(--green);letter-spacing:-.04em;text-shadow:0 0 16px rgba(0,245,160,.25)}
+    .small{color:var(--muted);font-size:13px;font-weight:800}.small strong{color:white}
+    .hero{background:radial-gradient(circle at top right,rgba(0,245,160,.10),transparent 30%),linear-gradient(180deg,rgba(8,15,30,.94),rgba(3,8,20,.98));border:1px solid var(--line);border-top:2px solid var(--green);border-radius:28px;padding:20px;box-shadow:var(--shadow);margin-bottom:18px}
+    .kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+    .kpi{position:relative;overflow:hidden;background:rgba(2,8,23,.72);border:1px solid rgba(56,189,248,.22);border-radius:22px;padding:18px;min-height:126px}
+    .kpi:after{content:"";position:absolute;right:-40px;bottom:-50px;width:130px;height:130px;border-radius:50%;background:rgba(0,245,160,.11);filter:blur(8px)}
+    .kpi label{display:block;color:var(--blue);font-size:12px;text-transform:uppercase;letter-spacing:.09em;font-weight:950;margin-bottom:10px}
+    .kpi .value{font-size:clamp(28px,4vw,44px);font-weight:950;letter-spacing:-.055em;color:#e0f2fe;text-shadow:0 0 16px rgba(56,189,248,.22);position:relative;z-index:1}
+    .kpi.green .value{color:var(--green)}.kpi.pink .value{color:var(--pink)}.kpi.yellow .value{color:var(--yellow)}
+    .progress{height:10px;background:rgba(148,163,184,.16);border-radius:999px;overflow:hidden;margin-top:14px;position:relative;z-index:1}.progress span{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--green),var(--blue2));box-shadow:0 0 16px rgba(0,245,160,.28)}
+    .tabs{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0;position:sticky;top:10px;z-index:50;padding:8px;border-radius:20px;background:rgba(2,6,23,.72);border:1px solid rgba(56,189,248,.12);backdrop-filter:blur(14px)}.tab-button{background:rgba(15,23,42,.84);border:1px solid rgba(56,189,248,.22);color:var(--blue);border-radius:14px;padding:12px 16px;font-weight:950;cursor:pointer;box-shadow:0 8px 22px rgba(0,0,0,.22)}.tab-button.active{background:linear-gradient(135deg,var(--green),var(--blue2));color:#021617;border-color:rgba(0,245,160,.55);box-shadow:0 0 22px rgba(0,245,160,.18)}
+    .tab-panel{display:none}.tab-panel.active{display:block}
+    .card{background:linear-gradient(180deg,rgba(10,18,35,.94),rgba(4,10,22,.96));border:1px solid rgba(56,189,248,.22);border-radius:24px;box-shadow:var(--shadow);padding:18px;margin-bottom:16px}.card-title{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px}h2{margin:0;color:white;letter-spacing:-.035em}h3{margin:0;color:white}.muted{color:var(--muted);line-height:1.55}.pill{display:inline-flex;border-radius:999px;padding:6px 10px;background:rgba(0,194,255,.12);color:var(--blue);border:1px solid rgba(56,189,248,.22);font-size:12px;font-weight:950}.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}.span-4{grid-column:span 4}.span-6{grid-column:span 6}.span-8{grid-column:span 8}.span-12{grid-column:span 12}
+    input,select,textarea{width:100%;background:rgba(2,8,23,.76);color:var(--text);border:1px solid rgba(56,189,248,.22);border-radius:14px;padding:12px;font:inherit;outline:none}input:focus,select:focus,textarea:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(0,245,160,.08)}textarea{min-height:110px}.form-row{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-bottom:14px}.btn{border:0;border-radius:14px;padding:12px 14px;font-weight:950;cursor:pointer}.btn-primary{background:linear-gradient(135deg,var(--green),var(--blue2));color:#021617}.btn-danger{background:rgba(251,113,133,.14);color:var(--red);border:1px solid rgba(251,113,133,.28)}.btn-soft{background:rgba(56,189,248,.12);color:var(--blue);border:1px solid rgba(56,189,248,.22)}
+    .table{display:grid;gap:8px}.avatar{width:42px;height:42px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--green),var(--blue2));color:#021617;font-weight:950;border:1px solid rgba(255,255,255,.22);box-shadow:0 0 18px rgba(0,245,160,.18);object-fit:cover}.avatar-wrap{display:flex;align-items:center;gap:10px}.row{display:grid;grid-template-columns:1.2fr 1fr 1fr 1fr 1.2fr auto;gap:10px;align-items:center;padding:14px;border:1px solid rgba(56,189,248,.16);border-radius:18px;background:rgba(2,8,23,.55)}.row.header{color:var(--blue);text-transform:uppercase;letter-spacing:.08em;font-size:12px;font-weight:950;background:rgba(0,194,255,.08)}.row.top{border-color:rgba(250,204,21,.55);box-shadow:0 0 22px rgba(250,204,21,.16);background:linear-gradient(135deg,rgba(250,204,21,.13),rgba(2,8,23,.78))}.row.low{border-color:rgba(251,113,133,.75);box-shadow:0 0 18px rgba(251,113,133,.14)}
+    .status{display:inline-flex;width:fit-content;border-radius:999px;padding:6px 10px;font-size:12px;font-weight:950}.approved{background:rgba(0,245,160,.12);color:var(--green);border:1px solid rgba(0,245,160,.26)}.pending{background:rgba(250,204,21,.12);color:var(--yellow);border:1px solid rgba(250,204,21,.26)}.denied{background:rgba(251,113,133,.12);color:var(--red);border:1px solid rgba(251,113,133,.28)}.working{background:rgba(56,189,248,.12);color:var(--blue);border:1px solid rgba(56,189,248,.26)}
+    .rank{width:34px;height:34px;border-radius:10px;display:inline-flex;align-items:center;justify-content:center;background:rgba(56,189,248,.12);color:var(--blue);font-weight:950}.rank.one{background:rgba(250,204,21,.16);color:var(--yellow);box-shadow:0 0 20px rgba(250,204,21,.15)}
+    .task-cat{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}.task-cat button.active{background:linear-gradient(135deg,var(--green),var(--blue2));color:#021617}.task-board{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.col{min-height:250px;border:2px dashed transparent;background:rgba(2,8,23,.52);border-radius:20px;padding:12px}.col.drag{border-color:var(--green);background:rgba(0,245,160,.06)}.col-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;font-weight:950;color:white}.task{background:rgba(10,18,35,.92);border:1px solid rgba(56,189,248,.18);border-radius:16px;padding:12px;margin-bottom:10px;cursor:grab}.task.done .task-title{text-decoration:line-through;color:#64748b}.task-top{display:grid;grid-template-columns:auto 1fr auto auto;gap:8px;align-items:center}.task-title{font-weight:950}.task-notes{color:var(--muted);font-size:13px;margin:8px 0 0 28px}.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}.list{display:grid;gap:10px}.list div{background:rgba(2,8,23,.55);border:1px solid rgba(56,189,248,.16);border-radius:16px;padding:14px;color:var(--muted);font-weight:800}
+    @media(max-width:920px){.topbar{flex-direction:column;align-items:flex-start}.clock-card{text-align:left;width:100%}.kpi-grid,.task-board,.two{grid-template-columns:1fr}.form-row{grid-template-columns:1fr}.row{grid-template-columns:1fr}.row.header{display:none}.span-4,.span-6,.span-8{grid-column:span 12}}
+  </style>
+</head>
+<body>
+  <main class="app">
+    <div class="topbar">
+      <div class="brand">
+        <div class="logo-wrap">
+          <img src="ChatGPT Image May 15, 2026, 05_37_39 PM (1) (1).png" alt="NRD Capital Group Logo" onerror="this.style.display='none'; this.parentElement.classList.add('logo-fallback');" />
+          <div class="logo-fallback-text">NRD<br><span>CAPITAL</span></div>
+        </div>
+        <div><h1>NRD Capital Group</h1><p>Funding • Credit Repair • Real Estate Command Center</p></div>
+      </div>
+      <div class="clock-card"><div class="small" id="greetingText">Welcome back Nathan</div><div class="clock" id="clock">--:--:--</div><div class="small"><strong id="dateDisplay">Loading date...</strong></div></div>
+    </div>
+
+    <section class="hero">
+      <div class="kpi-grid">
+        <div class="kpi green"><label>Funded MTD</label><div class="value" id="totalFundedKpi">$275,000</div><div class="small">Current month funded volume</div></div>
+        <div class="kpi"><label>Total Credit Repair Clients</label><div class="value" id="totalCreditClientsKpi">0</div><div class="small">Active + historical clients</div></div>
+        <div class="kpi pink"><label>Funding Revenue MTD</label><div class="value" id="fundingRevenueKpi">$275,000</div><div class="small">Current month funding revenue</div></div>
+        <div class="kpi yellow"><label>Credit Repair Revenue MTD</label><div class="value" id="creditRevenueKpi">$0</div><div class="small">Monthly revenue collected</div></div>
+        <div class="kpi"><label>Credit Repair MRR</label><div class="value" id="creditMrrKpi">$0</div><div class="small">Monthly recurring revenue</div></div>
+      </div>
+
+      <div class="kpi-grid" style="margin-top:14px;">
+        <div class="kpi green"><label>MTD Funded</label><div class="value" id="mtdFunded">$0</div><div class="small" id="mtdSub">0% to monthly goal</div><div class="progress"><span id="mtdBar"></span></div></div>
+        <div class="kpi"><label>YTD Funded Progress</label><div class="value" id="ytdFunded">$750,000</div><div class="small" id="ytdSub">75% to yearly goal</div><div class="progress"><span id="ytdBar"></span></div></div>
+        <div class="kpi pink"><label>Pending Pipeline</label><div class="value" id="pendingFunding">$37,000</div><div class="small">Pending + docs needed</div></div>
+        <div class="kpi yellow"><label>Approved Apps</label><div class="value" id="approvedApps">0</div><div class="small">Total approvals tracked</div></div>
+      </div>
+    </section>
+
+    <div class="tabs">
+      <button class="tab-button active" data-tab="dashboard">Dashboard</button>
+      <button class="tab-button" data-tab="approvals">Funding Approvals</button>
+      <button class="tab-button" data-tab="totalfunding">Total Funding</button>
+      <button class="tab-button" data-tab="funding">Funding Tracker</button>
+      <button class="tab-button" data-tab="sales">Sales Scoreboard</button>
+      <button class="tab-button" data-tab="credit">Credit Repair Clients</button>
+      <button class="tab-button" data-tab="heads">Department Heads</button>
+      <button class="tab-button" data-tab="tasks">Tasks</button>
+      <button class="tab-button" data-tab="ops">CEO Ops</button>
+      <button class="tab-button" data-tab="pipeline">Funding Pipeline</button>
+      <button class="tab-button" data-tab="leaderboard">Leaderboard</button>
+      <button class="tab-button" data-tab="realestate">Real Estate</button>
+    </div>
+
+    <section class="tab-panel active" id="dashboardTab">
+      <div class="grid">
+        <div class="card span-8"><div class="card-title"><h2>Executive Overview</h2><span class="pill">Live Scoreboard</span></div><div class="table" id="deptRankings"></div></div>
+        <div class="card span-4"><div class="card-title"><h2>Targets</h2><span class="pill">Editable</span></div><div class="list"><div>Monthly funding goal: <input data-save="monthlyFundingGoal" value="100000" type="number" /></div><div>Yearly funding goal: <input data-save="yearlyFundingGoal" value="1000000" type="number" /></div><div>Revenue goal: <input data-save="monthlyRevenueGoal" value="50000" type="number" /></div></div></div>
+      </div>
+    </section>
+
+    <section class="tab-panel" id="approvalsTab">
+      <div class="card">
+        <div class="card-title"><h2>Funding Approvals</h2><span class="pill">Approved Capital Only</span></div>
+        <div class="table" id="approvalsTable"></div>
+      </div>
+    </section>
+
+    <section class="tab-panel" id="totalfundingTab">
+      <div class="grid">
+        <div class="card span-6"><div class="card-title"><h2>Total Funding Summary</h2><span class="pill">MTD / YTD</span></div><div class="kpi-grid" style="grid-template-columns:1fr 1fr;"><div class="kpi green"><label>Month-To-Date Funded</label><div class="value" id="totalMtdFunded">$0</div></div><div class="kpi"><label>Year-To-Date Funded</label><div class="value" id="totalYtdFunded">$0</div></div></div></div>
+        <div class="card span-6"><div class="card-title"><h2>Funding Department</h2><span class="pill">Performance</span></div><div class="list"><div>Total approved applications: <strong id="totalApprovedCount">0</strong></div><div>Pending capital: <strong id="totalPendingCapital">$0</strong></div><div>Average approval size: <strong id="avgApprovalSize">$0</strong></div></div></div>
+      </div>
+      <div class="card"><div class="card-title"><h2>Funding by Bank</h2><span class="pill">Approval Sources</span></div><div class="table" id="bankTotalsTable"></div></div>
+    </section>
+
+    <section class="tab-panel" id="fundingTab">
+      <div class="card"><div class="card-title"><h2>Add Client / Funding Application</h2><span class="pill">Client + App Tracking</span></div><div class="form-row"><input id="fundClient" placeholder="Client name" /><input id="fundBank" placeholder="Bank / Lender" /><input id="fundAmount" type="number" placeholder="Approved / Requested Amount" /><select id="fundStatus"><option>Approved</option><option>Pending</option><option>Docs Needed</option><option>Denied</option></select><select id="fundBureau"><option value="Unknown">Bureau Pulled</option><option>Experian</option><option>Equifax</option><option>TransUnion</option><option>Soft Pull</option><option>No Pull</option></select><input id="fundRep" placeholder="Rep who worked client" /></div><div class="form-row"><input id="fundDate" type="date" /><input id="fundNotes" placeholder="Notes — card type, limit, pending reason, denial reason, next step, etc." /><button class="btn btn-primary" onclick="addFunding()">Add Client / App</button></div></div>
+      <div class="card"><div class="card-title"><h2>All Funding Clients</h2><span class="pill">Grouped by client</span></div><div class="table" id="fundingClientTable"></div></div>
+      <div class="card"><div class="card-title"><h2>All Applications / Approvals</h2><span class="pill">Full App Log</span></div><div class="table" id="fundingTable"></div></div>
+    </section>
+
+    <section class="tab-panel" id="salesTab">
+      <div class="card"><div class="card-title"><h2>Sales Scoreboard</h2><span class="pill">Sorted by % to Target</span></div>
+        <p class="muted" style="margin-top:-6px;margin-bottom:14px;">Transparent sales performance board for healthy competition. Gold row = top performer. Red border = under 50% to target.</p><div class="form-row"><input id="repName" placeholder="Rep name" /><input id="repPhoto" placeholder="Picture URL or initials" /><input id="repCalls" type="number" placeholder="Calls Today" /><input id="repDeals" type="number" placeholder="Deals This Week" /><input id="repRevenue" type="number" placeholder="MTD Revenue" /><input id="repTarget" type="number" placeholder="Target" /><button class="btn btn-primary" onclick="saveRep()">Save Rep</button></div><div class="table" id="salesTable"></div></div>
+    </section>
+
+    <section class="tab-panel" id="creditTab">
+      <div class="grid"><div class="card span-4"><div class="card-title"><h2>Credit Stages</h2></div><div class="list"><div>Needs Audit</div><div>Monitoring Connected</div><div>Docs Collected</div><div>Round 1 Sent</div><div>Round 2 / CFPB</div><div>Funding Ready</div></div></div><div class="card span-8"><div class="card-title"><h2>Credit Repair Clients</h2><span class="pill">Funding Readiness</span></div><div class="form-row"><input id="creditClient" placeholder="Client" /><input id="creditStart" type="number" placeholder="Start Score" /><input id="creditCurrent" type="number" placeholder="Current Score" /><select id="creditStage"><option>Needs Audit</option><option>Monitoring Connected</option><option>Docs Collected</option><option>Round 1 Sent</option><option>Round 2 / CFPB</option><option>Funding Ready</option></select><input id="creditNotes" placeholder="Notes" /><button class="btn btn-primary" onclick="addCredit()">Save</button></div><div class="table" id="creditTable"></div></div></div>
+    </section>
+
+    <section class="tab-panel" id="headsTab">
+      <div class="card">
+        <div class="card-title"><h2>Department Heads</h2><span class="pill">Leadership Board</span></div>
+        <div class="form-row">
+          <input id="headName" placeholder="Name" />
+          <input id="headDept" placeholder="Department" />
+          <input id="headRole" placeholder="Role / Title" />
+          <input id="headPhoto" placeholder="Photo URL or initials" />
+          <input id="headKpi" placeholder="Main KPI" />
+          <button class="btn btn-primary" onclick="addDeptHead()">Save Head</button>
+        </div>
+        <div class="table" id="headsTable"></div>
+      </div>
+    </section>
+
+    <section class="tab-panel" id="tasksTab">
+      <div class="card"><div class="card-title"><h2>Tasks</h2><span class="pill">Urgent / Progress / Parked / Recurring</span></div><div class="task-cat" id="taskCats"></div><div class="form-row"><input id="taskTitle" placeholder="Task title" /><input id="taskNotes" placeholder="Notes" /><select id="taskCol"><option value="urgent">Urgent</option><option value="progress">In Progress</option><option value="parked">Parked</option><option value="recurring">Recurring</option></select><button class="btn btn-primary" onclick="addTask()">Add Task</button></div><div class="task-board" id="taskBoard"></div></div>
+    </section>
+
+    <section class="tab-panel" id="pipelineTab">
+      <div class="card">
+        <div class="card-title"><h2>Funding Pipeline</h2><span class="pill">Live Deal Flow</span></div>
+        <div class="task-board" id="pipelineBoard"></div>
+      </div>
+    </section>
+
+    <section class="tab-panel" id="leaderboardTab">
+      <div class="grid">
+        <div class="card span-6"><div class="card-title"><h2>Top Funding Reps</h2><span class="pill">Ranked by Funded Volume</span></div><div class="table" id="repLeaderboard"></div></div>
+        <div class="card span-6"><div class="card-title"><h2>Top Clients</h2><span class="pill">Highest Approvals</span></div><div class="table" id="clientLeaderboard"></div></div>
+      </div>
+    </section>
+
+    <section class="tab-panel" id="realestateTab">
+      <div class="card">
+        <div class="card-title"><h2>Real Estate Pipeline</h2><span class="pill">Flips / Wholesale / Buy & Hold</span></div>
+        <div class="form-row">
+          <input id="dealAddress" placeholder="Property address" />
+          <input id="dealPurchase" type="number" placeholder="Purchase Price" />
+          <input id="dealRehab" type="number" placeholder="Rehab Budget" />
+          <input id="dealArv" type="number" placeholder="ARV" />
+          <input id="dealProfit" type="number" placeholder="Projected Profit" />
+          <button class="btn btn-primary" onclick="addDeal()">Add Deal</button>
+        </div>
+        <div class="muted" style="margin-bottom:14px;">Uses estimated 8% closing + selling costs automatically for deeper profit analysis.</div>
+        <div class="table" id="dealTable"></div>
+      </div>
+    </section>
+
+    <section class="tab-panel" id="opsTab">
+      <div class="two"><div class="card"><div class="card-title"><h2>CEO Weekly Review</h2></div><div class="list"><div>Where did work get stuck this week?</div><div>What issue repeated more than once?</div><div>What can be deleted, delegated, automated, or SOP’d?</div><div>What one process improvement matters most next week?</div></div></div><div class="card"><div class="card-title"><h2>Lean Ops</h2></div><div class="list"><div>Define → Measure → Analyze → Improve → Control</div><div>DOWNTIME: Defects, Overproduction, Waiting, Non-utilized talent, Transportation, Inventory, Motion, Extra-processing</div><div>Kaizen: improve one small process every week.</div></div></div></div>
+    </section>
+  </main>
+
+<script>
+const KEY='nrdDashboardV2';
+const defaults={pipeline:{newlead:[],docs:[],applied:[],pending:[],approved:[],funded:[]},deals:[{address:'Chicago Flip Deal',purchase:150000,rehab:70000,arv:380000,profit:100000}],monthlyFundingGoal:100000,yearlyFundingGoal:1000000,monthlyRevenueGoal:50000,totalFundedOverride:750000,totalFundedMtdOverride:275000,pendingPipelineOverride:37000,totalCreditClientsOverride:112,creditRepairRevenueOverride:55000,creditRepairMrrOverride:7000,departmentHeads:[{name:'Nathan Delgado',dept:'Executive',role:'Founder / CEO',photo:'ND',kpi:'Company Revenue + Funding Volume'},{name:'Funding Lead',dept:'Funding',role:'Funding Department Head',photo:'FL',kpi:'Approvals + Submitted Apps'},{name:'Credit Lead',dept:'Credit Repair',role:'Credit Repair Department Head',photo:'CL',kpi:'Client Progress + Funding Readiness'},{name:'Sales Lead',dept:'Sales',role:'Sales Department Head',photo:'SL',kpi:'Calls, Closes, Revenue'}],funding:[{client:'Kip',bank:'Elan Financial',amount:8000,status:'Approved',bureau:'Unknown',rep:'Nathan',date:new Date().toISOString().slice(0,10),notes:'Approved for $8,000'},{client:'Kip',bank:'Bank of America',amount:12000,status:'Approved',bureau:'Unknown',rep:'Nathan',date:new Date().toISOString().slice(0,10),notes:'1st card'},{client:'Kip',bank:'Bank of America',amount:6000,status:'Approved',bureau:'Unknown',rep:'Nathan',date:new Date().toISOString().slice(0,10),notes:'2nd card'}],reps:[{name:'Nathan',photo:'ND',calls:42,deals:3,revenue:18000,target:25000},{name:'Setter 1',photo:'S1',calls:68,deals:2,revenue:8500,target:20000},{name:'Closer 1',photo:'C1',calls:24,deals:5,revenue:22000,target:30000}],credit:[{client:'Sample Client',start:580,current:642,stage:'Round 1 Sent',notes:'Working toward 700+'}],activeTaskCat:'nrd',tasks:{nrd:{label:'NRD Capital Group',urgent:[],progress:[],parked:[],recurring:[{id:crypto.randomUUID(),title:'Review funding pipeline',notes:'Check approvals, pending apps, and docs needed.',done:false}]},personal:{label:'Personal',urgent:[],progress:[],parked:[],recurring:[]},content:{label:'Content',urgent:[],progress:[],parked:[],recurring:[{id:crypto.randomUUID(),title:'Post daily story/reel',notes:'Proof, education, or BTS.',done:false}]}}};
+let state=load();
+function load(){try{return {...defaults,...JSON.parse(localStorage.getItem(KEY)||'{}')};}catch{return {...defaults}}}
+function save(){document.querySelectorAll('[data-save]').forEach(i=>state[i.dataset.save]=Number(i.value)||i.value);localStorage.setItem(KEY,JSON.stringify(state));render();}
+function money(n){return '$'+Number(n||0).toLocaleString();}
+function cls(s){return s==='Approved'?'approved':s==='Pending'?'pending':s==='Denied'?'denied':'working';}
+function pct(a,b){return b?Math.round((a/b)*100):0;}
+function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));}
+function switchTab(tab){document.querySelectorAll('.tab-button').forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));document.querySelectorAll('.tab-panel').forEach(p=>p.classList.toggle('active',p.id===tab+'Tab'));location.hash=tab;}
+document.querySelectorAll('.tab-button').forEach(b=>b.onclick=()=>switchTab(b.dataset.tab));document.querySelectorAll('[data-save]').forEach(i=>{if(state[i.dataset.save]!==undefined)i.value=state[i.dataset.save];i.oninput=save;});
+function updateClock(){const now=new Date();document.getElementById('clock').textContent=now.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit',second:'2-digit'});document.getElementById('dateDisplay').textContent=now.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'});const hour=now.getHours();let greeting='Welcome back Nathan';if(hour<12)greeting='Good Morning Nathan';else if(hour<18)greeting='Good Afternoon Nathan';else greeting='Good Evening Nathan';document.getElementById('greetingText').textContent=greeting;}
+function renderApprovals(){const wrap=document.getElementById('approvalsTable');if(!wrap)return;const approved=state.funding.filter(x=>x.status==='Approved');wrap.innerHTML='<div class="row header"><div>Client</div><div>Bank</div><div>Approved</div><div>Status</div><div>Date / Notes</div><div></div></div>'+approved.map((x,i)=>`<div class="row top"><div><b>${esc(x.client)}</b></div><div>${esc(x.bank)}</div><div><b>${money(x.amount)}</b></div><div><span class="status approved">Approved</span></div><div>${esc(x.date)}<br><span class="muted">${esc(x.notes)}</span></div><div>✅</div></div>`).join('');}
+function renderTotalFunding(){const now=new Date(),cm=now.getMonth(),cy=now.getFullYear();const approved=state.funding.filter(x=>x.status==='Approved');const mtd=approved.filter(x=>{const d=new Date(x.date);return d.getMonth()===cm&&d.getFullYear()===cy}).reduce((s,x)=>s+Number(x.amount||0),0);const ytd=approved.filter(x=>new Date(x.date).getFullYear()===cy).reduce((s,x)=>s+Number(x.amount||0),0);const pending=state.funding.filter(x=>x.status==='Pending'||x.status==='Docs Needed').reduce((s,x)=>s+Number(x.amount||0),0);const avg=approved.length?Math.round(ytd/approved.length):0;if(document.getElementById('totalMtdFunded'))document.getElementById('totalMtdFunded').textContent=money(mtd);if(document.getElementById('totalYtdFunded'))document.getElementById('totalYtdFunded').textContent=money(ytd);if(document.getElementById('totalApprovedCount'))document.getElementById('totalApprovedCount').textContent=approved.length;if(document.getElementById('totalPendingCapital'))document.getElementById('totalPendingCapital').textContent=money(pending);if(document.getElementById('avgApprovalSize'))document.getElementById('avgApprovalSize').textContent=money(avg);const bankMap={};approved.forEach(x=>bankMap[x.bank]=(bankMap[x.bank]||0)+Number(x.amount||0));const bankRows=Object.entries(bankMap).sort((a,b)=>b[1]-a[1]);const bankWrap=document.getElementById('bankTotalsTable');if(bankWrap)bankWrap.innerHTML='<div class="row header"><div>Bank</div><div>Total Approved</div><div>Apps</div><div>Status</div><div>Notes</div><div>Rank</div></div>'+bankRows.map((r,i)=>`<div class="row ${i===0?'top':''}"><div><b>${esc(r[0])}</b></div><div>${money(r[1])}</div><div>${approved.filter(x=>x.bank===r[0]).length}</div><div><span class="status approved">Active</span></div><div>Funding source</div><div><span class="rank ${i===0?'one':''}">${i+1}</span></div></div>`).join('');}
+function renderDeptHeads(){const wrap=document.getElementById('headsTable');if(!wrap)return;if(!Array.isArray(state.departmentHeads))state.departmentHeads=[];wrap.innerHTML='<div class="row header"><div>Name</div><div>Department</div><div>Role</div><div>Main KPI</div><div>Picture</div><div></div></div>'+state.departmentHeads.map((h,i)=>{const isImg=String(h.photo||'').startsWith('http')||String(h.photo||'').includes('.png')||String(h.photo||'').includes('.jpg')||String(h.photo||'').includes('.jpeg');const pic=isImg?`<img src="${esc(h.photo)}" style="width:46px;height:46px;border-radius:50%;object-fit:cover;border:1px solid rgba(56,189,248,.4);" />`:`<span class="rank">${esc(h.photo||h.name.slice(0,2).toUpperCase())}</span>`;return `<div class="row"><div><b>${esc(h.name)}</b></div><div>${esc(h.dept)}</div><div>${esc(h.role)}</div><div>${esc(h.kpi)}</div><div>${pic}</div><button class="btn btn-danger" onclick="deleteDeptHead(${i})">×</button></div>`}).join('');}
+function addDeptHead(){if(!Array.isArray(state.departmentHeads))state.departmentHeads=[];state.departmentHeads.push({name:headName.value||'Unnamed',dept:headDept.value||'Department',role:headRole.value||'Department Head',photo:headPhoto.value||'DH',kpi:headKpi.value||'Main KPI'});['headName','headDept','headRole','headPhoto','headKpi'].forEach(id=>document.getElementById(id).value='');persist();}
+function deleteDeptHead(i){state.departmentHeads.splice(i,1);persist();}
+function renderFunding(){const now=new Date(),cm=now.getMonth(),cy=now.getFullYear();const approved=state.funding.filter(x=>x.status==='Approved');const mtd=approved.filter(x=>{const d=new Date(x.date);return d.getMonth()===cm&&d.getFullYear()===cy}).reduce((s,x)=>s+Number(x.amount||0),0);const ytd=approved.filter(x=>new Date(x.date).getFullYear()===cy).reduce((s,x)=>s+Number(x.amount||0),0);const pend=state.funding.filter(x=>x.status==='Pending'||x.status==='Docs Needed').reduce((s,x)=>s+Number(x.amount||0),0);const totalFunded=state.totalFundedOverride||approved.reduce((s,x)=>s+Number(x.amount||0),0);
+const fundingRevenue=state.totalFundedMtdOverride||Math.round(mtd*0.10);
+const creditRevenue=state.creditRepairRevenueOverride||state.credit.length*97;
+const totalCreditClients=state.totalCreditClientsOverride||state.credit.length;
+const creditMrr=state.creditRepairMrrOverride||7000;
+if(document.getElementById('totalFundedKpi'))document.getElementById('totalFundedKpi').textContent=money(totalFunded);
+if(document.getElementById('totalCreditClientsKpi'))document.getElementById('totalCreditClientsKpi').textContent=totalCreditClients;
+if(document.getElementById('fundingRevenueKpi'))document.getElementById('fundingRevenueKpi').textContent=money(fundingRevenue);
+if(document.getElementById('creditRevenueKpi'))document.getElementById('creditRevenueKpi').textContent=money(creditRevenue);
+if(document.getElementById('creditMrrKpi'))document.getElementById('creditMrrKpi').textContent=money(creditMrr);
+document.getElementById('mtdFunded').textContent=money(state.totalFundedMtdOverride||mtd);document.getElementById('ytdFunded').textContent=money(state.totalFundedOverride||ytd);document.getElementById('pendingFunding').textContent=money(state.pendingPipelineOverride||pend);document.getElementById('approvedApps').textContent=approved.length;document.getElementById('mtdSub').textContent=pct(state.totalFundedMtdOverride||mtd,state.monthlyFundingGoal)+'% to '+money(state.monthlyFundingGoal);document.getElementById('ytdSub').textContent=pct(state.totalFundedOverride||ytd,state.yearlyFundingGoal)+'% to '+money(state.yearlyFundingGoal);document.getElementById('mtdBar').style.width=Math.min(100,pct(state.totalFundedMtdOverride||mtd,state.monthlyFundingGoal))+'%';document.getElementById('ytdBar').style.width=Math.min(100,pct(state.totalFundedOverride||ytd,state.yearlyFundingGoal))+'%';
+const clients={};state.funding.forEach((x,i)=>{const key=(x.client||'Unnamed').trim();if(!clients[key])clients[key]={client:key,apps:[],approved:0,pending:0,denied:0,totalRequested:0};clients[key].apps.push({...x,index:i});clients[key].totalRequested+=Number(x.amount||0);if(x.status==='Approved')clients[key].approved+=Number(x.amount||0);if(x.status==='Pending'||x.status==='Docs Needed')clients[key].pending+=Number(x.amount||0);if(x.status==='Denied')clients[key].denied+=1;});
+const clientRows=Object.values(clients).sort((a,b)=>b.approved-a.approved);const clientWrap=document.getElementById('fundingClientTable');if(clientWrap)clientWrap.innerHTML='<div class="row header"><div>Client</div><div>Total Approved</div><div>Pending</div><div>Apps</div><div>Rep / Latest App</div><div>Status</div></div>'+clientRows.map(c=>{const latest=c.apps[c.apps.length-1];const rep=repByName(latest.rep);return `<div class="row ${c.approved>0?'top':''}"><div><b>${esc(c.client)}</b></div><div><b>${money(c.approved)}</b></div><div>${money(c.pending)}</div><div>${c.apps.length} apps</div><div><div class="avatar-wrap">${avatarHtml(rep.photo,rep.name)}<div>${esc(latest.bank)} · ${money(latest.amount)}<br><span class="muted">Rep: ${esc(rep.name)} · Bureau: ${esc(latest.bureau||'Unknown')} · ${esc(latest.date||'No date')}</span></div></div></div><div><span class="status ${c.approved>0?'approved':c.pending>0?'pending':'working'}">${c.approved>0?'Getting Funded':c.pending>0?'Working':'New'}</span></div></div>`}).join('');
+document.getElementById('fundingTable').innerHTML='<div class="row header"><div>Client</div><div>Bank / Bureau</div><div>Amount</div><div>Status</div><div>Sales Rep / Date / Notes</div><div></div></div>'+state.funding.map((x,i)=>{const rep=repByName(x.rep);return `<div class="row"><div><b>${esc(x.client)}</b></div><div>${esc(x.bank)}<br><span class="muted">Pulled: ${esc(x.bureau||'Unknown')}</span></div><div><b>${money(x.amount)}</b></div><div><span class="status ${cls(x.status)}">${esc(x.status)}</span></div><div><div class="avatar-wrap">${avatarHtml(rep.photo,rep.name)}<div>${esc(rep.name)}<br>${esc(x.date)}<br><span class="muted">${esc(x.notes)}</span></div></div></div><button class="btn btn-danger" onclick="delFunding(${i})">×</button></div>`}).join('');document.getElementById('deptRankings').innerHTML='<div class="row header"><div>Department</div><div>Revenue</div><div>Goal</div><div>%</div><div>Status</div><div>Rank</div></div>'+[['Funding Revenue',fundingRevenue,Math.round(state.monthlyFundingGoal*0.10)],['Funding Volume',ytd,state.yearlyFundingGoal],['Credit Repair Revenue',creditRevenue,10000],['Sales',state.reps.reduce((s,r)=>s+Number(r.revenue||0),0),state.monthlyRevenueGoal]].sort((a,b)=>pct(b[1],b[2])-pct(a[1],a[2])).map((r,i)=>`<div class="row ${i===0?'top':''}"><div><span class="rank ${i===0?'one':''}">${i+1}</span> <b>${r[0]}</b></div><div>${money(r[1])}</div><div>${money(r[2])}</div><div>${pct(r[1],r[2])}%</div><div><span class="status ${pct(r[1],r[2])>=70?'approved':'pending'}">${pct(r[1],r[2])>=70?'On Pace':'Building'}</span></div><div>${i===0?'🏆':''}</div></div>`).join('');}
+function addFunding(){state.funding.push({client:fundClient.value||'Unnamed',bank:fundBank.value||'Bank',amount:Number(fundAmount.value||0),status:fundStatus.value,bureau:fundBureau.value||'Unknown',rep:fundRep.value||'Unassigned',date:fundDate.value||new Date().toISOString().slice(0,10),notes:fundNotes.value||''});['fundClient','fundBank','fundAmount','fundDate','fundNotes','fundRep'].forEach(id=>document.getElementById(id).value='');fundBureau.value='Unknown';persist();}
+function delFunding(i){state.funding.splice(i,1);persist();}
+function avatarHtml(value,name){const v=String(value||'').trim();if(v.startsWith('http')||v.includes('.png')||v.includes('.jpg')||v.includes('.jpeg')||v.includes('.webp'))return `<img class="avatar" src="${esc(v)}" alt="${esc(name)}" />`;return `<span class="avatar">${esc(v||String(name||'NA').slice(0,2).toUpperCase())}</span>`;}
+function repByName(name){return state.reps.find(r=>String(r.name).toLowerCase()===String(name).toLowerCase())||{name:name||'Unassigned',photo:'UA'};}
+function renderSales(){
+  const reps=[...state.reps].sort((a,b)=>pct(b.revenue,b.target)-pct(a.revenue,a.target));
+  document.getElementById('salesTable').innerHTML='<div class="row header"><div>Sales Rep</div><div>Calls Today</div><div>Deals This Week</div><div>MTD Revenue</div><div>% to Target</div><div>Edit</div></div>'+reps.map((r,i)=>{
+    const p=pct(r.revenue,r.target);
+    const idx=state.reps.findIndex(x=>x.name===r.name);
+    return `<div class="row ${i===0?'top':''} ${p<50?'low':''}"><div><div class="avatar-wrap">${avatarHtml(r.photo,r.name)}<div><b>${esc(r.name)}</b><br><span class="muted">${i===0?'🏆 Top Performer':'Sales Rep'}</span></div></div></div><div><b>${Number(r.calls||0)}</b></div><div><b>${Number(r.deals||0)}</b></div><div><b>${money(r.revenue)}</b></div><div><b style="color:${p<50?'var(--red)':i===0?'var(--yellow)':'var(--green)'}">${p}%</b><br><span class="muted">Target: ${money(r.target)}</span></div><button class="btn btn-soft" onclick="editRep(${idx})">Edit</button></div>`;
+  }).join('');
+}
+function saveRep(){const data={name:repName.value||'Rep',photo:repPhoto.value||String(repName.value||'RP').slice(0,2).toUpperCase(),calls:Number(repCalls.value||0),deals:Number(repDeals.value||0),revenue:Number(repRevenue.value||0),target:Number(repTarget.value||0)};const existing=state.reps.find(r=>r.name.toLowerCase()===data.name.toLowerCase());existing?Object.assign(existing,data):state.reps.push(data);['repName','repPhoto','repCalls','repDeals','repRevenue','repTarget'].forEach(id=>document.getElementById(id).value='');persist();}
+function editRep(i){const r=state.reps[i];repName.value=r.name;repPhoto.value=r.photo||'';repCalls.value=r.calls;repDeals.value=r.deals;repRevenue.value=r.revenue;repTarget.value=r.target;}
+function renderCredit(){document.getElementById('creditTable').innerHTML='<div class="row header"><div>Client</div><div>Start</div><div>Current</div><div>Stage</div><div>Notes</div><div></div></div>'+state.credit.map((c,i)=>`<div class="row"><div><b>${esc(c.client)}</b></div><div>${c.start}</div><div><b>${c.current}</b></div><div><span class="status working">${esc(c.stage)}</span></div><div>${esc(c.notes)}</div><button class="btn btn-danger" onclick="delCredit(${i})">×</button></div>`).join('');}
+function addCredit(){state.credit.push({client:creditClient.value||'Unnamed',start:Number(creditStart.value||0),current:Number(creditCurrent.value||0),stage:creditStage.value,notes:creditNotes.value||''});['creditClient','creditStart','creditCurrent','creditNotes'].forEach(id=>document.getElementById(id).value='');persist();}
+function delCredit(i){state.credit.splice(i,1);persist();}
+function renderTasks(){const cats=document.getElementById('taskCats');cats.innerHTML=Object.keys(state.tasks).map(k=>`<button class="btn btn-soft ${state.activeTaskCat===k?'active':''}" onclick="state.activeTaskCat='${k}';persist()">${esc(state.tasks[k].label)}</button>`).join('');const board=document.getElementById('taskBoard');const cols=[['urgent','Urgent'],['progress','In Progress'],['parked','Parked'],['recurring','Recurring']];board.innerHTML=cols.map(([key,label])=>`<div class="col" ondragover="event.preventDefault();this.classList.add('drag')" ondragleave="this.classList.remove('drag')" ondrop="dropTask(event,'${key}',this)"><div class="col-head"><span>${label}</span><span class="pill">${state.tasks[state.activeTaskCat][key].length}</span></div>${state.tasks[state.activeTaskCat][key].map(t=>`<div class="task ${t.done?'done':''}" draggable="true" ondragstart="event.dataTransfer.setData('text/plain','${key}|${t.id}')"><div class="task-top"><input type="checkbox" ${t.done?'checked':''} onchange="toggleTask('${key}','${t.id}')"><div class="task-title">${esc(t.title)}</div><button class="btn btn-soft" onclick="editTask('${key}','${t.id}')">Edit</button><button class="btn btn-danger" onclick="deleteTask('${key}','${t.id}')">×</button></div>${t.notes?`<div class="task-notes">${esc(t.notes)}</div>`:''}</div>`).join('')}</div>`).join('');}
+function addTask(){const col=taskCol.value;state.tasks[state.activeTaskCat][col].unshift({id:crypto.randomUUID(),title:taskTitle.value||'Untitled',notes:taskNotes.value||'',done:false});taskTitle.value='';taskNotes.value='';persist();}
+function toggleTask(col,id){const t=state.tasks[state.activeTaskCat][col].find(x=>x.id===id);if(t)t.done=!t.done;persist();}
+function editTask(col,id){const t=state.tasks[state.activeTaskCat][col].find(x=>x.id===id);if(!t)return;const title=prompt('Task title',t.title);if(title!==null)t.title=title;const notes=prompt('Notes',t.notes);if(notes!==null)t.notes=notes;persist();}
+function deleteTask(col,id){state.tasks[state.activeTaskCat][col]=state.tasks[state.activeTaskCat][col].filter(x=>x.id!==id);persist();}
+function dropTask(e,target,el){el.classList.remove('drag');const [from,id]=e.dataTransfer.getData('text/plain').split('|');if(from===target)return;const task=state.tasks[state.activeTaskCat][from].find(x=>x.id===id);if(!task)return;state.tasks[state.activeTaskCat][from]=state.tasks[state.activeTaskCat][from].filter(x=>x.id!==id);state.tasks[state.activeTaskCat][target].unshift(task);persist();}
+function persist(){localStorage.setItem(KEY,JSON.stringify(state));render();}
+function renderPipeline(){const cols=[['newlead','New Lead'],['docs','Docs'],['applied','Applied'],['pending','Pending'],['approved','Approved'],['funded','Funded']];const board=document.getElementById('pipelineBoard');if(!board)return;board.innerHTML=cols.map(([key,label])=>`<div class="col"><div class="col-head"><span>${label}</span><span class="pill">${state.pipeline[key].length}</span></div>${state.pipeline[key].map((c,i)=>`<div class="task"><div class="task-title">${esc(c.client)}</div><div class="task-notes">${esc(c.bank||'')}</div></div>`).join('')}</div>`).join('');}
+function renderLeaderboard(){const repWrap=document.getElementById('repLeaderboard');const clientWrap=document.getElementById('clientLeaderboard');if(repWrap){const repTotals={};state.funding.filter(f=>f.status==='Approved').forEach(f=>{repTotals[f.rep]=(repTotals[f.rep]||0)+Number(f.amount||0)});const reps=Object.entries(repTotals).sort((a,b)=>b[1]-a[1]);repWrap.innerHTML='<div class="row header"><div>Rank</div><div>Rep</div><div>Funded</div><div>Status</div><div></div><div></div></div>'+reps.map((r,i)=>`<div class="row ${i===0?'top':''}"><div><span class="rank ${i===0?'one':''}">${i+1}</span></div><div><b>${esc(r[0]||'Unassigned')}</b></div><div>${money(r[1])}</div><div><span class="status approved">Top Performer</span></div><div>${i===0?'🏆':''}</div><div></div></div>`).join('');}
+if(clientWrap){const clientTotals={};state.funding.filter(f=>f.status==='Approved').forEach(f=>{clientTotals[f.client]=(clientTotals[f.client]||0)+Number(f.amount||0)});const clients=Object.entries(clientTotals).sort((a,b)=>b[1]-a[1]);clientWrap.innerHTML='<div class="row header"><div>Rank</div><div>Client</div><div>Total Approved</div><div>Status</div><div></div><div></div></div>'+clients.map((r,i)=>`<div class="row ${i===0?'top':''}"><div><span class="rank ${i===0?'one':''}">${i+1}</span></div><div><b>${esc(r[0])}</b></div><div>${money(r[1])}</div><div><span class="status approved">Funded</span></div><div>${i===0?'💰':''}</div><div></div></div>`).join('');}}
+function renderDeals(){const wrap=document.getElementById('dealTable');if(!wrap)return;wrap.innerHTML='<div class="row header"><div>Property / Breakdown</div><div>Purchase + Rehab</div><div>Closing Costs (8%)</div><div>Total Into Deal</div><div>ARV / Net Profit</div><div></div></div>'+state.deals.map((d,i)=>{const purchase=Number(d.purchase||0);const rehab=Number(d.rehab||0);const arv=Number(d.arv||0);const closing=Math.round(arv*0.08);const holding=Math.round((purchase+rehab)*0.03);const total=purchase+rehab+closing+holding;const profit=arv-total;return `<div class="row ${profit>75000?'top':''}"><div><b>${esc(d.address)}</b><br><span class="muted">Holding / utilities / carrying est: ${money(holding)}</span></div><div>Purchase: ${money(purchase)}<br><span class="muted">Rehab: ${money(rehab)}</span></div><div><b>${money(closing)}</b><br><span class="muted">Agent + closing + selling fees</span></div><div><b>${money(total)}</b><br><span class="muted">All-in estimated cost</span></div><div>ARV: ${money(arv)}<br><span class="muted"><b>Net Profit: ${money(profit)}</b></span></div><button class="btn btn-danger" onclick="deleteDeal(${i})">×</button></div>`}).join('');}
+function addDeal(){state.deals.push({address:dealAddress.value||'Property',purchase:Number(dealPurchase.value||0),rehab:Number(dealRehab.value||0),arv:Number(dealArv.value||0),profit:Number(dealProfit.value||0)});['dealAddress','dealPurchase','dealRehab','dealArv','dealProfit'].forEach(id=>document.getElementById(id).value='');persist();}
+function deleteDeal(i){state.deals.splice(i,1);persist();}
+function render(){renderFunding();renderApprovals();renderTotalFunding();renderDeptHeads();renderSales();renderCredit();renderTasks();renderPipeline();renderLeaderboard();renderDeals();}
+const hash=location.hash.replace('#','');if(hash)switchTab(hash);render();updateClock();setInterval(updateClock,1000);
+</script>
+<script>
+// Advanced NRD Capital OS Features
+if(!state.notifications)state.notifications=[];
+if(!state.followups)state.followups=[];
+if(!state.clientProfiles)state.clientProfiles={};
+
+function ensureClientProfile(client){
+  if(!state.clientProfiles[client]){
+    state.clientProfiles[client]={
+      score:'700+',
+      business:'Business Entity',
+      revenue:'',
+      followup:'',
+      notes:'',
+      fundingGoal:''
+    };
+  }
+}
+
+state.funding.forEach(f=>ensureClientProfile(f.client));
+
+const extraTabs=document.querySelector('.tabs');
+extraTabs.insertAdjacentHTML('beforeend',`
+<button class="tab-button" data-tab="clients">Client Command Center</button>
+<button class="tab-button" data-tab="analytics">Funding Analytics</button>
+<button class="tab-button" data-tab="notifications">Notifications</button>
+<button class="tab-button" data-tab="followups">Follow Ups</button>
+`);
+
+const app=document.querySelector('.app');
+app.insertAdjacentHTML('beforeend',`
+<section class="tab-panel" id="clientsTab">
+  <div class="card">
+    <div class="card-title"><h2>Client Command Center</h2><span class="pill">Funding CRM</span></div>
+    <div class="table" id="clientCommandTable"></div>
+  </div>
+</section>
+
+<section class="tab-panel" id="analyticsTab">
+  <div class="grid">
+    <div class="card span-6"><div class="card-title"><h2>Approvals By Bureau</h2><span class="pill">Data Points</span></div><div class="table" id="bureauAnalytics"></div></div>
+    <div class="card span-6"><div class="card-title"><h2>Approvals By Bank</h2><span class="pill">Funding Analytics</span></div><div class="table" id="bankAnalytics"></div></div>
+  </div>
+</section>
+
+<section class="tab-panel" id="notificationsTab">
+  <div class="card">
+    <div class="card-title"><h2>Executive Activity Feed</h2><span class="pill">Live Company Updates</span></div>
+    <div id="notificationFeed"></div>
+  </div>
+</section>
+
+<section class="tab-panel" id="followupsTab">
+  <div class="card">
+    <div class="card-title"><h2>Client Follow Ups</h2><span class="pill">Pipeline Execution</span></div>
+    <div class="form-row">
+      <input id="followClient" placeholder="Client name" />
+      <input id="followDate" type="date" />
+      <input id="followRep" placeholder="Assigned rep" />
+      <input id="followNotes" placeholder="Follow-up notes" />
+      <button class="btn btn-primary" onclick="addFollowup()">Add Follow Up</button>
+    </div>
+    <div class="table" id="followupTable"></div>
+  </div>
+</section>
+`);
+
+function addNotification(text){
+ state.notifications.unshift({text,date:new Date().toLocaleString()});
+ state.notifications=state.notifications.slice(0,25);
+}
+
+function renderNotifications(){
+ const wrap=document.getElementById('notificationFeed');
+ if(!wrap)return;
+ wrap.innerHTML=state.notifications.map(n=>`<div class="card" style="margin-bottom:10px"><b>${n.text}</b><br><span class="small">${n.date}</span></div>`).join('');
+}
+
+function renderClientCommand(){
+ const wrap=document.getElementById('clientCommandTable');
+ if(!wrap)return;
+ const grouped={};
+ state.funding.forEach(f=>{
+   if(!grouped[f.client])grouped[f.client]=[];
+   grouped[f.client].push(f);
+   ensureClientProfile(f.client);
+ });
+ wrap.innerHTML='<div class="row header"><div>Client</div><div>Funding</div><div>Score</div><div>Assigned Rep</div><div>Stage</div><div>Follow Up</div></div>'+
+ Object.entries(grouped).map(([client,apps])=>{
+   const total=apps.filter(a=>a.status==='Approved').reduce((s,a)=>s+Number(a.amount||0),0);
+   const latest=apps[apps.length-1];
+   const p=state.clientProfiles[client];
+   return `<div class="row ${total>0?'top':''}">
+   <div><b>${client}</b><br><span class="muted">${p.business||''}</span></div>
+   <div><b>${money(total)}</b><br><span class="muted">${apps.length} apps</span></div>
+   <div contenteditable="true" onblur="updateProfile('${client}','score',this.innerText)">${p.score}</div>
+   <div contenteditable="true" onblur="updateProfile('${client}','rep',this.innerText)">${latest.rep||''}</div>
+   <div><span class="status ${cls(latest.status)}">${latest.status}</span></div>
+   <div contenteditable="true" onblur="updateProfile('${client}','followup',this.innerText)">${p.followup||'Add follow-up'}</div>
+   </div>`;
+ }).join('');
+}
+
+function updateProfile(client,key,val){
+ ensureClientProfile(client);
+ state.clientProfiles[client][key]=val;
+ persist();
+}
+
+function renderAnalytics(){
+ const bureau=document.getElementById('bureauAnalytics');
+ const bank=document.getElementById('bankAnalytics');
+ if(bureau){
+   const map={};
+   state.funding.filter(f=>f.status==='Approved').forEach(f=>map[f.bureau]=(map[f.bureau]||0)+Number(f.amount||0));
+   bureau.innerHTML='<div class="row header"><div>Bureau</div><div>Total Approved</div><div>Status</div><div></div><div></div><div></div></div>'+
+   Object.entries(map).map(([k,v],i)=>`<div class="row ${i===0?'top':''}"><div><b>${k}</b></div><div>${money(v)}</div><div><span class="status approved">Active</span></div><div></div><div></div><div></div></div>`).join('');
+ }
+ if(bank){
+   const map={};
+   state.funding.filter(f=>f.status==='Approved').forEach(f=>map[f.bank]=(map[f.bank]||0)+Number(f.amount||0));
+   bank.innerHTML='<div class="row header"><div>Bank</div><div>Total Approved</div><div>Status</div><div></div><div></div><div></div></div>'+
+   Object.entries(map).sort((a,b)=>b[1]-a[1]).map(([k,v],i)=>`<div class="row ${i===0?'top':''}"><div><b>${k}</b></div><div>${money(v)}</div><div><span class="status approved">Top Lender</span></div><div></div><div></div><div></div></div>`).join('');
+ }
+}
+
+function addFollowup(){
+ state.followups.push({
+  client:followClient.value,
+  date:followDate.value,
+  rep:followRep.value,
+  notes:followNotes.value
+ });
+ addNotification(`📞 Follow-up scheduled for ${followClient.value}`);
+ ['followClient','followDate','followRep','followNotes'].forEach(id=>document.getElementById(id).value='');
+ persist();
+}
+
+function renderFollowups(){
+ const wrap=document.getElementById('followupTable');
+ if(!wrap)return;
+ wrap.innerHTML='<div class="row header"><div>Client</div><div>Date</div><div>Rep</div><div>Notes</div><div></div><div></div></div>'+
+ state.followups.map((f,i)=>`<div class="row"><div><b>${f.client}</b></div><div>${f.date}</div><div>${f.rep}</div><div>${f.notes}</div><div></div><button class="btn btn-danger" onclick="deleteFollowup(${i})">×</button></div>`).join('');
+}
+
+function deleteFollowup(i){state.followups.splice(i,1);persist();}
+
+const originalAddFunding=addFunding;
+addFunding=function(){
+ originalAddFunding();
+ const latest=state.funding[state.funding.length-1];
+ addNotification(`💰 ${latest.client} submitted ${money(latest.amount)} with ${latest.bank}`);
+ persist();
+}
+
+const oldRender=render;
+render=function(){
+ oldRender();
+ renderClientCommand();
+ renderAnalytics();
+ renderNotifications();
+ renderFollowups();
+}
+
+persist();
+</script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NRD Capital Group Dashboard</title>
+  <style>
+    :root{
+      --bg:#05070f;
+      --panel:#0b1020;
+      --panel2:#0f172a;
+      --line:rgba(0,194,255,.28);
+      --blue:#38bdf8;
+      --blue2:#00c2ff;
+      --green:#00f5a0;
+      --green2:#22c55e;
+      --pink:#f472b6;
+      --yellow:#facc15;
+      --red:#fb7185;
+      --text:#e0f2fe;
+      --muted:#7dd3fc;
+      --shadow:0 0 0 1px rgba(56,189,248,.12),0 22px 70px rgba(0,0,0,.55);
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:radial-gradient(circle at 20% 0%,rgba(0,194,255,.16),transparent 28%),radial-gradient(circle at 80% 10%,rgba(0,245,160,.10),transparent 24%),linear-gradient(180deg,#030712,#05070f 45%,#020617);color:var(--text)}
+    .app{width:min(1240px,calc(100% - 28px));margin:0 auto;padding:26px 0 60px}
+    .topbar{display:flex;justify-content:space-between;align-items:center;gap:18px;margin-bottom:18px}
+    .brand{display:flex;align-items:center;gap:14px}
+    .brand img{width:72px;height:72px;border-radius:20px;object-fit:cover;border:1px solid rgba(255,255,255,.2);box-shadow:0 0 34px rgba(0,194,255,.28)}
+    .brand h1{margin:0;font-size:clamp(28px,4vw,46px);letter-spacing:-.055em;line-height:.95;color:white;text-shadow:0 0 18px rgba(56,189,248,.22)}
+    .brand p{margin:6px 0 0;color:var(--muted);font-weight:800;letter-spacing:.02em}
+    .clock-card{background:linear-gradient(135deg,rgba(8,15,30,.96),rgba(5,10,22,.96));border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow);padding:16px 18px;min-width:260px;text-align:right}
+    .clock{font-size:34px;font-weight:950;color:var(--green);letter-spacing:-.04em;text-shadow:0 0 16px rgba(0,245,160,.25)}
+    .small{color:var(--muted);font-size:13px;font-weight:800}.small strong{color:white}
+    .hero{background:linear-gradient(180deg,rgba(8,15,30,.9),rgba(3,8,20,.96));border:1px solid var(--line);border-top:2px solid var(--green);border-radius:28px;padding:20px;box-shadow:var(--shadow);margin-bottom:18px}
+    .kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+    .kpi{position:relative;overflow:hidden;background:rgba(2,8,23,.72);border:1px solid rgba(56,189,248,.22);border-radius:22px;padding:18px;min-height:126px}
+    .kpi:after{content:"";position:absolute;right:-40px;bottom:-50px;width:130px;height:130px;border-radius:50%;background:rgba(0,245,160,.11);filter:blur(8px)}
+    .kpi label{display:block;color:var(--blue);font-size:12px;text-transform:uppercase;letter-spacing:.09em;font-weight:950;margin-bottom:10px}
+    .kpi .value{font-size:clamp(28px,4vw,44px);font-weight:950;letter-spacing:-.055em;color:#e0f2fe;text-shadow:0 0 16px rgba(56,189,248,.22);position:relative;z-index:1}
+    .kpi.green .value{color:var(--green)}.kpi.pink .value{color:var(--pink)}.kpi.yellow .value{color:var(--yellow)}
+    .progress{height:10px;background:rgba(148,163,184,.16);border-radius:999px;overflow:hidden;margin-top:14px;position:relative;z-index:1}.progress span{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--green),var(--blue2));box-shadow:0 0 16px rgba(0,245,160,.28)}
+    .tabs{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0}.tab-button{background:rgba(15,23,42,.84);border:1px solid rgba(56,189,248,.22);color:var(--blue);border-radius:14px;padding:12px 16px;font-weight:950;cursor:pointer;box-shadow:0 8px 22px rgba(0,0,0,.22)}.tab-button.active{background:linear-gradient(135deg,var(--green),var(--blue2));color:#021617;border-color:rgba(0,245,160,.55);box-shadow:0 0 22px rgba(0,245,160,.18)}
+    .tab-panel{display:none}.tab-panel.active{display:block}
+    .card{background:linear-gradient(180deg,rgba(10,18,35,.94),rgba(4,10,22,.96));border:1px solid rgba(56,189,248,.22);border-radius:24px;box-shadow:var(--shadow);padding:18px;margin-bottom:16px}.card-title{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px}h2{margin:0;color:white;letter-spacing:-.035em}h3{margin:0;color:white}.muted{color:var(--muted);line-height:1.55}.pill{display:inline-flex;border-radius:999px;padding:6px 10px;background:rgba(0,194,255,.12);color:var(--blue);border:1px solid rgba(56,189,248,.22);font-size:12px;font-weight:950}.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}.span-4{grid-column:span 4}.span-6{grid-column:span 6}.span-8{grid-column:span 8}.span-12{grid-column:span 12}
+    input,select,textarea{width:100%;background:rgba(2,8,23,.76);color:var(--text);border:1px solid rgba(56,189,248,.22);border-radius:14px;padding:12px;font:inherit;outline:none}input:focus,select:focus,textarea:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(0,245,160,.08)}textarea{min-height:110px}.form-row{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-bottom:14px}.btn{border:0;border-radius:14px;padding:12px 14px;font-weight:950;cursor:pointer}.btn-primary{background:linear-gradient(135deg,var(--green),var(--blue2));color:#021617}.btn-danger{background:rgba(251,113,133,.14);color:var(--red);border:1px solid rgba(251,113,133,.28)}.btn-soft{background:rgba(56,189,248,.12);color:var(--blue);border:1px solid rgba(56,189,248,.22)}
+    .table{display:grid;gap:8px}.row{display:grid;grid-template-columns:1.2fr 1fr 1fr 1fr 1.2fr auto;gap:10px;align-items:center;padding:14px;border:1px solid rgba(56,189,248,.16);border-radius:18px;background:rgba(2,8,23,.55)}.row.header{color:var(--blue);text-transform:uppercase;letter-spacing:.08em;font-size:12px;font-weight:950;background:rgba(0,194,255,.08)}.row.top{border-color:rgba(0,245,160,.45);box-shadow:0 0 18px rgba(0,245,160,.12);background:linear-gradient(135deg,rgba(0,245,160,.10),rgba(2,8,23,.70))}.row.low{border-color:rgba(251,113,133,.55)}
+    .status{display:inline-flex;width:fit-content;border-radius:999px;padding:6px 10px;font-size:12px;font-weight:950}.approved{background:rgba(0,245,160,.12);color:var(--green);border:1px solid rgba(0,245,160,.26)}.pending{background:rgba(250,204,21,.12);color:var(--yellow);border:1px solid rgba(250,204,21,.26)}.denied{background:rgba(251,113,133,.12);color:var(--red);border:1px solid rgba(251,113,133,.28)}.working{background:rgba(56,189,248,.12);color:var(--blue);border:1px solid rgba(56,189,248,.26)}
+    .rank{width:34px;height:34px;border-radius:10px;display:inline-flex;align-items:center;justify-content:center;background:rgba(56,189,248,.12);color:var(--blue);font-weight:950}.rank.one{background:rgba(250,204,21,.16);color:var(--yellow);box-shadow:0 0 20px rgba(250,204,21,.15)}
+    .task-cat{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}.task-cat button.active{background:linear-gradient(135deg,var(--green),var(--blue2));color:#021617}.task-board{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.col{min-height:250px;border:2px dashed transparent;background:rgba(2,8,23,.52);border-radius:20px;padding:12px}.col.drag{border-color:var(--green);background:rgba(0,245,160,.06)}.col-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;font-weight:950;color:white}.task{background:rgba(10,18,35,.92);border:1px solid rgba(56,189,248,.18);border-radius:16px;padding:12px;margin-bottom:10px;cursor:grab}.task.done .task-title{text-decoration:line-through;color:#64748b}.task-top{display:grid;grid-template-columns:auto 1fr auto auto;gap:8px;align-items:center}.task-title{font-weight:950}.task-notes{color:var(--muted);font-size:13px;margin:8px 0 0 28px}.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}.list{display:grid;gap:10px}.list div{background:rgba(2,8,23,.55);border:1px solid rgba(56,189,248,.16);border-radius:16px;padding:14px;color:var(--muted);font-weight:800}
+    @media(max-width:920px){.topbar{flex-direction:column;align-items:flex-start}.clock-card{text-align:left;width:100%}.kpi-grid,.task-board,.two{grid-template-columns:1fr}.form-row{grid-template-columns:1fr}.row{grid-template-columns:1fr}.row.header{display:none}.span-4,.span-6,.span-8{grid-column:span 12}}
+  </style>
+</head>
+<body>
+  <main class="app">
+    <div class="topbar">
+      <div class="brand">
+        <img src="ChatGPT Image May 15, 2026, 05_37_39 PM (1)(1).png" alt="NRD Capital Group Logo" />
+        <div><h1>NRD Capital Group</h1><p>Funding • Credit Repair • Real Estate Command Center</p></div>
+      </div>
+      <div class="clock-card"><div class="small">Current CEO block</div><div class="clock" id="clock">--:--:--</div><div class="small"><strong id="blockName">Loading...</strong> · <span id="blockCountdown">--</span></div></div>
+    </div>
+
+    <section class="hero">
+      <div class="kpi-grid">
+        <div class="kpi green"><label>MTD Funded</label><div class="value" id="mtdFunded">$0</div><div class="small" id="mtdSub">0% to monthly goal</div><div class="progress"><span id="mtdBar"></span></div></div>
+        <div class="kpi"><label>YTD Funded</label><div class="value" id="ytdFunded">$0</div><div class="small" id="ytdSub">0% to yearly goal</div><div class="progress"><span id="ytdBar"></span></div></div>
+        <div class="kpi pink"><label>Pending Pipeline</label><div class="value" id="pendingFunding">$0</div><div class="small">Pending + docs needed</div></div>
+        <div class="kpi yellow"><label>Approved Apps</label><div class="value" id="approvedApps">0</div><div class="small">Total approvals tracked</div></div>
+      </div>
+    </section>
+
+    <div class="tabs">
+      <button class="tab-button active" data-tab="dashboard">Dashboard</button>
+      <button class="tab-button" data-tab="funding">Funding Tracker</button>
+      <button class="tab-button" data-tab="sales">Sales Scoreboard</button>
+      <button class="tab-button" data-tab="credit">Credit Repair</button>
+      <button class="tab-button" data-tab="tasks">Tasks</button>
+      <button class="tab-button" data-tab="ops">CEO Ops</button>
+    </div>
+
+    <section class="tab-panel active" id="dashboardTab">
+      <div class="grid">
+        <div class="card span-8"><div class="card-title"><h2>Executive Overview</h2><span class="pill">Live Scoreboard</span></div><div class="table" id="deptRankings"></div></div>
+        <div class="card span-4"><div class="card-title"><h2>Targets</h2><span class="pill">Editable</span></div><div class="list"><div>Monthly funding goal: <input data-save="monthlyFundingGoal" value="100000" type="number" /></div><div>Yearly funding goal: <input data-save="yearlyFundingGoal" value="1000000" type="number" /></div><div>Revenue goal: <input data-save="monthlyRevenueGoal" value="50000" type="number" /></div></div></div>
+      </div>
+    </section>
+
+    <section class="tab-panel" id="fundingTab">
+      <div class="card"><div class="card-title"><h2>Add Funding App / Approval</h2><span class="pill">MTD + YTD auto-calculated</span></div><div class="form-row"><input id="fundClient" placeholder="Client" /><input id="fundBank" placeholder="Bank / Lender" /><input id="fundAmount" type="number" placeholder="Amount" /><select id="fundStatus"><option>Approved</option><option>Pending</option><option>Docs Needed</option><option>Denied</option></select><input id="fundDate" type="date" /><button class="btn btn-primary" onclick="addFunding()">Save</button></div><input id="fundNotes" placeholder="Notes" /></div>
+      <div class="card"><div class="card-title"><h2>Funding Tracker</h2><span class="pill">Approvals + Pending</span></div><div class="table" id="fundingTable"></div></div>
+    </section>
+
+    <section class="tab-panel" id="salesTab">
+      <div class="card"><div class="card-title"><h2>Sales Scoreboard</h2><span class="pill">Healthy Competition</span></div><div class="form-row"><input id="repName" placeholder="Rep" /><input id="repCalls" type="number" placeholder="Calls Today" /><input id="repDeals" type="number" placeholder="Deals This Week" /><input id="repRevenue" type="number" placeholder="MTD Revenue" /><input id="repTarget" type="number" placeholder="Target" /><button class="btn btn-primary" onclick="saveRep()">Save Rep</button></div><div class="table" id="salesTable"></div></div>
+    </section>
+
+    <section class="tab-panel" id="creditTab">
+      <div class="grid"><div class="card span-4"><div class="card-title"><h2>Credit Stages</h2></div><div class="list"><div>Needs Audit</div><div>Monitoring Connected</div><div>Docs Collected</div><div>Round 1 Sent</div><div>Round 2 / CFPB</div><div>Funding Ready</div></div></div><div class="card span-8"><div class="card-title"><h2>Credit Repair Clients</h2><span class="pill">Funding Readiness</span></div><div class="form-row"><input id="creditClient" placeholder="Client" /><input id="creditStart" type="number" placeholder="Start Score" /><input id="creditCurrent" type="number" placeholder="Current Score" /><select id="creditStage"><option>Needs Audit</option><option>Monitoring Connected</option><option>Docs Collected</option><option>Round 1 Sent</option><option>Round 2 / CFPB</option><option>Funding Ready</option></select><input id="creditNotes" placeholder="Notes" /><button class="btn btn-primary" onclick="addCredit()">Save</button></div><div class="table" id="creditTable"></div></div></div>
+    </section>
+
+    <section class="tab-panel" id="tasksTab">
+      <div class="card"><div class="card-title"><h2>Tasks</h2><span class="pill">Urgent / Progress / Parked / Recurring</span></div><div class="task-cat" id="taskCats"></div><div class="form-row"><input id="taskTitle" placeholder="Task title" /><input id="taskNotes" placeholder="Notes" /><select id="taskCol"><option value="urgent">Urgent</option><option value="progress">In Progress</option><option value="parked">Parked</option><option value="recurring">Recurring</option></select><button class="btn btn-primary" onclick="addTask()">Add Task</button></div><div class="task-board" id="taskBoard"></div></div>
+    </section>
+
+    <section class="tab-panel" id="opsTab">
+      <div class="two"><div class="card"><div class="card-title"><h2>CEO Weekly Review</h2></div><div class="list"><div>Where did work get stuck this week?</div><div>What issue repeated more than once?</div><div>What can be deleted, delegated, automated, or SOP’d?</div><div>What one process improvement matters most next week?</div></div></div><div class="card"><div class="card-title"><h2>Lean Ops</h2></div><div class="list"><div>Define → Measure → Analyze → Improve → Control</div><div>DOWNTIME: Defects, Overproduction, Waiting, Non-utilized talent, Transportation, Inventory, Motion, Extra-processing</div><div>Kaizen: improve one small process every week.</div></div></div></div>
+    </section>
+  </main>
+
+<script>
+const KEY='nrdDashboardV2';
+const defaults={monthlyFundingGoal:100000,yearlyFundingGoal:1000000,monthlyRevenueGoal:50000,funding:[{client:'Kip',bank:'Elan Financial',amount:8000,status:'Approved',date:new Date().toISOString().slice(0,10),notes:'Approved for $8,000'},{client:'Kip',bank:'Bank of America',amount:12000,status:'Approved',date:new Date().toISOString().slice(0,10),notes:'1st card'},{client:'Kip',bank:'Bank of America',amount:6000,status:'Approved',date:new Date().toISOString().slice(0,10),notes:'2nd card'}],reps:[{name:'Nathan',calls:42,deals:3,revenue:18000,target:25000},{name:'Setter 1',calls:68,deals:2,revenue:8500,target:20000},{name:'Closer 1',calls:24,deals:5,revenue:22000,target:30000}],credit:[{client:'Sample Client',start:580,current:642,stage:'Round 1 Sent',notes:'Working toward 700+'}],activeTaskCat:'nrd',tasks:{nrd:{label:'NRD Capital Group',urgent:[],progress:[],parked:[],recurring:[{id:crypto.randomUUID(),title:'Review funding pipeline',notes:'Check approvals, pending apps, and docs needed.',done:false}]},personal:{label:'Personal',urgent:[],progress:[],parked:[],recurring:[]},content:{label:'Content',urgent:[],progress:[],parked:[],recurring:[{id:crypto.randomUUID(),title:'Post daily story/reel',notes:'Proof, education, or BTS.',done:false}]}}};
+let state=load();
+function load(){try{return {...defaults,...JSON.parse(localStorage.getItem(KEY)||'{}')};}catch{return {...defaults}}}
+function save(){document.querySelectorAll('[data-save]').forEach(i=>state[i.dataset.save]=Number(i.value)||i.value);localStorage.setItem(KEY,JSON.stringify(state));render();}
+function money(n){return '$'+Number(n||0).toLocaleString();}
+function cls(s){return s==='Approved'?'approved':s==='Pending'?'pending':s==='Denied'?'denied':'working';}
+function pct(a,b){return b?Math.round((a/b)*100):0;}
+function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));}
+function switchTab(tab){document.querySelectorAll('.tab-button').forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));document.querySelectorAll('.tab-panel').forEach(p=>p.classList.toggle('active',p.id===tab+'Tab'));location.hash=tab;}
+document.querySelectorAll('.tab-button').forEach(b=>b.onclick=()=>switchTab(b.dataset.tab));document.querySelectorAll('[data-save]').forEach(i=>{if(state[i.dataset.save]!==undefined)i.value=state[i.dataset.save];i.oninput=save;});
+function updateClock(){const now=new Date();document.getElementById('clock').textContent=now.toLocaleTimeString('en-US',{hour12:false});const h=now.getHours()+now.getMinutes()/60;let block='Wind-Down',end=24;if(h>=5&&h<6.5){block='Morning Routine';end=6.5}else if(h>=6.5&&h<9){block='Deep Work';end=9}else if(h>=9&&h<10){block='Team Check-In';end=10}else if(h>=10&&h<12.5){block='Calls';end=12.5}else if(h>=12.5&&h<13){block='Lunch';end=13}else if(h>=13&&h<15){block='Calls';end=15}else if(h>=15&&h<17){block='Strategic Work';end=17}else if(h>=17&&h<21){block='Family / Recovery';end=21}else if(h>=21){block='Wind-Down';end=29}let rem=Math.max(0,Math.round((end-h)*60));document.getElementById('blockName').textContent=block;document.getElementById('blockCountdown').textContent=rem+'m remaining';}
+function renderFunding(){const now=new Date(),cm=now.getMonth(),cy=now.getFullYear();const approved=state.funding.filter(x=>x.status==='Approved');const mtd=approved.filter(x=>{const d=new Date(x.date);return d.getMonth()===cm&&d.getFullYear()===cy}).reduce((s,x)=>s+Number(x.amount||0),0);const ytd=approved.filter(x=>new Date(x.date).getFullYear()===cy).reduce((s,x)=>s+Number(x.amount||0),0);const pend=state.funding.filter(x=>x.status==='Pending'||x.status==='Docs Needed').reduce((s,x)=>s+Number(x.amount||0),0);document.getElementById('mtdFunded').textContent=money(mtd);document.getElementById('ytdFunded').textContent=money(state.totalFundedOverride||ytd);document.getElementById('pendingFunding').textContent=money(pend);document.getElementById('approvedApps').textContent=approved.length;document.getElementById('mtdSub').textContent=pct(mtd,state.monthlyFundingGoal)+'% to '+money(state.monthlyFundingGoal);document.getElementById('ytdSub').textContent=pct(ytd,state.yearlyFundingGoal)+'% to '+money(state.yearlyFundingGoal);document.getElementById('mtdBar').style.width=Math.min(100,pct(mtd,state.monthlyFundingGoal))+'%';document.getElementById('ytdBar').style.width=Math.min(100,pct(ytd,state.yearlyFundingGoal))+'%';document.getElementById('fundingTable').innerHTML='<div class="row header"><div>Client</div><div>Bank</div><div>Amount</div><div>Status</div><div>Date / Notes</div><div></div></div>'+state.funding.map((x,i)=>`<div class="row"><div><b>${esc(x.client)}</b></div><div>${esc(x.bank)}</div><div><b>${money(x.amount)}</b></div><div><span class="status ${cls(x.status)}">${esc(x.status)}</span></div><div>${esc(x.date)}<br><span class="muted">${esc(x.notes)}</span></div><button class="btn btn-danger" onclick="delFunding(${i})">×</button></div>`).join('');document.getElementById('deptRankings').innerHTML='<div class="row header"><div>Department</div><div>Revenue</div><div>Goal</div><div>%</div><div>Status</div><div>Rank</div></div>'+[['Funding',ytd,state.yearlyFundingGoal],['Sales',state.reps.reduce((s,r)=>s+Number(r.revenue||0),0),state.monthlyRevenueGoal],['Credit Repair',state.credit.length*97,10000]].sort((a,b)=>pct(b[1],b[2])-pct(a[1],a[2])).map((r,i)=>`<div class="row ${i===0?'top':''}"><div><span class="rank ${i===0?'one':''}">${i+1}</span> <b>${r[0]}</b></div><div>${money(r[1])}</div><div>${money(r[2])}</div><div>${pct(r[1],r[2])}%</div><div><span class="status ${pct(r[1],r[2])>=70?'approved':'pending'}">${pct(r[1],r[2])>=70?'On Pace':'Building'}</span></div><div>${i===0?'🏆':''}</div></div>`).join('');}
+function addFunding(){state.funding.push({client:fundClient.value||'Unnamed',bank:fundBank.value||'Bank',amount:Number(fundAmount.value||0),status:fundStatus.value,date:fundDate.value||new Date().toISOString().slice(0,10),notes:fundNotes.value||''});['fundClient','fundBank','fundAmount','fundDate','fundNotes'].forEach(id=>document.getElementById(id).value='');persist();}
+function delFunding(i){state.funding.splice(i,1);persist();}
+function renderSales(){const reps=[...state.reps].sort((a,b)=>pct(b.revenue,b.target)-pct(a.revenue,a.target));document.getElementById('salesTable').innerHTML='<div class="row header"><div>Rep</div><div>Calls</div><div>Deals</div><div>MTD Revenue</div><div>% to Target</div><div>Edit</div></div>'+reps.map((r,i)=>{const p=pct(r.revenue,r.target),idx=state.reps.findIndex(x=>x.name===r.name);return `<div class="row ${i===0?'top':''} ${p<50?'low':''}"><div><span class="rank ${i===0?'one':''}">${i+1}</span> <b>${esc(r.name)}</b> ${i===0?'🏆':''}</div><div>${r.calls}</div><div>${r.deals}</div><div>${money(r.revenue)}</div><div><b>${p}%</b></div><button class="btn btn-soft" onclick="editRep(${idx})">Edit</button></div>`}).join('');}
+function saveRep(){const data={name:repName.value||'Rep',calls:Number(repCalls.value||0),deals:Number(repDeals.value||0),revenue:Number(repRevenue.value||0),target:Number(repTarget.value||0)};const existing=state.reps.find(r=>r.name.toLowerCase()===data.name.toLowerCase());existing?Object.assign(existing,data):state.reps.push(data);['repName','repCalls','repDeals','repRevenue','repTarget'].forEach(id=>document.getElementById(id).value='');persist();}
+function editRep(i){const r=state.reps[i];repName.value=r.name;repCalls.value=r.calls;repDeals.value=r.deals;repRevenue.value=r.revenue;repTarget.value=r.target;}
+function renderCredit(){document.getElementById('creditTable').innerHTML='<div class="row header"><div>Client</div><div>Start</div><div>Current</div><div>Stage</div><div>Notes</div><div></div></div>'+state.credit.map((c,i)=>`<div class="row"><div><b>${esc(c.client)}</b></div><div>${c.start}</div><div><b>${c.current}</b></div><div><span class="status working">${esc(c.stage)}</span></div><div>${esc(c.notes)}</div><button class="btn btn-danger" onclick="delCredit(${i})">×</button></div>`).join('');}
+function addCredit(){state.credit.push({client:creditClient.value||'Unnamed',start:Number(creditStart.value||0),current:Number(creditCurrent.value||0),stage:creditStage.value,notes:creditNotes.value||''});['creditClient','creditStart','creditCurrent','creditNotes'].forEach(id=>document.getElementById(id).value='');persist();}
+function delCredit(i){state.credit.splice(i,1);persist();}
+function renderTasks(){const cats=document.getElementById('taskCats');cats.innerHTML=Object.keys(state.tasks).map(k=>`<button class="btn btn-soft ${state.activeTaskCat===k?'active':''}" onclick="state.activeTaskCat='${k}';persist()">${esc(state.tasks[k].label)}</button>`).join('');const board=document.getElementById('taskBoard');const cols=[['urgent','Urgent'],['progress','In Progress'],['parked','Parked'],['recurring','Recurring']];board.innerHTML=cols.map(([key,label])=>`<div class="col" ondragover="event.preventDefault();this.classList.add('drag')" ondragleave="this.classList.remove('drag')" ondrop="dropTask(event,'${key}',this)"><div class="col-head"><span>${label}</span><span class="pill">${state.tasks[state.activeTaskCat][key].length}</span></div>${state.tasks[state.activeTaskCat][key].map(t=>`<div class="task ${t.done?'done':''}" draggable="true" ondragstart="event.dataTransfer.setData('text/plain','${key}|${t.id}')"><div class="task-top"><input type="checkbox" ${t.done?'checked':''} onchange="toggleTask('${key}','${t.id}')"><div class="task-title">${esc(t.title)}</div><button class="btn btn-soft" onclick="editTask('${key}','${t.id}')">Edit</button><button class="btn btn-danger" onclick="deleteTask('${key}','${t.id}')">×</button></div>${t.notes?`<div class="task-notes">${esc(t.notes)}</div>`:''}</div>`).join('')}</div>`).join('');}
+function addTask(){const col=taskCol.value;state.tasks[state.activeTaskCat][col].unshift({id:crypto.randomUUID(),title:taskTitle.value||'Untitled',notes:taskNotes.value||'',done:false});taskTitle.value='';taskNotes.value='';persist();}
+function toggleTask(col,id){const t=state.tasks[state.activeTaskCat][col].find(x=>x.id===id);if(t)t.done=!t.done;persist();}
+function editTask(col,id){const t=state.tasks[state.activeTaskCat][col].find(x=>x.id===id);if(!t)return;const title=prompt('Task title',t.title);if(title!==null)t.title=title;const notes=prompt('Notes',t.notes);if(notes!==null)t.notes=notes;persist();}
+function deleteTask(col,id){state.tasks[state.activeTaskCat][col]=state.tasks[state.activeTaskCat][col].filter(x=>x.id!==id);persist();}
+function dropTask(e,target,el){el.classList.remove('drag');const [from,id]=e.dataTransfer.getData('text/plain').split('|');if(from===target)return;const task=state.tasks[state.activeTaskCat][from].find(x=>x.id===id);if(!task)return;state.tasks[state.activeTaskCat][from]=state.tasks[state.activeTaskCat][from].filter(x=>x.id!==id);state.tasks[state.activeTaskCat][target].unshift(task);persist();}
+function persist(){localStorage.setItem(KEY,JSON.stringify(state));render();}
+function render(){renderFunding();renderSales();renderCredit();renderTasks();}
+const hash=location.hash.replace('#','');if(hash)switchTab(hash);render();updateClock();setInterval(updateClock,1000);
+</script>
+</body>
+</html>
