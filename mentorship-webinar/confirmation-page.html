@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#061325">
+<title>You're Registered | NRD Capital Group Webinar</title>
+<meta name="description" content="Confirmation page for NRD Capital Group's automated credit repair and funding business webinar.">
+<style>
+:root{
+  --bg:#04101f;
+  --panel:#0a1d36;
+  --panel2:#0d2949;
+  --text:#f7fbff;
+  --muted:#aebbd0;
+  --blue:#1688ff;
+  --blue2:#2c63ff;
+  --green:#25d99a;
+  --line:#214d78;
+  --max:920px;
+  --shadow:0 26px 80px rgba(0,0,0,.34);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  color:var(--text);
+  font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  background:
+    radial-gradient(circle at 12% 0%,rgba(22,136,255,.18),transparent 28%),
+    radial-gradient(circle at 92% 10%,rgba(44,99,255,.13),transparent 26%),
+    linear-gradient(180deg,#04101f,#071529 55%,#04101f);
+}
+a{text-decoration:none;color:inherit}
+.wrap{width:min(var(--max),calc(100% - 28px));margin:auto}
+.section{padding:58px 0}
+.center{text-align:center}
+.card{
+  border:1px solid rgba(77,139,201,.27);
+  background:linear-gradient(180deg,rgba(13,38,68,.88),rgba(7,25,46,.97));
+  border-radius:24px;
+  box-shadow:0 18px 50px rgba(0,0,0,.18);
+}
+.eyebrow{
+  font-size:11px;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:#67adff;
+  font-weight:900;
+}
+h1,h2,h3,p{margin-top:0}
+h1{
+  font-size:clamp(44px,7vw,72px);
+  line-height:.96;
+  letter-spacing:-.055em;
+  margin:14px auto 18px;
+  max-width:850px;
+}
+h2{
+  font-size:clamp(30px,5vw,48px);
+  line-height:1.04;
+  letter-spacing:-.04em;
+  margin:8px 0 12px;
+}
+h3{font-size:22px;margin-bottom:8px}
+.sub{
+  max-width:760px;
+  margin:0 auto;
+  color:#d2dde9;
+  font-size:18px;
+  line-height:1.7;
+}
+.muted{color:var(--muted);line-height:1.65}
+header{
+  border-bottom:1px solid rgba(90,146,201,.12);
+  background:rgba(4,16,31,.88);
+  backdrop-filter:blur(16px);
+}
+.nav{
+  height:72px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+}
+.brand{font-weight:900;letter-spacing:.12em}
+.secure{color:#8ca3ba;font-size:12px}
+.success{
+  width:70px;height:70px;border-radius:50%;
+  margin:0 auto 20px;
+  display:grid;place-items:center;
+  background:rgba(37,217,154,.14);
+  border:1px solid rgba(37,217,154,.48);
+  color:var(--green);
+  font-size:34px;font-weight:950;
+}
+.blue{color:#3195ff}
+.btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:16px 24px;
+  border-radius:999px;
+  background:linear-gradient(90deg,var(--blue),var(--blue2));
+  color:#fff;
+  font-weight:900;
+  border:0;
+  cursor:pointer;
+}
+.btn.alt{
+  background:#081a30;
+  border:1px solid rgba(79,142,205,.35);
+}
+.hero{padding:64px 0 24px}
+
+/* countdown */
+.countdown{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+  margin-top:28px;
+}
+.timebox{
+  padding:20px 10px;
+  text-align:center;
+  background:#081e36;
+  border:1px solid rgba(76,138,197,.23);
+  border-radius:16px;
+}
+.timebox b{display:block;font-size:34px;line-height:1;margin-bottom:7px}
+.timebox span{
+  font-size:11px;text-transform:uppercase;letter-spacing:.12em;
+  color:#83a0bb;font-weight:800
+}
+
+/* step shells */
+.step-shell{
+  border:1px dashed rgba(73,151,236,.46);
+  border-radius:28px;
+  padding:24px;
+  margin-top:26px;
+  background:rgba(4,16,31,.46);
+}
+.step-badge{
+  display:inline-flex;
+  padding:10px 18px;
+  border-radius:999px;
+  background:linear-gradient(145deg,var(--blue),var(--blue2));
+  color:white;
+  font-weight:900;
+  margin-bottom:16px;
+}
+.step-title{
+  font-size:clamp(30px,5vw,44px);
+  line-height:1.03;
+  margin-bottom:12px;
+}
+
+/* ticket */
+.ticket{
+  max-width:720px;
+  margin:26px auto 0;
+  padding:28px;
+  position:relative;
+  overflow:hidden;
+}
+.ticket:before,.ticket:after{
+  content:"";
+  position:absolute;
+  top:58%;
+  width:32px;height:32px;
+  border-radius:50%;
+  background:#04101f;
+}
+.ticket:before{left:-16px}
+.ticket:after{right:-16px}
+.ticket-top{
+  padding-bottom:22px;
+  border-bottom:1px solid rgba(118,149,182,.22);
+}
+.ticket-label{
+  color:#8fa6be;
+  text-transform:uppercase;
+  letter-spacing:.18em;
+  font-size:11px;
+  font-weight:900;
+}
+.ticket h3{
+  font-size:clamp(28px,5vw,44px);
+  line-height:1.06;
+  margin:10px 0 10px;
+}
+.ticket-meta{color:#cad6e2;font-size:16px;line-height:1.6}
+.ticket-holder{
+  padding-top:22px;
+  text-align:center;
+}
+.ticket-holder span{
+  display:block;
+  color:#8499ad;
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:.18em;
+  font-weight:900;
+  margin-bottom:6px;
+}
+.ticket-holder b{font-size:22px}
+.wallet-wrap{margin-top:24px;text-align:center}
+.wallet-btn{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  background:#000;
+  color:white;
+  border:1px solid #4d4d4d;
+  border-radius:12px;
+  padding:12px 18px;
+  font-weight:800;
+  cursor:pointer;
+}
+.wallet-note{font-size:11px;color:#8093a5;margin-top:8px}
+
+/* calendar card */
+.calendar-card{
+  max-width:720px;
+  margin:26px auto 0;
+  padding:28px;
+  background:#fff;
+  color:#10203a;
+  border-radius:22px;
+}
+.calendar-card h3{
+  font-size:30px;
+  line-height:1.08;
+  margin-bottom:8px;
+}
+.calendar-date{
+  color:#4a5d74;
+  margin-bottom:18px;
+}
+.private-link{
+  padding:13px 14px;
+  border-radius:12px;
+  background:#f2f5f9;
+  color:#3b4b60;
+  overflow-wrap:anywhere;
+  font-size:14px;
+  margin-bottom:12px;
+}
+.copy-btn{
+  width:100%;
+  border:0;
+  border-radius:12px;
+  padding:14px 16px;
+  font-weight:900;
+  background:linear-gradient(90deg,var(--blue),var(--blue2));
+  color:white;
+  cursor:pointer;
+}
+.calendar-links{
+  display:grid;
+  gap:10px;
+  margin-top:14px;
+}
+.calendar-link{
+  width:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  padding:14px 16px;
+  border-radius:12px;
+  border:1px solid #d5dce5;
+  background:#fff;
+  color:#10203a;
+  font-weight:800;
+  cursor:pointer;
+}
+
+/* Capital Mastery */
+.community{
+  max-width:720px;
+  margin:26px auto 0;
+  padding:30px;
+  text-align:center;
+}
+.community-list{
+  display:grid;
+  gap:12px;
+  margin:20px auto 22px;
+  max-width:600px;
+  text-align:left;
+}
+.community-item{
+  display:flex;
+  gap:10px;
+  align-items:flex-start;
+  color:#d7e1eb;
+  line-height:1.55;
+}
+.check{
+  width:22px;height:22px;border-radius:50%;
+  display:grid;place-items:center;
+  background:linear-gradient(145deg,var(--blue),var(--blue2));
+  flex:0 0 auto;font-size:12px;font-weight:950;
+}
+
+/* pretraining */
+.form-card{
+  max-width:760px;
+  margin:30px auto 0;
+  padding:30px;
+}
+.form-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+}
+.field{display:flex;flex-direction:column;gap:7px;text-align:left}
+.field.full{grid-column:1/-1}
+.field label{font-size:12px;font-weight:850;color:#a7bacd}
+.field input,.field select,.field textarea{
+  width:100%;padding:14px;border-radius:11px;border:1px solid #31597f;
+  background:#061a30;color:white;outline:none;font:inherit
+}
+.field textarea{min-height:110px;resize:vertical}
+.form-card .btn{width:100%;margin-top:18px}
+.small{font-size:11px;color:#7f94a8;line-height:1.55;margin-top:10px;text-align:center}
+.final{padding:56px 0 70px;text-align:center}
+.disclaimer{
+  max-width:800px;margin:22px auto 0;color:#778da1;
+  font-size:11px;line-height:1.6;text-align:center
+}
+footer{
+  padding:28px;border-top:1px solid rgba(90,146,201,.12);
+  text-align:center;color:#7f95aa;font-size:12px
+}
+@media(max-width:800px){
+  .form-grid{grid-template-columns:1fr}
+  .field.full{grid-column:auto}
+}
+@media(max-width:600px){
+  h1{font-size:46px}
+  .countdown{grid-template-columns:1fr 1fr}
+  .step-shell{padding:18px}
+  .ticket,.calendar-card,.community{padding:22px}
+  .btn{width:100%}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <div class="brand">NRD CAPITAL GROUP</div>
+    <div class="secure">Registration Confirmed</div>
+  </div>
+</header>
+
+<main>
+
+<section class="hero">
+  <div class="wrap center">
+    <div class="success">✓</div>
+    <div class="eyebrow">You’re In</div>
+    <h1>Congratulations — <span class="blue">You’re Registered!</span></h1>
+    <p class="sub">
+      Your seat is confirmed for the free training on how I built a $30K+/month automated credit repair & funding business in less than 90 days.
+    </p>
+
+    <div class="countdown">
+      <div class="timebox"><b id="days">00</b><span>Days</span></div>
+      <div class="timebox"><b id="hours">00</b><span>Hours</span></div>
+      <div class="timebox"><b id="minutes">00</b><span>Minutes</span></div>
+      <div class="timebox"><b id="seconds">00</b><span>Seconds</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+
+    <div class="step-shell center" id="calendar-section">
+      <div class="step-badge">Step #1</div>
+      <div class="step-title">Add It To Your Calendar</div>
+      <p class="sub" style="font-size:16px;">
+        Save the webinar now so nothing gets scheduled over it.
+      </p>
+
+      <div class="calendar-card">
+        <h3>NRD Capital Group FREE Training</h3>
+        <div class="calendar-date" id="calendarDateText">Webinar Date & Time • Live Online</div>
+
+        <div class="private-link" id="privateEventLink">Your private webinar link will appear here.</div>
+        <button class="copy-btn" id="copyLinkBtn" type="button">Copy Private Event Link</button>
+
+        <div class="calendar-links">
+          <a class="calendar-link" id="googleCalendarBtn" href="#" target="_blank" rel="noopener">📅 Google Calendar</a>
+          <a class="calendar-link" id="outlookCalendarBtn" href="#" target="_blank" rel="noopener">📘 Outlook Calendar</a>
+          <button class="calendar-link" id="appleCalendarBtn" type="button"> Apple / iCalendar</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-shell">
+      <div class="step-badge">Step #2</div>
+      <div class="step-title center">Reply YES To Your Text Confirmation</div>
+      <p class="sub center" style="font-size:16px;">
+        We just sent your confirmation by text. Reply <strong>YES</strong> so we know you received it and can send your webinar reminders and access link before we go live.
+      </p>
+
+      <div class="card" style="max-width:720px;margin:26px auto 0;padding:26px;">
+        <div style="display:flex;gap:14px;align-items:flex-start;">
+          <div style="width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(145deg,var(--blue),var(--blue2));font-weight:950;flex:0 0 auto;">✓</div>
+          <div>
+            <h3 style="margin-bottom:6px;">Confirmation Sent To Your Phone</h3>
+            <p class="muted" style="margin-bottom:0;">
+              Open the text from NRD Capital Group and reply <strong style="color:#fff;">YES</strong>. This helps make sure you receive your reminders and webinar access details.
+            </p>
+          </div>
+        </div>
+
+        <div style="margin-top:18px;padding:16px;border:1px solid rgba(77,139,201,.24);border-radius:14px;background:#081a30;">
+          <p style="margin:0;color:#cbd7e3;line-height:1.6;">
+            We also emailed your confirmation. Check your inbox — and your spam or promotions folder if you do not see it within a few minutes.
+          </p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap center">
+    <div class="step-badge">Step #3</div>
+    <div class="eyebrow">Quick Pre-Training Application</div>
+    <h2>Help Me Understand Where You’re At</h2>
+    <p class="sub">
+      Fill this out before joining the community. This takes less than two minutes and helps me tailor the training to the people who are actually attending.
+    </p>
+
+    <form class="card form-card" id="qualifierForm">
+      <div class="form-grid">
+        <div class="field full">
+          <label>Where are you currently?</label>
+          <select required>
+            <option value="">Select one</option>
+            <option>Starting from scratch</option>
+            <option>I already own a credit repair business</option>
+            <option>I already sell business funding</option>
+            <option>I do both credit repair and funding</option>
+            <option>I’m a Realtor</option>
+            <option>I’m a mortgage professional</option>
+            <option>Other</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Current monthly business revenue</label>
+          <select required>
+            <option value="">Select one</option>
+            <option>$0 — I’m starting</option>
+            <option>Under $5,000/month</option>
+            <option>$5,000–$10,000/month</option>
+            <option>$10,000–$25,000/month</option>
+            <option>$25,000+/month</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>How soon do you want to build this?</label>
+          <select required>
+            <option value="">Select one</option>
+            <option>ASAP</option>
+            <option>Within 30 days</option>
+            <option>Within 60–90 days</option>
+            <option>Just researching</option>
+          </select>
+        </div>
+
+        <div class="field full">
+          <label>What are you most interested in?</label>
+          <select required>
+            <option value="">Select one</option>
+            <option>Monthly recurring credit repair revenue</option>
+            <option>An automated credit repair business</option>
+            <option>A funding backend</option>
+            <option>Both credit repair + funding</option>
+            <option>Better systems for my existing business</option>
+          </select>
+        </div>
+
+        <div class="field full">
+          <label>What is your biggest bottleneck?</label>
+          <select required>
+            <option value="">Select one</option>
+            <option>Getting clients</option>
+            <option>Closing sales</option>
+            <option>Fulfillment</option>
+            <option>Automations / CRM</option>
+            <option>Hiring / VAs</option>
+            <option>Running ads</option>
+            <option>Adding funding to the backend</option>
+          </select>
+        </div>
+
+        <div class="field full">
+          <label>If the right implementation program made sense, are you in a position to invest in growing your business?</label>
+          <select required>
+            <option value="">Select one</option>
+            <option>Yes</option>
+            <option>Maybe — depending on the opportunity</option>
+            <option>Not right now</option>
+          </select>
+        </div>
+
+        <div class="field full">
+          <label>What do you most want me to cover on the webinar?</label>
+          <textarea placeholder="Tell me what you want help with..."></textarea>
+        </div>
+      </div>
+
+      <button class="btn" type="submit">Complete My Pre-Training Application →</button>
+      <div class="small">Connect these fields to GoHighLevel custom fields, tags, and lead scoring.</div>
+    </form>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="step-shell center">
+      <div class="step-badge">Step #4</div>
+      <div class="step-title">Join Capital Mastery — Free</div>
+      <p class="sub" style="font-size:16px;">
+        Once your application is complete, join the free community while you wait for the webinar.
+      </p>
+
+      <div class="card community">
+        <div class="eyebrow">Free Bonus When You Register</div>
+        <h2 style="font-size:clamp(30px,5vw,44px)">Get Free Access To Capital Mastery</h2>
+
+        <div class="community-list">
+          <div class="community-item"><span class="check">✓</span><span>Connect with business owners, Realtors, lenders, and investors.</span></div>
+          <div class="community-item"><span class="check">✓</span><span>Learn more about credit, fundability, business funding, and capital.</span></div>
+          <div class="community-item"><span class="check">✓</span><span>Get around people focused on building businesses and creating opportunities.</span></div>
+        </div>
+
+        <a class="btn" href="https://www.skool.com/capital-mastery/about" target="_blank" rel="noopener noreferrer">Unlock My Free Access →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="final">
+  <div class="wrap">
+    <div class="eyebrow">That’s It</div>
+    <h2>Add It To Your Calendar. Reply YES. Fill Out The Form. Then Join Capital Mastery.</h2>
+    <p class="sub">
+      Watch your inbox and text messages for reminders and the final webinar link.
+    </p>
+    <div class="disclaimer">
+      Revenue examples are historical case studies and are not guarantees of future results.
+    </div>
+  </div>
+</section>
+
+<footer>NRD Capital Group • Credit • Capital • Business</footer>
+
+<script>
+/* ===== PAGE SETTINGS ===== */
+const WEBINAR_TITLE = "Automated Credit Repair & Funding Business Training";
+const WEBINAR_START = "2026-09-08T19:00:00-04:00";
+const WEBINAR_DURATION_MINUTES = 90;
+const WEBINAR_JOIN_URL = "";
+const NEXT_PAGE_URL = "";
+const WEBINAR_DESCRIPTION = "Free live training with Nathan Delgado on building an automated credit repair and funding business.";
+
+/* Friendly date */
+function formatDateText(){
+  const d = new Date(WEBINAR_START);
+  const date = d.toLocaleDateString(undefined,{weekday:"long",month:"long",day:"numeric",year:"numeric"});
+  const time = d.toLocaleTimeString(undefined,{hour:"numeric",minute:"2-digit"});
+  return `${date} at ${time}`;
+}
+document.getElementById("calendarDateText").textContent = `${formatDateText()} • Live Online`;
+document.getElementById("privateEventLink").textContent = WEBINAR_JOIN_URL || "Your private webinar link will appear here.";
+
+/* Countdown */
+function updateCountdown(){
+  const now = Date.now();
+  const target = new Date(WEBINAR_START).getTime();
+  let distance = Math.max(0,target-now);
+
+  const days = Math.floor(distance/(1000*60*60*24));
+  const hours = Math.floor((distance%(1000*60*60*24))/(1000*60*60));
+  const minutes = Math.floor((distance%(1000*60*60))/(1000*60));
+  const seconds = Math.floor((distance%(1000*60))/1000);
+
+  document.getElementById("days").textContent=String(days).padStart(2,"0");
+  document.getElementById("hours").textContent=String(hours).padStart(2,"0");
+  document.getElementById("minutes").textContent=String(minutes).padStart(2,"0");
+  document.getElementById("seconds").textContent=String(seconds).padStart(2,"0");
+}
+updateCountdown();
+setInterval(updateCountdown,1000);
+
+/* Calendar helpers */
+function toUTCCompact(date){
+  return new Date(date).toISOString().replace(/[-:]/g,"").replace(/\.\d{3}Z$/,"Z");
+}
+function getEventTimes(){
+  const start=new Date(WEBINAR_START);
+  const end=new Date(start.getTime()+WEBINAR_DURATION_MINUTES*60000);
+  return {start,end};
+}
+function buildGoogleCalendarUrl(){
+  const {start,end}=getEventTimes();
+  const params=new URLSearchParams({
+    action:"TEMPLATE",
+    text:WEBINAR_TITLE,
+    dates:`${toUTCCompact(start)}/${toUTCCompact(end)}`,
+    details:WEBINAR_JOIN_URL ? `${WEBINAR_DESCRIPTION}\n\nJoin here: ${WEBINAR_JOIN_URL}` : WEBINAR_DESCRIPTION,
+    location:WEBINAR_JOIN_URL || "Online / Zoom"
+  });
+  return `https://calendar.google.com/calendar/render?${params.toString()}`;
+}
+function buildOutlookCalendarUrl(){
+  const {start,end}=getEventTimes();
+  const params=new URLSearchParams({
+    path:"/calendar/action/compose",
+    rru:"addevent",
+    subject:WEBINAR_TITLE,
+    startdt:start.toISOString(),
+    enddt:end.toISOString(),
+    body:WEBINAR_JOIN_URL ? `${WEBINAR_DESCRIPTION}\n\nJoin here: ${WEBINAR_JOIN_URL}` : WEBINAR_DESCRIPTION,
+    location:WEBINAR_JOIN_URL || "Online / Zoom"
+  });
+  return `https://outlook.live.com/calendar/0/deeplink/compose?${params.toString()}`;
+}
+function downloadICS(){
+  const {start,end}=getEventTimes();
+  const ics=[
+    "BEGIN:VCALENDAR",
+    "VERSION:2.0",
+    "PRODID:-//NRD Capital Group//Webinar//EN",
+    "CALSCALE:GREGORIAN",
+    "BEGIN:VEVENT",
+    `UID:${Date.now()}@nrdcapitalgroup.com`,
+    `DTSTAMP:${toUTCCompact(new Date())}`,
+    `DTSTART:${toUTCCompact(start)}`,
+    `DTEND:${toUTCCompact(end)}`,
+    `SUMMARY:${WEBINAR_TITLE}`,
+    `DESCRIPTION:${(WEBINAR_JOIN_URL ? WEBINAR_DESCRIPTION + "\\n\\nJoin here: " + WEBINAR_JOIN_URL : WEBINAR_DESCRIPTION).replace(/\n/g,"\\n")}`,
+    `LOCATION:${WEBINAR_JOIN_URL || "Online / Zoom"}`,
+    "END:VEVENT",
+    "END:VCALENDAR"
+  ].join("\r\n");
+  const blob=new Blob([ics],{type:"text/calendar;charset=utf-8"});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement("a");
+  a.href=url;
+  a.download="nrd-credit-funding-webinar.ics";
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+}
+document.getElementById("googleCalendarBtn").href=buildGoogleCalendarUrl();
+document.getElementById("outlookCalendarBtn").href=buildOutlookCalendarUrl();
+document.getElementById("appleCalendarBtn").addEventListener("click",downloadICS);
+
+/* Copy private link */
+document.getElementById("copyLinkBtn").addEventListener("click",async function(){
+  if(!WEBINAR_JOIN_URL){
+    alert("Add your webinar / Zoom URL in PAGE SETTINGS first.");
+    return;
+  }
+  try{
+    await navigator.clipboard.writeText(WEBINAR_JOIN_URL);
+    this.textContent="Copied!";
+    setTimeout(()=>this.textContent="Copy Private Event Link",1800);
+  }catch{
+    alert(WEBINAR_JOIN_URL);
+  }
+});
+
+/* Qualification form */
+document.getElementById("qualifierForm").addEventListener("submit",function(e){
+  e.preventDefault();
+  if(NEXT_PAGE_URL){
+    window.location.href=NEXT_PAGE_URL;
+  }else{
+    alert("Prototype: connect this form to GoHighLevel and save the contact fields/tags.");
+  }
+});
+</script>
+
+</body>
+</html>
