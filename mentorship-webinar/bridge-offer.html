@@ -1,11 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#051220">
 <title>Credit Repair Business Starter Kit | NRD Capital Group</title>
-<meta name="description" content="Optional $27 starter kit plus a $97 done-for-you credit repair option for webinar registrants.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Poppins:wght@700;800&display=swap">
 <style>
@@ -23,14 +16,18 @@
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{
-  margin:0;
-  color:var(--text);
-  font-family:'Inter',-apple-system,'Segoe UI',sans-serif;
+body{ margin:0; background:var(--bg); }
+
+/* Painted directly on this wrapper (not just body) with !important:
+   page builders like GHL often load their own theme CSS after this
+   snippet's <style>, which can silently override a plain body{background}. */
+.bridge-wrap{
   background:
     radial-gradient(circle at 12% 0%,rgba(47,94,255,.16),transparent 28%),
     radial-gradient(circle at 92% 10%,rgba(47,94,255,.12),transparent 26%),
-    linear-gradient(180deg,#051220,#071a2d 55%,#051220);
+    linear-gradient(180deg,#051220,#071a2d 55%,#051220) var(--bg) !important;
+  color:var(--text);
+  font-family:'Inter',-apple-system,'Segoe UI',sans-serif;
 }
 a{text-decoration:none;color:inherit}
 .wrap{width:min(var(--max),calc(100% - 28px));margin:auto}
@@ -280,9 +277,8 @@ footer{
   footer{justify-content:center;text-align:center}
 }
 </style>
-</head>
-<body>
 
+<div class="bridge-wrap">
 <header>
   <div class="wrap nav">
     <img class="brand-logo" src="https://assets.cdn.filesafe.space/Z0FH6J2DZ0Q87jlwjT13/media/6a21a31fc6d915cec1d4a817.png" alt="NRD Capital Group">
@@ -435,6 +431,4 @@ footer{
     <a href="tel:+16303497032">+1 (630) 349-7032</a>
   </div>
 </footer>
-
-</body>
-</html>
+</div>
