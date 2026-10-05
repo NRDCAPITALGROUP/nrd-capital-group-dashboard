@@ -1,0 +1,1964 @@
+<title>Credit Funding Webinar</title>
+<style>
+  :root{
+    --bg: #051220;
+    --bg-raised: #101e37;
+    --bg-raised-2: #17284d;
+    --border: rgba(255,255,255,0.09);
+    --text-primary: #ffffff;
+    --text-secondary: #c8cede;
+    --text-tertiary: #838aa0;
+    --accent-blue: #2f5eff;
+    --accent-blue-dark: #1c3fd6;
+    --accent-gold: #f4b400;
+    --accent-green: #00b67a;
+  }
+
+  *{box-sizing:border-box;}
+
+  body{
+    background: var(--bg);
+  }
+
+  /* Painted directly on this wrapper (not just body) with !important:
+     page builders like GHL often load their own theme CSS after this
+     snippet's <style>, which can silently override a plain body{background}. */
+  .funnel-wrap{
+    background: var(--bg) !important;
+    color: var(--text-primary);
+    font-family: 'Inter', -apple-system, 'Segoe UI', sans-serif;
+    padding-left: 20px;
+    padding-right: 20px;
+    overflow-x: hidden;
+  }
+
+  .page{
+    max-width: 780px;
+    margin: 0 auto;
+    padding-block: 40px 60px;
+  }
+
+  /* sticky logo nav */
+  .top-nav{
+    position: sticky;
+    top: env(safe-area-inset-top, 0px);
+    z-index: 50;
+    margin: 0 -20px;
+    padding: 14px clamp(20px, 6vw, 100px);
+    background: #030c1e;
+    border-bottom: 1px solid rgba(255,255,255,0.14);
+    box-shadow: 0 1px 0 rgba(255,255,255,0.03);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .top-logo{
+    height: 84px;
+    width: auto;
+    display: block;
+  }
+  .top-nav-cta{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #5378ff, var(--accent-blue));
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    font-weight: 800;
+    font-size: 0.85rem;
+    padding: 10px 22px;
+    border-radius: 999px;
+    text-decoration: none;
+    white-space: nowrap;
+    box-shadow: 0 8px 20px -8px rgba(47,94,255,0.65);
+  }
+  .top-nav-cta:hover{ filter: brightness(1.08); }
+
+  /* top bar */
+  .eyebrow-bar{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:14px;
+    margin: 0 -20px 44px;
+    padding: 18px 20px;
+    background: #000;
+    border-bottom: 1px solid rgba(255,255,255,0.14);
+  }
+  .live-dot{
+    width:16px;height:16px;border-radius:50%;
+    background: var(--accent-green);
+    box-shadow: 0 0 0 0 rgba(0,182,122,0.6);
+    animation: pulse 2s infinite;
+    flex-shrink:0;
+  }
+  @keyframes pulse{
+    0%{ box-shadow: 0 0 0 0 rgba(0,182,122,0.55); }
+    70%{ box-shadow: 0 0 0 10px rgba(0,182,122,0); }
+    100%{ box-shadow: 0 0 0 0 rgba(0,182,122,0); }
+  }
+  .eyebrow-text{
+    font-family: 'Oswald', 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: clamp(1.15rem, 3.6vw, 1.7rem);
+    letter-spacing: 0.015em;
+    text-transform: uppercase;
+    color: var(--accent-gold);
+    white-space: nowrap;
+  }
+
+  /* hero copy */
+  .hero{
+    position: relative;
+    text-align: center;
+  }
+  .hero::before{
+    content: "";
+    position: absolute;
+    top: 0;
+    right: -160px;
+    width: 640px;
+    height: 640px;
+    background: radial-gradient(circle, rgba(47,94,255,0.55) 0%, rgba(47,94,255,0.22) 42%, rgba(47,94,255,0) 72%);
+    filter: blur(20px);
+    pointer-events: none;
+    z-index: -1;
+  }
+  .hero-badge{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--accent-blue);
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    font-weight: 800;
+    font-size: 0.92rem;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    padding: 13px 30px;
+    border-radius: 999px;
+    margin: 0 0 34px;
+    box-shadow: 0 8px 22px -8px rgba(47,94,255,0.65);
+  }
+
+  .headline{
+    font-family: 'Poppins', 'Inter', sans-serif;
+    font-weight: 800;
+    font-size: clamp(2rem, 5.8vw, 3.3rem);
+    line-height: 1.16;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+    color: var(--text-primary);
+    margin: 0 0 34px;
+  }
+  .headline .accent{ color: var(--accent-blue); }
+
+  .subtext{
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: clamp(1.02rem, 2.3vw, 1.2rem);
+    line-height: 1.6;
+    color: var(--text-secondary);
+    max-width: 640px;
+    margin: 0 auto 42px;
+  }
+
+  .cta-row{
+    display:flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    justify-content:center;
+    margin-bottom: 18px;
+  }
+
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    text-decoration:none;
+    cursor:pointer;
+    border-radius: 10px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    transition: transform 0.15s ease, filter 0.15s ease;
+  }
+  .btn:hover{ filter: brightness(1.08); }
+  .btn:focus-visible{ outline: 2px solid var(--accent-gold); outline-offset: 2px; }
+  .btn:active{ transform: scale(0.98); }
+
+  .btn-primary{
+    background: var(--accent-blue);
+    color: #fff;
+    padding: 16px 26px;
+    font-size: 1rem;
+    box-shadow: 0 10px 26px -10px rgba(47,94,255,0.7);
+    flex: 1 1 260px;
+    max-width: 320px;
+  }
+  .btn-secondary{
+    background: transparent;
+    color: var(--text-primary);
+    border: 1.5px solid rgba(255,255,255,0.35);
+    padding: 16px 26px;
+    font-size: 1rem;
+    flex: 1 1 220px;
+    max-width: 280px;
+  }
+  .btn-secondary:hover{ background: var(--bg-raised); filter:none; }
+
+  .disclaimer{
+    font-size: 0.8rem;
+    font-style: italic;
+    color: var(--text-tertiary);
+    margin: 0 0 40px;
+  }
+
+  /* video mock */
+  .video-mock{
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    background: #fff;
+    margin-bottom: 44px;
+    box-shadow: 0 24px 60px -24px rgba(0,0,0,0.7);
+  }
+  .video-frame{
+    position: relative;
+    aspect-ratio: 16/10;
+    background: linear-gradient(160deg, #f4f1ff, #ffffff 55%);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .sound-pill{
+    position:absolute;
+    top:14px; left:14px;
+    display:flex;
+    align-items:center;
+    gap:6px;
+    background: rgba(20,20,26,0.72);
+    color:#fff;
+    border:none;
+    padding: 8px 14px;
+    border-radius: 999px;
+    font-family:'Inter',sans-serif;
+    font-size: 0.82rem;
+    font-weight:600;
+    cursor:pointer;
+  }
+  .play-btn{
+    width: 68px; height: 68px;
+    border-radius:50%;
+    border:none;
+    background: rgba(20,20,26,0.85);
+    color:#fff;
+    font-size: 1.3rem;
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+    padding-left: 4px;
+  }
+  .video-caption-wrap{
+    position:absolute;
+    bottom: 46px;
+    left:0; right:0;
+    text-align:center;
+    padding: 0 24px;
+  }
+  .video-caption{
+    display:inline-block;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: clamp(0.7rem, 2vw, 0.85rem);
+    letter-spacing: 0.02em;
+    color: var(--accent-gold);
+    background: rgba(20,20,26,0.7);
+    padding: 6px 12px;
+    border-radius: 6px;
+    margin:0;
+  }
+  .video-controls{
+    position:absolute;
+    bottom:0; left:0; right:0;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding: 10px 14px;
+    background: linear-gradient(0deg, rgba(0,0,0,0.55), rgba(0,0,0,0));
+  }
+  .ctrl-icon{
+    background:none; border:none; color:#fff; font-size:0.95rem; cursor:pointer;
+    display:flex; align-items:center; justify-content:center; padding:2px;
+  }
+  .progress-track{
+    flex:1;
+    height:4px;
+    background: rgba(255,255,255,0.35);
+    border-radius: 999px;
+    overflow:hidden;
+  }
+  .progress-fill{
+    width: 38%;
+    height:100%;
+    background:#fff;
+    border-radius:999px;
+  }
+  .hd-badge{
+    font-size:0.68rem;
+    font-weight:700;
+    color:#fff;
+    border:1px solid rgba(255,255,255,0.6);
+    border-radius:3px;
+    padding:1px 4px;
+  }
+
+  /* urgency block */
+  .urgency-block{
+    background: transparent;
+    padding: 0;
+  }
+  .class-label{
+    font-family:'Inter', sans-serif;
+    font-size:0.85rem;
+    font-weight:700;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color: var(--text-primary);
+    margin: 0 0 10px;
+  }
+  .class-date{
+    font-family:'Poppins', sans-serif;
+    font-weight:700;
+    font-size: clamp(1.15rem, 3.4vw, 1.5rem);
+    color: var(--text-primary);
+    margin: 0 0 26px;
+  }
+
+  .countdown{
+    display:flex;
+    justify-content:center;
+    gap: clamp(18px, 5vw, 40px);
+    margin-bottom: 26px;
+  }
+  .cd-unit{ display:flex; flex-direction:column; align-items:center; min-width: 70px; }
+  .cd-num{
+    font-family:'Poppins', sans-serif;
+    font-weight:800;
+    font-size: clamp(2.2rem, 7.5vw, 3.6rem);
+    color: var(--accent-blue);
+    font-variant-numeric: tabular-nums;
+    line-height:1;
+  }
+  .cd-label{
+    font-family:'Inter', sans-serif;
+    font-size:0.78rem;
+    color: var(--text-primary);
+    text-transform:lowercase;
+    letter-spacing:0.02em;
+    margin-top:8px;
+  }
+
+  .btn-cta{
+    width:100%;
+    max-width: 500px;
+    margin: 0 auto 20px;
+    flex-direction: column;
+    gap: 3px;
+    padding: 18px 20px;
+    background: var(--accent-blue);
+    box-shadow: 0 10px 26px -10px rgba(47,94,255,0.7);
+  }
+  .cta-main{ font-size: 1.1rem; font-weight:800; color:#fff; }
+  .cta-sub{ font-size: 0.8rem; font-weight:500; color: rgba(255,255,255,0.88); }
+
+  .limited{
+    font-family:'Inter', sans-serif;
+    font-size: 0.92rem;
+    font-weight:700;
+    color: var(--text-primary);
+    margin: 0 0 28px;
+  }
+
+  .trust{
+    display:flex;
+    flex-direction: column;
+    align-items:center;
+    gap: 8px;
+  }
+  .trust-line{
+    display:flex;
+    align-items:center;
+    gap: 8px;
+  }
+  .trust-star{ color: var(--accent-green); font-size:1.15rem; }
+  .trust-name{ font-weight:700; font-size:0.95rem; color: var(--text-primary); }
+  .trust-count{ font-size:0.85rem; color: var(--text-tertiary); }
+  .badges{ display:flex; gap:6px; margin-top:2px; }
+  .badge{
+    width: 26px; height: 26px;
+    background: var(--accent-green);
+    border-radius: 4px;
+    display:flex; align-items:center; justify-content:center;
+    color:#fff;
+    font-size: 0.85rem;
+  }
+
+  /* credit bureau trust strip */
+  .brand-strip{
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    margin-top: 26px;
+    padding: 16px 0;
+    background: var(--bg-raised-2);
+    border-top: 1px solid rgba(79,120,255,0.3);
+    border-bottom: 1px solid rgba(79,120,255,0.3);
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 min(160px, 20%), #000 calc(100% - min(160px, 20%)), transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 min(160px, 20%), #000 calc(100% - min(160px, 20%)), transparent);
+  }
+  .brand-track{
+    display: flex;
+    align-items: center;
+    gap: 48px;
+    width: max-content;
+    animation: brand-scroll 20s linear infinite;
+  }
+  .brand-item{
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+    font-size: 1.15rem;
+  }
+  .brand-equifax{ font-style: italic; font-weight: 800; color: #ff5c5b; }
+  .brand-smartcredit{ font-weight: 800; color: #7b9cff; }
+  .brand-smartcredit .dot{ font-size: 0.6rem; color: #7b9cff; }
+  .brand-transunion{ font-weight: 800; color: var(--text-primary); }
+  .brand-transunion .dot{ color: #00d68f; font-size: 0.7rem; }
+  .brand-experian{ font-weight: 800; color: var(--text-primary); }
+  .brand-experian .dots{ color: #b98bff; letter-spacing: -1px; font-size: 0.85rem; }
+  .brand-item sup{ font-size: 0.6rem; }
+
+  @keyframes brand-scroll{
+    from{ transform: translateX(0); }
+    to{ transform: translateX(-25%); }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .brand-track{ animation: none; }
+  }
+
+  /* stat cards */
+  .stats-row{
+    display:flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin: 48px 0 0;
+  }
+  .stat-card{
+    flex: 1 1 220px;
+    background: linear-gradient(180deg, rgba(47,94,255,0.14), var(--bg-raised) 60%);
+    border: 1px solid rgba(79,120,255,0.45);
+    border-radius: 16px;
+    padding: 28px 22px;
+    text-align:center;
+    box-shadow: 0 0 0 1px rgba(47,94,255,0.08) inset, 0 14px 34px -18px rgba(47,94,255,0.55);
+  }
+  .stat-num{
+    font-family:'Poppins', sans-serif;
+    font-weight:800;
+    font-size: clamp(1.25rem, 3.4vw, 1.55rem);
+    color: var(--text-primary);
+    text-shadow: 0 0 22px rgba(255,255,255,0.28);
+    margin: 0 0 10px;
+  }
+  .stat-caption{
+    font-family:'Inter', sans-serif;
+    font-size: 0.85rem;
+    color: var(--text-tertiary);
+    margin: 0;
+  }
+
+  @media (max-width: 480px){
+    .btn-primary, .btn-secondary{ flex-basis: 100%; max-width: none; }
+    .countdown{ gap: 20px; }
+
+    /* mobile-only hero header: left-aligned, outlined badge, blue-highlighted phrase */
+    .hero-badge{
+      display: flex;
+      width: fit-content;
+      background: transparent;
+      border: 1.5px solid rgba(79,120,255,0.55);
+      color: var(--accent-blue);
+      font-weight: 700;
+      font-size: 0.7rem;
+      padding: 9px 18px;
+      box-shadow: none;
+      margin: 0 0 22px;
+    }
+    .headline{
+      text-align: left;
+      margin: 0 0 20px;
+    }
+    .accent-mobile{ color: var(--accent-blue); }
+    .subtext{
+      text-align: left;
+      font-style: normal;
+      font-weight: 400;
+      font-size: 0.94rem;
+      margin: 0 0 28px;
+    }
+  }
+
+  /* proof section */
+  .proof-section{
+    color: var(--text-primary);
+    margin: 0 -20px;
+    padding: 72px 20px;
+    text-align: center;
+  }
+  .proof-eyebrow{
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 0.8rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent-blue);
+    margin: 0 0 14px;
+  }
+  .proof-heading{
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    font-size: clamp(1.8rem, 4.2vw, 2.4rem);
+    line-height: 1.2;
+    color: var(--text-primary);
+    text-wrap: balance;
+    max-width: 900px;
+    margin: 0 auto 18px;
+  }
+  .proof-subtext{
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(0.98rem, 2.1vw, 1.08rem);
+    line-height: 1.6;
+    color: var(--text-secondary);
+    max-width: 620px;
+    margin: 0 auto 40px;
+  }
+  .proof-frame{
+    display:block;
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 12px;
+    background: #0b0f1c;
+    border: 2px solid rgba(140,170,255,0.65);
+    border-radius: 20px;
+    box-shadow: 0 24px 50px -20px rgba(0,0,0,0.35), 0 0 0 1px rgba(47,94,255,0.1) inset, 0 0 32px -8px rgba(47,94,255,0.35);
+  }
+  .proof-frame img{
+    display:block;
+    width: 100%;
+    border-radius: 12px;
+  }
+  .proof-frame--phone{
+    max-width: 340px;
+  }
+
+  .proof-info-card{
+    max-width: 880px;
+    margin: 48px auto 0;
+    background: var(--bg-raised-2);
+    border: 1.5px solid rgba(79,120,255,0.35);
+    border-radius: 16px;
+    padding: 30px 28px;
+    text-align: left;
+    box-shadow: 0 12px 28px -18px rgba(47,94,255,0.4);
+  }
+  .proof-info-eyebrow{
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 0.74rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent-blue);
+    margin: 0 0 10px;
+  }
+  .proof-info-heading{
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    font-size: 1.35rem;
+    color: var(--text-primary);
+    margin: 0 0 16px;
+  }
+  .proof-info-card p{
+    font-family: 'Inter', sans-serif;
+    font-size: 0.92rem;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    margin: 0 0 14px;
+  }
+  .proof-info-card p:last-child{ margin-bottom: 0; }
+
+  /* what you'll learn */
+  .learn-section{
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 72px 0;
+    text-align: center;
+  }
+  .learn-eyebrow{
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 0.8rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent-blue);
+    margin: 0 0 14px;
+  }
+  .learn-heading{
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    font-size: clamp(1.8rem, 5vw, 2.7rem);
+    line-height: 1.15;
+    color: var(--text-primary);
+    text-wrap: balance;
+    margin: 0 0 18px;
+  }
+  .learn-subtext{
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(0.98rem, 2.1vw, 1.08rem);
+    line-height: 1.6;
+    color: var(--text-secondary);
+    max-width: 760px;
+    margin: 0 auto 44px;
+  }
+  .learn-grid{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    text-align: center;
+  }
+  .learn-card{
+    background: var(--bg-raised);
+    border: 1.5px solid rgba(79,120,255,0.35);
+    border-radius: 14px;
+    padding: 30px 26px;
+    box-shadow: 0 12px 28px -18px rgba(47,94,255,0.4);
+  }
+  .learn-card h3{
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 1.15rem;
+    color: var(--text-primary);
+    line-height: 1.3;
+    margin: 0 0 14px;
+  }
+  .learn-card p{
+    font-family: 'Inter', sans-serif;
+    font-size: 0.92rem;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    margin: 0;
+  }
+
+  @media (max-width: 860px){
+    .learn-grid{ grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 560px){
+    .learn-grid{ grid-template-columns: 1fr; }
+  }
+
+  /* backend opportunity */
+  .backend-section{
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 72px 0;
+  }
+  .backend-card{
+    background: linear-gradient(180deg, rgba(47,94,255,0.12), var(--bg-raised) 65%);
+    border: 1.5px solid rgba(79,120,255,0.4);
+    border-radius: 18px;
+    padding: clamp(20px, 3.4vw, 32px);
+    box-shadow: 0 0 0 1px rgba(47,94,255,0.06) inset;
+    text-align: left;
+  }
+  .backend-eyebrow{
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 0.74rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent-blue);
+    margin: 0 0 10px;
+  }
+  .backend-heading{
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    font-size: clamp(1.25rem, 2.6vw, 1.6rem);
+    line-height: 1.25;
+    color: var(--text-primary);
+    text-wrap: balance;
+    margin: 0 0 12px;
+  }
+  .backend-subtext{
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(0.86rem, 1.5vw, 0.94rem);
+    line-height: 1.6;
+    color: var(--text-secondary);
+    max-width: 700px;
+    margin: 0 0 22px;
+  }
+  .backend-stats{
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .backend-stat{
+    flex: 1 1 160px;
+    background: var(--bg-raised-2);
+    border: 1.5px solid rgba(79,120,255,0.4);
+    border-radius: 12px;
+    padding: 16px 14px;
+    text-align:center;
+    box-shadow: 0 10px 24px -16px rgba(47,94,255,0.4);
+  }
+  .backend-op{
+    flex: 0 0 auto;
+    width: 100%;
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    font-size: 1.5rem;
+    color: var(--text-tertiary);
+  }
+  @media (min-width: 640px){
+    .backend-op{ width: auto; }
+  }
+  .backend-stat-num{
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    font-size: clamp(1.5rem, 3.2vw, 1.9rem);
+    color: var(--text-primary);
+    margin: 0 0 6px;
+  }
+  .backend-stat-caption{
+    font-family: 'Inter', sans-serif;
+    font-size: 0.76rem;
+    color: var(--text-tertiary);
+    margin: 0;
+  }
+
+  /* how the business runs (cards stay put, highlight cycles) */
+  .runs-section{
+    margin: 0 -20px;
+    padding: 72px 20px;
+    text-align: center;
+  }
+  .runs-inner{
+    max-width: 1120px;
+    margin: 0 auto;
+  }
+  .runs-eyebrow{
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 0.8rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent-blue);
+    margin: 0 0 14px;
+  }
+  .runs-heading{
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    font-size: clamp(1.7rem, 4.6vw, 2.5rem);
+    line-height: 1.15;
+    color: var(--text-primary);
+    text-wrap: balance;
+    margin: 0 0 16px;
+  }
+  .runs-subtext{
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(0.95rem, 2vw, 1.05rem);
+    line-height: 1.6;
+    color: var(--text-secondary);
+    max-width: 620px;
+    margin: 0 auto 40px;
+  }
+
+  .runs-grid{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+  }
+  .runs-card{
+    background: var(--bg-raised-2);
+    border: 1.5px solid rgba(79,120,255,0.35);
+    border-radius: 16px;
+    padding: 26px 22px;
+    text-align: left;
+    box-shadow: 0 12px 28px -18px rgba(47,94,255,0.4);
+    animation: runs-pulse 8s ease-in-out infinite;
+  }
+  .runs-badge{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width: 34px;
+    height: 34px;
+    border-radius: 9px;
+    background: var(--accent-blue);
+    color: #fff;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    font-size: 0.95rem;
+    margin: 0 0 16px;
+  }
+  .runs-card h3{
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--text-primary);
+    line-height: 1.3;
+    margin: 0 0 10px;
+  }
+  .runs-card p{
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    line-height: 1.55;
+    color: var(--text-secondary);
+    margin: 0;
+  }
+
+  @keyframes runs-pulse{
+    0%, 15%, 40%, 100%{
+      background: var(--bg-raised-2);
+      border-color: rgba(79,120,255,0.35);
+      box-shadow: none;
+    }
+    22%{
+      background: #1b2f5c;
+      border-color: rgba(90,140,255,0.75);
+      box-shadow: 0 0 30px 6px rgba(59,130,246,0.4), 0 0 0 1px rgba(59,130,246,0.2) inset;
+    }
+  }
+
+  @media (max-width: 860px){
+    .runs-grid{ grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 560px){
+    .runs-grid{ grid-template-columns: 1fr; }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .runs-card{ animation: none; }
+  }
+
+  /* meet your host (photo left, fading into content right) */
+  .host-section{
+    margin: 0 -20px;
+    padding: 0 20px;
+  }
+  .host-split{
+    position: relative;
+    display: flex;
+    align-items: stretch;
+    min-height: 640px;
+    background: #060708;
+    border-radius: 20px;
+    overflow: hidden;
+  }
+  .host-photo-col{
+    position: relative;
+    flex: 1 1 46%;
+    background-image: url('https://assets.cdn.filesafe.space/Z0FH6J2DZ0Q87jlwjT13/media/6a45c93edc5f2c22a2a1af30.jpeg');
+    background-size: cover;
+    background-position: center 78%;
+  }
+  .host-photo-col::after{
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(6,7,8,0) 55%, #060708 100%);
+  }
+  .host-content-col{
+    flex: 1 1 54%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+    padding: clamp(28px, 4vw, 56px);
+  }
+  .host-pill{
+    display: inline-flex;
+    align-self: flex-start;
+    align-items: center;
+    background: rgba(47,94,255,0.12);
+    border: 1px solid rgba(79,120,255,0.5);
+    color: var(--accent-blue);
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 9px 18px;
+    border-radius: 999px;
+  }
+  .host-subheading{
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: clamp(1.05rem, 2vw, 1.25rem);
+    line-height: 1.35;
+    color: var(--text-primary);
+    text-wrap: balance;
+    margin: 0;
+    max-width: 560px;
+  }
+  .host-bio{
+    font-family: 'Inter', sans-serif;
+    font-size: 0.96rem;
+    line-height: 1.65;
+    color: var(--text-secondary);
+    margin: 0;
+    max-width: 560px;
+  }
+  .host-stats{
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  .host-stat{
+    flex: 1 1 140px;
+    background: linear-gradient(180deg, rgba(47,94,255,0.16), var(--bg-raised) 65%);
+    border: 1.5px solid rgba(79,120,255,0.4);
+    border-radius: 14px;
+    padding: 18px 16px;
+  }
+  .host-stat-num{
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    font-size: clamp(1.3rem, 2.4vw, 1.6rem);
+    color: var(--accent-blue);
+    margin: 0 0 4px;
+  }
+  .host-stat-label{
+    font-family: 'Inter', sans-serif;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    margin: 0;
+  }
+  @media (max-width: 860px){
+    .host-split{ flex-direction: column; min-height: 0; }
+    .host-photo-col{ flex-basis: 320px; }
+    .host-photo-col::after{ background: linear-gradient(0deg, #060708 4%, rgba(6,7,8,0) 55%); }
+  }
+
+  /* who this is for */
+  .fit-section{
+    margin: 0 -20px;
+    padding: 72px 20px;
+    text-align: center;
+  }
+  .fit-inner{
+    max-width: 1120px;
+    margin: 0 auto;
+  }
+  .fit-eyebrow{
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 0.8rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent-blue);
+    margin: 0 0 14px;
+  }
+  .fit-heading{
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    font-size: clamp(1.9rem, 5vw, 2.7rem);
+    color: var(--text-primary);
+    text-wrap: balance;
+    margin: 0 0 40px;
+  }
+  .fit-grid{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+    text-align: left;
+  }
+  .fit-card{
+    background: var(--bg-raised-2);
+    border: 1.5px solid rgba(79,120,255,0.35);
+    border-radius: 16px;
+    padding: clamp(24px, 3.4vw, 34px);
+    box-shadow: 0 12px 28px -18px rgba(47,94,255,0.4);
+  }
+  .fit-card h3{
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    font-size: 1.25rem;
+    color: var(--text-primary);
+    margin: 0 0 22px;
+  }
+  .fit-list{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  .fit-list li{
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .fit-icon{
+    flex: 0 0 auto;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 0.72rem;
+    font-weight: 800;
+    margin-top: 2px;
+  }
+  .fit-icon--yes{ background: var(--accent-green); }
+  .fit-icon--no{ background: #b3312f; }
+  .fit-list p{
+    font-family: 'Inter', sans-serif;
+    font-size: 0.94rem;
+    line-height: 1.55;
+    color: var(--text-secondary);
+    margin: 0;
+  }
+
+  @media (max-width: 760px){
+    .fit-grid{ grid-template-columns: 1fr; }
+  }
+
+  /* inside the elite circle */
+  .elite-section{
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 72px 0;
+  }
+  .elite-card{
+    background: linear-gradient(180deg, rgba(47,94,255,0.14), var(--bg-raised) 55%);
+    border: 1.5px solid rgba(79,120,255,0.4);
+    border-radius: 22px;
+    padding: clamp(24px, 4vw, 40px);
+    text-align: center;
+  }
+  .elite-eyebrow{
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 0.78rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent-blue);
+    margin: 0 0 14px;
+  }
+  .elite-heading{
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    font-size: clamp(1.5rem, 3.6vw, 2.2rem);
+    line-height: 1.2;
+    color: var(--text-primary);
+    text-wrap: balance;
+    margin: 0 0 14px;
+  }
+  .elite-subtext{
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(0.9rem, 1.8vw, 1rem);
+    line-height: 1.55;
+    color: var(--text-secondary);
+    max-width: 680px;
+    margin: 0 auto 32px;
+  }
+  .elite-rows{
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    text-align: left;
+    margin-bottom: 32px;
+  }
+  .elite-row{
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+    background: var(--bg-raised-2);
+    border: 1.5px solid rgba(79,120,255,0.35);
+    border-radius: 16px;
+    padding: 20px 22px;
+    box-shadow: 0 12px 28px -18px rgba(47,94,255,0.4);
+  }
+  .elite-num{
+    flex: 0 0 auto;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: var(--accent-blue);
+    color: #fff;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .elite-row h3{
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: var(--text-primary);
+    margin: 0 0 6px;
+  }
+  .elite-row p{
+    font-family: 'Inter', sans-serif;
+    font-size: 0.86rem;
+    line-height: 1.5;
+    color: var(--text-secondary);
+    margin: 0;
+  }
+  .elite-cta{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: var(--accent-blue);
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    font-weight: 800;
+    font-size: 0.98rem;
+    padding: 15px 30px;
+    border-radius: 999px;
+    text-decoration: none;
+    box-shadow: 0 10px 26px -10px rgba(47,94,255,0.7);
+  }
+  .elite-cta:hover{ filter: brightness(1.08); }
+
+  /* faq */
+  .faq-section{
+    margin: 0 -20px;
+    padding: 72px 20px;
+    text-align: center;
+  }
+  .faq-inner{
+    max-width: 760px;
+    margin: 0 auto;
+  }
+  .faq-eyebrow{
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 0.78rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent-blue);
+    margin: 0 0 14px;
+  }
+  .faq-heading{
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    font-size: clamp(1.8rem, 4.6vw, 2.5rem);
+    color: var(--text-primary);
+    text-wrap: balance;
+    margin: 0 0 36px;
+  }
+  .faq-list{
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    text-align: left;
+  }
+  .faq-item{
+    background: var(--bg-raised-2);
+    border: 1.5px solid rgba(79,120,255,0.35);
+    border-radius: 14px;
+    padding: 22px 24px;
+    box-shadow: 0 12px 28px -18px rgba(47,94,255,0.4);
+  }
+  .faq-item h3{
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--text-primary);
+    margin: 0 0 8px;
+  }
+  .faq-item p{
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    line-height: 1.55;
+    color: var(--text-secondary);
+    margin: 0;
+  }
+
+  /* closing cta */
+  .closer-section{
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 72px 0;
+  }
+  .closer-card{
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 56px 32px;
+    text-align: center;
+    background: linear-gradient(180deg, rgba(47,94,255,0.14), var(--bg-raised) 60%);
+    border: 1.5px solid rgba(79,120,255,0.4);
+    border-radius: 22px;
+    box-shadow: 0 0 0 1px rgba(47,94,255,0.06) inset, 0 20px 44px -20px rgba(47,94,255,0.4);
+  }
+  .closer-eyebrow{
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 0.8rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent-blue);
+    margin: 0 0 16px;
+  }
+  .closer-heading{
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    font-size: clamp(1.9rem, 5vw, 2.9rem);
+    line-height: 1.2;
+    color: var(--text-primary);
+    text-wrap: balance;
+    margin: 0 0 18px;
+  }
+  .closer-subtext{
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(0.98rem, 2vw, 1.1rem);
+    color: var(--text-secondary);
+    margin: 0 0 36px;
+  }
+  .closer-cta{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: linear-gradient(135deg, #5378ff, var(--accent-blue));
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    font-weight: 800;
+    font-size: 1.05rem;
+    padding: 18px 34px;
+    border-radius: 999px;
+    text-decoration: none;
+    box-shadow: 0 12px 30px -10px rgba(47,94,255,0.7);
+    margin-bottom: 30px;
+  }
+  .closer-cta:hover{ filter: brightness(1.08); }
+  .closer-disclaimer{
+    font-family: 'Inter', sans-serif;
+    font-size: 0.78rem;
+    line-height: 1.6;
+    color: var(--text-tertiary);
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  /* footer */
+  .footer-section{
+    margin: 0 -20px;
+    padding: 20px clamp(20px, 6vw, 100px);
+    background: #030c1e;
+    border-top: 1px solid rgba(255,255,255,0.07);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 18px;
+  }
+  .footer-logo{
+    height: 88px;
+    width: auto;
+    border-radius: 6px;
+    display: block;
+  }
+  .footer-contact{
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+  .footer-contact a{
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    color: var(--text-primary);
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 0.92rem;
+    text-decoration: none;
+  }
+  .footer-contact svg{
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 560px){
+    .footer-section{ justify-content: center; text-align: center; }
+    .footer-contact{ justify-content: center; }
+  }
+
+  /* register popup modal */
+  .reg-modal-overlay{
+    position: fixed;
+    inset: 0;
+    background: rgba(2,6,15,0.82);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.25s ease;
+  }
+  .reg-modal-overlay.is-open{
+    opacity: 1;
+    visibility: visible;
+  }
+  .reg-modal{
+    position: relative;
+    width: 100%;
+    max-width: 460px;
+    max-height: 90vh;
+    background: var(--bg-raised-2);
+    border: 1.5px solid rgba(79,120,255,0.45);
+    border-radius: 18px;
+    box-shadow: 0 30px 70px -20px rgba(0,0,0,0.6), 0 0 40px -10px rgba(47,94,255,0.4);
+    padding: 8px;
+    transform: translateY(16px) scale(0.98);
+    transition: transform 0.25s ease;
+    overflow: hidden;
+  }
+  .reg-modal-overlay.is-open .reg-modal{
+    transform: translateY(0) scale(1);
+  }
+  .reg-modal-close{
+    position: absolute;
+    top: -14px;
+    right: -14px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #0d1424;
+    border: 1.5px solid rgba(79,120,255,0.45);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.1rem;
+    line-height: 1;
+    z-index: 2;
+  }
+  .reg-modal iframe{
+    width: 100%;
+    height: 555px;
+    max-height: 80vh;
+    border: none;
+    border-radius: 12px;
+    display: block;
+  }
+  @media (max-width: 560px){
+    .reg-modal{ max-width: 100%; }
+    .reg-modal iframe{ height: 70vh; }
+  }
+
+  /* scroll reveal */
+  .reveal{
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.in-view{
+    opacity: 1;
+    transform: translateY(0);
+  }
+  @media (prefers-reduced-motion: reduce){
+    .reveal{ opacity: 1; transform: none; transition: none; }
+  }
+</style>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Poppins:wght@700;800&family=Oswald:wght@700&display=swap">
+
+<div class="funnel-wrap" style="background:#051220;">
+<div class="top-nav">
+  <img class="top-logo" src="https://assets.cdn.filesafe.space/Z0FH6J2DZ0Q87jlwjT13/media/6a21a31fc6d915cec1d4a817.png" alt="NRD Capital Group">
+  <a class="top-nav-cta" href="#register">Register Free</a>
+</div>
+<div class="page">
+  <main class="hero">
+    <span class="hero-badge">Free Live Training</span>
+    <h1 class="headline">How I Built A <span class="accent">$30K+/Month</span> <span class="accent-mobile">Automated Credit Repair &amp; Funding Business</span> In Less Than 90 Days</h1>
+
+    <p class="subtext">I'll show you the business model behind the growth: recurring revenue, automation, VAs, client onboarding, credit repair, and how I monetize qualified clients through funding on the backend.</p>
+
+    <div class="cta-row">
+      <a class="btn btn-primary" href="#register">Register For The Free Training</a>
+      <a class="btn btn-secondary" href="#learn">See What You'll Learn</a>
+    </div>
+
+    <p class="disclaimer">Historical results are not guarantees of future performance.</p>
+
+    <div class="video-mock">
+      <div class="video-frame">
+        <button class="sound-pill" id="soundBtn">🔇 Enable sound</button>
+        <button class="play-btn" id="playBtn" aria-label="Play video">▶</button>
+        <div class="video-caption-wrap">
+          <p class="video-caption">IS THAT MOST PEOPLE WERE TAUGHT TO ONLY USE THEIR OWN MONEY</p>
+        </div>
+        <div class="video-controls">
+          <button class="ctrl-icon" aria-label="Pause">⏸</button>
+          <div class="progress-track"><div class="progress-fill"></div></div>
+          <span class="hd-badge">HD</span>
+          <button class="ctrl-icon" aria-label="Fullscreen">⤢</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="urgency-block">
+      <p class="class-label">Class Starts:</p>
+      <p class="class-date" id="classDate">—</p>
+
+      <div class="countdown">
+        <div class="cd-unit"><span class="cd-num" id="cdHours">00</span><span class="cd-label">hours</span></div>
+        <div class="cd-unit"><span class="cd-num" id="cdMin">00</span><span class="cd-label">minutes</span></div>
+        <div class="cd-unit"><span class="cd-num" id="cdSec">00</span><span class="cd-label">seconds</span></div>
+      </div>
+
+      <a class="btn btn-cta" href="#register">
+        <span class="cta-main">Yes, I Am Ready To Learn!</span>
+        <span class="cta-sub">Secure Your Seat For The Class</span>
+      </a>
+
+      <p class="limited">Live training. Limited attendance available.</p>
+
+      <div class="trust">
+        <div class="trust-line">
+          <span class="trust-star">★</span>
+          <span class="trust-name">Trustpilot</span>
+        </div>
+        <span class="trust-count">440+ Verified Trustpilot Reviews</span>
+        <div class="badges">
+          <span class="badge">★</span>
+          <span class="badge">★</span>
+          <span class="badge">★</span>
+          <span class="badge">★</span>
+          <span class="badge">★</span>
+        </div>
+      </div>
+
+      <div class="brand-strip">
+        <div class="brand-track">
+          <span class="brand-item brand-equifax">EQUIFAX</span>
+          <span class="brand-item brand-smartcredit">smartcredit <span class="dot">○</span></span>
+          <span class="brand-item brand-transunion"><span class="dot">●</span> TransUnion</span>
+          <span class="brand-item brand-experian"><span class="dots">::</span> experian <sup>™</sup></span>
+          <span class="brand-item brand-equifax">EQUIFAX</span>
+          <span class="brand-item brand-smartcredit">smartcredit <span class="dot">○</span></span>
+          <span class="brand-item brand-transunion"><span class="dot">●</span> TransUnion</span>
+          <span class="brand-item brand-experian"><span class="dots">::</span> experian <sup>™</sup></span>
+          <span class="brand-item brand-equifax">EQUIFAX</span>
+          <span class="brand-item brand-smartcredit">smartcredit <span class="dot">○</span></span>
+          <span class="brand-item brand-transunion"><span class="dot">●</span> TransUnion</span>
+          <span class="brand-item brand-experian"><span class="dots">::</span> experian <sup>™</sup></span>
+          <span class="brand-item brand-equifax">EQUIFAX</span>
+          <span class="brand-item brand-smartcredit">smartcredit <span class="dot">○</span></span>
+          <span class="brand-item brand-transunion"><span class="dot">●</span> TransUnion</span>
+          <span class="brand-item brand-experian"><span class="dots">::</span> experian <sup>™</sup></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat-card">
+        <p class="stat-num">$30K+/Month</p>
+        <p class="stat-caption">historical credit-repair/community case study</p>
+      </div>
+      <div class="stat-card">
+        <p class="stat-num">&lt; 90 Days</p>
+        <p class="stat-caption">timeframe behind the growth story</p>
+      </div>
+      <div class="stat-card">
+        <p class="stat-num">Credit → Funding</p>
+        <p class="stat-caption">front-end service with backend monetization</p>
+      </div>
+    </div>
+  </main>
+</div>
+
+<section class="proof-section">
+  <p class="proof-eyebrow">Skool Proof</p>
+  <h2 class="proof-heading">Proof Of The Recurring Revenue Model</h2>
+  <p class="proof-subtext">This is the Skool community that supports the case study. It shows the recurring model behind the business, not just a one-time offer.</p>
+  <div class="proof-frame proof-frame--phone">
+    <img src="https://assets.cdn.filesafe.space/Z0FH6J2DZ0Q87jlwjT13/media/6aab736642c38177da7cdc41.png" alt="NRD Capital Group Inner Circle Skool community page">
+  </div>
+</section>
+
+<section class="learn-section">
+  <p class="learn-eyebrow">What You'll Learn</p>
+  <h2 class="learn-heading">The Business Model Behind The Numbers</h2>
+  <p class="learn-subtext">The training is simple: I'm showing you how the business works, how I removed myself from day-to-day fulfillment, how I use AI and social media to generate and convert attention, and how I created more than one way to monetize the same client.</p>
+
+  <div class="learn-grid">
+    <div class="learn-card">
+      <h3>Why MRR Changes The Business</h3>
+      <p>Why monthly recurring revenue matters, how it gives you a more predictable base, and why I stopped relying only on constantly finding the next one-time sale.</p>
+    </div>
+    <div class="learn-card">
+      <h3>$97/Month vs. $1,000 Credit Repair</h3>
+      <p>How I think about a $97/month recurring credit offer compared with a $1,000 high-ticket offer, and when each model makes sense.</p>
+    </div>
+    <div class="learn-card">
+      <h3>How I Automated The Business</h3>
+      <p>How automations and VAs handle onboarding, follow-up, client support, and backend credit-repair operations so I am not doing everything myself.</p>
+    </div>
+    <div class="learn-card">
+      <h3>How I Monetize Funding On The Backend</h3>
+      <p>How I help clients improve their credit profile toward 700+, then identify qualified funding opportunities that can create backend revenue.</p>
+    </div>
+    <div class="learn-card">
+      <h3>How The Whole Model Works Together</h3>
+      <p>Recurring revenue on the front end, premium offers for the right clients, automation in the middle, and funding on the backend.</p>
+    </div>
+    <div class="learn-card">
+      <h3>How I Use AI To Close In My DMs</h3>
+      <p>How I use AI-assisted DM follow-up to respond faster, qualify conversations, move leads toward the right offer, and reduce the amount of manual back-and-forth.</p>
+    </div>
+    <div class="learn-card">
+      <h3>How I Grew From 6K To 27K+ Followers</h3>
+      <p>My social-media growth strategy behind going from roughly 6,000 Instagram followers to more than 27,000 in under 60 days, including the content and consistency principles I used to grow attention and generate leads.</p>
+    </div>
+    <div class="learn-card">
+      <h3>How I Structure The Client Ascension Path</h3>
+      <p>How I move clients from the $97/month entry offer into premium credit repair, and then into backend funding, without it ever feeling like a hard pitch.</p>
+    </div>
+    <div class="learn-card">
+      <h3>How I Build Trust Before I Ever Pitch</h3>
+      <p>How I use content and DM conversations to build trust first, so by the time someone books a call they're already sold on working with me.</p>
+    </div>
+  </div>
+</section>
+
+<section class="proof-section">
+  <p class="proof-eyebrow">Social Proof</p>
+  <h2 class="proof-heading">How I Grew From 6,000 To 27,000+ Followers In Less Than 60 Days</h2>
+  <p class="proof-subtext">I'll also break down the social-media strategy I used to grow attention, turn content into inbound leads, and use AI inside my DMs to help follow up and move conversations toward the right offer.</p>
+
+  <div class="proof-frame proof-frame--phone">
+    <img src="https://assets.cdn.filesafe.space/Z0FH6J2DZ0Q87jlwjT13/media/6aab736637639ce00cb22755.jpeg" alt="Instagram profile of officialnathandelgado showing 27.3K followers">
+  </div>
+
+  <div class="proof-info-card">
+    <p class="proof-info-eyebrow">Instagram Growth Case Study</p>
+    <h3 class="proof-info-heading">Attention → Conversations → Clients</h3>
+    <p>The goal is not just to grow followers. It is to build an audience around credit, funding, real estate, and business — then create a system that turns that attention into leads.</p>
+    <p>On the webinar, I'll show how I approached content, consistency, positioning, and AI-assisted DM follow-up so social media became part of the client-acquisition engine.</p>
+  </div>
+</section>
+
+<section class="backend-section">
+  <div class="backend-card">
+    <p class="backend-eyebrow">The Backend Opportunity</p>
+    <h2 class="backend-heading">One Qualified Funding Client Can Change The Economics Of The Relationship</h2>
+    <p class="backend-subtext">Here's a simple illustrative example of why adding funding to the backend can matter.</p>
+    <div class="backend-stats">
+      <div class="backend-stat">
+        <p class="backend-stat-num">$100,000</p>
+        <p class="backend-stat-caption">example funded amount</p>
+      </div>
+      <span class="backend-op">×</span>
+      <div class="backend-stat">
+        <p class="backend-stat-num">10%</p>
+        <p class="backend-stat-caption">example fee</p>
+      </div>
+      <span class="backend-op">=</span>
+      <div class="backend-stat">
+        <p class="backend-stat-num">$10,000</p>
+        <p class="backend-stat-caption">example gross fee</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="runs-section">
+ <div class="runs-inner">
+  <p class="runs-eyebrow">How The Business Runs</p>
+  <h2 class="runs-heading">You Don't Have To Do Everything Yourself</h2>
+  <p class="runs-subtext">The whole point of the model is to stop building yourself another job.</p>
+
+  <div class="runs-grid">
+    <div class="runs-card" style="animation-delay:0s">
+      <span class="runs-badge">1</span>
+      <h3>Lead Comes In</h3>
+      <p>Ads, content, referrals, or webinars.</p>
+    </div>
+    <div class="runs-card" style="animation-delay:2s">
+      <span class="runs-badge">2</span>
+      <h3>Automation Onboards</h3>
+      <p>Forms, reminders, documents, monitoring, follow-up.</p>
+    </div>
+    <div class="runs-card" style="animation-delay:4s">
+      <span class="runs-badge">3</span>
+      <h3>VAs Handle Operations</h3>
+      <p>Client support, onboarding, and backend workflows.</p>
+    </div>
+    <div class="runs-card" style="animation-delay:6s">
+      <span class="runs-badge">4</span>
+      <h3>Funding Creates Backend Revenue</h3>
+      <p>Qualified clients can move into funding.</p>
+    </div>
+  </div>
+ </div>
+</section>
+
+<section class="host-section">
+  <div class="host-split">
+    <div class="host-photo-col"></div>
+    <div class="host-content-col">
+      <span class="host-pill">Who Is Nathan Delgado?</span>
+      <h3 class="host-subheading">Less Than 12 Months Ago, Nathan Left A Six-Figure Dealership Job To Go All In.</h3>
+      <p class="host-bio">In the last 90 days, he scaled his Skool-based credit-repair business past $30,000/month using recurring revenue, automations, VAs, ads, funnels, and a funding backend.</p>
+      <p class="host-bio">On this webinar, he breaks down the actual model behind the growth — how the business runs, how clients are served, and how credit repair can lead into funding opportunities.</p>
+      <div class="host-stats">
+        <div class="host-stat">
+          <p class="host-stat-num">$30K+</p>
+          <p class="host-stat-label">Monthly revenue</p>
+        </div>
+        <div class="host-stat">
+          <p class="host-stat-num">500+</p>
+          <p class="host-stat-label">Entrepreneurs supported</p>
+        </div>
+        <div class="host-stat">
+          <p class="host-stat-num">27.3K+</p>
+          <p class="host-stat-label">Instagram followers</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="fit-section">
+ <div class="fit-inner">
+  <p class="fit-eyebrow">Who This Is For</p>
+  <h2 class="fit-heading">Is This Training A Fit For You?</h2>
+
+  <div class="fit-grid">
+    <div class="fit-card">
+      <h3>This Is For You If...</h3>
+      <ul class="fit-list">
+        <li>
+          <span class="fit-icon fit-icon--yes">✓</span>
+          <p>You already own a credit repair business but want monthly recurring revenue.</p>
+        </li>
+        <li>
+          <span class="fit-icon fit-icon--yes">✓</span>
+          <p>You do credit repair but do not have funding on the backend.</p>
+        </li>
+        <li>
+          <span class="fit-icon fit-icon--yes">✓</span>
+          <p>You already do funding but lose clients because their credit is not ready.</p>
+        </li>
+        <li>
+          <span class="fit-icon fit-icon--yes">✓</span>
+          <p>You are a Realtor or mortgage professional who regularly meets clients with credit issues.</p>
+        </li>
+        <li>
+          <span class="fit-icon fit-icon--yes">✓</span>
+          <p>You are starting from scratch and want a clear credit + funding business model.</p>
+        </li>
+      </ul>
+    </div>
+
+    <div class="fit-card">
+      <h3>This Is Not For You If...</h3>
+      <ul class="fit-list">
+        <li>
+          <span class="fit-icon fit-icon--no">✕</span>
+          <p>You are looking for guaranteed income or a "push-button" business.</p>
+        </li>
+        <li>
+          <span class="fit-icon fit-icon--no">✕</span>
+          <p>You do not want to market, sell, follow up, or work with clients.</p>
+        </li>
+        <li>
+          <span class="fit-icon fit-icon--no">✕</span>
+          <p>You expect VAs and automations to replace leadership and good service.</p>
+        </li>
+        <li>
+          <span class="fit-icon fit-icon--no">✕</span>
+          <p>You are only looking for a quick-money opportunity instead of building a real business.</p>
+        </li>
+      </ul>
+    </div>
+  </div>
+ </div>
+</section>
+
+<section class="elite-section">
+  <div class="elite-card">
+    <p class="elite-eyebrow">Inside The Elite Circle</p>
+    <h2 class="elite-heading">The Webinar Shows You The Model. Elite Circle Helps You Build It.</h2>
+    <p class="elite-subtext">If you want help implementing the business, this is where our team helps install the systems, support, and backend infrastructure with you.</p>
+
+    <div class="elite-rows">
+      <div class="elite-row">
+        <span class="elite-num">01</span>
+        <div>
+          <h3>CRM Systems + Automations Built Out</h3>
+          <p>Funnels, pipelines, workflows, SMS, email, follow-up, reminders, and lead routing built around your business.</p>
+        </div>
+      </div>
+      <div class="elite-row">
+        <span class="elite-num">02</span>
+        <div>
+          <h3>VA Placement + Team Support</h3>
+          <p>Help placing VAs for onboarding, follow-up, client success, and day-to-day operations.</p>
+        </div>
+      </div>
+      <div class="elite-row">
+        <span class="elite-num">03</span>
+        <div>
+          <h3>Client Onboarding Systems</h3>
+          <p>Forms, agreements, monitoring setup, document collection, reminders, and a clean onboarding flow for every client.</p>
+        </div>
+      </div>
+      <div class="elite-row">
+        <span class="elite-num">04</span>
+        <div>
+          <h3>Ad Account Setup</h3>
+          <p>Meta Business Manager, tracking, campaign structure, and the foundational setup needed to start running paid traffic.</p>
+        </div>
+      </div>
+      <div class="elite-row">
+        <span class="elite-num">05</span>
+        <div>
+          <h3>Backend Dispute Fulfillment</h3>
+          <p>You stay focused on being the face of the company while the backend handles the dispute work instead of you doing every file yourself.</p>
+        </div>
+      </div>
+      <div class="elite-row">
+        <span class="elite-num">06</span>
+        <div>
+          <h3>Money Broker Partnership</h3>
+          <p>Partner with NRD Capital Group on qualified funding deals and earn backend commissions when funded clients close.</p>
+        </div>
+      </div>
+    </div>
+
+    <a class="elite-cta" href="#register">Register For The Webinar First →</a>
+  </div>
+</section>
+
+<section class="faq-section">
+ <div class="faq-inner">
+  <p class="faq-eyebrow">FAQ</p>
+  <h2 class="faq-heading">Before You Register</h2>
+
+  <div class="faq-list">
+    <div class="faq-item">
+      <h3>Do I need experience?</h3>
+      <p>No. The training is designed to make sense whether you are starting from scratch or already operate in credit, funding, real estate, or lending.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Do I have to personally do disputes?</h3>
+      <p>No. The model shows how VAs, systems, and backend fulfillment can remove a large amount of the repetitive work from your plate.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Is $30K/month guaranteed?</h3>
+      <p>No. The $30K+/month figure is a historical case study. Results depend on execution, marketing, sales, operations, market conditions, and other factors.</p>
+    </div>
+  </div>
+ </div>
+</section>
+
+<section class="closer-section">
+  <div class="closer-card">
+    <p class="closer-eyebrow">Free Training</p>
+    <h2 class="closer-heading">See The Model Behind A $30K+/Month Automated Credit Repair &amp; Funding Business</h2>
+    <p class="closer-subtext">Recurring revenue. Automation. VAs. Credit repair. Funding. One simple business ecosystem.</p>
+
+    <a class="closer-cta" href="#register">Register For The Free Training →</a>
+
+    <p class="closer-disclaimer">Revenue figures are historical examples, not guarantees. The $100,000 / 10% / $10,000 example is illustrative and assumes a 10% fee. Actual approvals, fees, eligibility, and compensation vary. Credit repair and funding activities may be subject to federal and state laws and regulations.</p>
+  </div>
+</section>
+
+<footer class="footer-section">
+  <img class="footer-logo" src="https://assets.cdn.filesafe.space/Z0FH6J2DZ0Q87jlwjT13/media/6a21a31fc6d915cec1d4a817.png" alt="NRD Capital Group">
+  <div class="footer-contact">
+    <a href="mailto:info@nrdcapitalgroup.com">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="5" width="18" height="14" rx="2"/>
+        <path d="M3.5 6.5 12 13 20.5 6.5"/>
+      </svg>
+      info@nrdcapitalgroup.com
+    </a>
+    <a href="tel:+16303497032">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4.5 4.5 H8.5 L10.5 9 L8 11 C9 13.5 10.5 15 13 16 L15 13.5 L19.5 15.5 V19.5 C19.5 20.6 18.6 21.5 17.5 21.5 C10 21 3 14 2.5 6.5 C2.5 5.4 3.4 4.5 4.5 4.5 Z"/>
+      </svg>
+      +1 (630) 349-7032
+    </a>
+  </div>
+</footer>
+
+<div class="reg-modal-overlay" id="regModalOverlay">
+  <div class="reg-modal">
+    <button type="button" class="reg-modal-close" id="regModalClose" aria-label="Close">&times;</button>
+    <iframe
+      src="https://link.nrdcapitalgroup.com/widget/form/qgA7HdeaaKNzDzWKMopp"
+      style="width:100%;height:100%;border:none;border-radius:4px"
+      id="inline-qgA7HdeaaKNzDzWKMopp"
+      data-layout="{'id':'INLINE'}"
+      data-trigger-type="alwaysShow"
+      data-trigger-value=""
+      data-activation-type="alwaysActivated"
+      data-activation-value=""
+      data-deactivation-type="neverDeactivate"
+      data-deactivation-value=""
+      data-form-name="Webinar Mentorship Registration"
+      data-height="555"
+      data-layout-iframe-id="inline-qgA7HdeaaKNzDzWKMopp"
+      data-form-id="qgA7HdeaaKNzDzWKMopp"
+      data-cookie-consent="true"
+      data-cookie-consent-provider="auto"
+      title="Webinar Mentorship Registration">
+    </iframe>
+  </div>
+</div>
+
+</div>
+
+<script src="https://link.nrdcapitalgroup.com/js/form_embed.js"></script>
+<script>
+(function(){
+  // Class time is fixed at 7PM Eastern Standard Time (UTC-5, no DST adjustment) to keep the countdown simple and predictable.
+  function nextThursday7pmEST(){
+    var nowUTC = new Date();
+    var estWallClock = new Date(nowUTC.getTime() - 5 * 3600 * 1000);
+    var day = estWallClock.getUTCDay();
+    var daysUntilThursday = (4 - day + 7) % 7;
+    var candidate = new Date(Date.UTC(
+      estWallClock.getUTCFullYear(),
+      estWallClock.getUTCMonth(),
+      estWallClock.getUTCDate() + daysUntilThursday,
+      19, 0, 0
+    ));
+    var candidateRealUTC = new Date(candidate.getTime() + 5 * 3600 * 1000);
+    if (candidateRealUTC.getTime() <= nowUTC.getTime()){
+      candidateRealUTC = new Date(candidateRealUTC.getTime() + 7 * 24 * 3600 * 1000);
+    }
+    return candidateRealUTC;
+  }
+
+  var target = nextThursday7pmEST();
+
+  var dateLabel = document.getElementById('classDate');
+  try{
+    dateLabel.textContent = target.toLocaleString('en-US', {
+      timeZone: 'America/New_York',
+      weekday: 'long', month: 'long', day: 'numeric', year: 'numeric',
+      hour: 'numeric', minute: '2-digit'
+    }) + ' EST';
+  }catch(e){
+    dateLabel.textContent = 'Thursday, 7:00 PM EST';
+  }
+
+  var hoursEl = document.getElementById('cdHours');
+  var minEl = document.getElementById('cdMin');
+  var secEl = document.getElementById('cdSec');
+
+  function pad(n){ return String(n).padStart(2, '0'); }
+
+  function tick(){
+    var diff = target.getTime() - Date.now();
+    if (diff < 0) diff = 0;
+    var totalSeconds = Math.floor(diff / 1000);
+    var hours = Math.floor(totalSeconds / 3600);
+    var minutes = Math.floor((totalSeconds % 3600) / 60);
+    var seconds = totalSeconds % 60;
+    hoursEl.textContent = pad(hours);
+    minEl.textContent = pad(minutes);
+    secEl.textContent = pad(seconds);
+  }
+
+  tick();
+  setInterval(tick, 1000);
+
+  var soundBtn = document.getElementById('soundBtn');
+  var playBtn = document.getElementById('playBtn');
+  soundBtn.addEventListener('click', function(){
+    var muted = soundBtn.textContent.indexOf('🔇') === 0;
+    soundBtn.textContent = muted ? '🔊 Sound on' : '🔇 Enable sound';
+  });
+  playBtn.addEventListener('click', function(){
+    playBtn.hidden = true;
+  });
+
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!reduceMotion){
+    var cardSelectors = '.stat-card, .proof-frame, .proof-info-card, .learn-card, .backend-card, .backend-stat, .runs-card, .host-split, .host-stat, .fit-card, .elite-card, .elite-row, .faq-item, .closer-card';
+    var sectionEls = document.querySelectorAll('.funnel-wrap > section, .funnel-wrap > footer');
+    sectionEls.forEach(function(sec){ sec.classList.add('reveal'); });
+
+    var cardEls = document.querySelectorAll(cardSelectors);
+    cardEls.forEach(function(el){
+      el.classList.add('reveal');
+      var parent = el.parentElement;
+      var idx = parent ? Array.prototype.indexOf.call(parent.children, el) : 0;
+      el.style.transitionDelay = (Math.min(idx, 5) * 0.08) + 's';
+    });
+
+    var revealEls = document.querySelectorAll('.reveal');
+    if ('IntersectionObserver' in window){
+      var observer = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+          if (entry.isIntersecting){
+            entry.target.classList.add('in-view');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+      revealEls.forEach(function(el){ observer.observe(el); });
+    } else {
+      revealEls.forEach(function(el){ el.classList.add('in-view'); });
+    }
+  }
+
+  var regOverlay = document.getElementById('regModalOverlay');
+  var regClose = document.getElementById('regModalClose');
+  var regTriggers = document.querySelectorAll('a[href="#register"]');
+  function openRegModal(e){
+    if (e) e.preventDefault();
+    regOverlay.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeRegModal(){
+    regOverlay.classList.remove('is-open');
+    document.body.style.overflow = '';
+  }
+  regTriggers.forEach(function(el){ el.addEventListener('click', openRegModal); });
+  regClose.addEventListener('click', closeRegModal);
+  regOverlay.addEventListener('click', function(e){
+    if (e.target === regOverlay) closeRegModal();
+  });
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape') closeRegModal();
+  });
+})();
+</script>
