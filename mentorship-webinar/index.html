@@ -126,20 +126,21 @@
     z-index: -1;
   }
   .hero-badge{
-    display: inline-flex;
+    display: flex;
+    width: fit-content;
     align-items: center;
     justify-content: center;
-    background: var(--accent-blue);
-    color: #fff;
+    background: transparent;
+    border: 1.5px solid rgba(79,120,255,0.55);
+    color: var(--accent-blue);
     font-family: 'Inter', sans-serif;
     font-weight: 800;
-    font-size: 0.92rem;
+    font-size: 0.8rem;
     letter-spacing: 0.03em;
     text-transform: uppercase;
-    padding: 13px 30px;
+    padding: 11px 24px;
     border-radius: 999px;
-    margin: 0 0 34px;
-    box-shadow: 0 8px 22px -8px rgba(47,94,255,0.65);
+    margin: 0 0 30px;
   }
 
   .headline{
@@ -150,9 +151,11 @@
     letter-spacing: -0.01em;
     text-wrap: balance;
     color: var(--text-primary);
+    text-align: left;
     margin: 0 0 34px;
   }
   .headline .accent{ color: var(--accent-blue); }
+  .headline .accent-mobile{ color: var(--accent-blue); }
 
   .subtext{
     font-family: 'Inter', sans-serif;
@@ -162,7 +165,8 @@
     line-height: 1.6;
     color: var(--text-secondary);
     max-width: 640px;
-    margin: 0 auto 42px;
+    text-align: left;
+    margin: 0 0 42px;
   }
 
   .cta-row{
@@ -487,28 +491,14 @@
     .btn-primary, .btn-secondary{ flex-basis: 100%; max-width: none; }
     .countdown{ gap: 20px; }
 
-    /* mobile-only hero header: left-aligned, outlined badge, blue-highlighted phrase */
+    /* smaller hero header sizing at phone widths (alignment/colors are now the default everywhere) */
     .hero-badge{
-      display: flex;
-      width: fit-content;
-      background: transparent;
-      border: 1.5px solid rgba(79,120,255,0.55);
-      color: var(--accent-blue);
-      font-weight: 700;
       font-size: 0.7rem;
       padding: 9px 18px;
-      box-shadow: none;
       margin: 0 0 22px;
     }
-    .headline{
-      text-align: left;
-      margin: 0 0 20px;
-    }
-    .accent-mobile{ color: var(--accent-blue); }
+    .headline{ margin: 0 0 20px; }
     .subtext{
-      text-align: left;
-      font-style: normal;
-      font-weight: 400;
       font-size: 0.94rem;
       margin: 0 0 28px;
     }
