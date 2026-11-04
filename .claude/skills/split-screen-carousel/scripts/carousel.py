@@ -14,6 +14,8 @@ import zipfile
 from pathlib import Path
 
 FONT_PATH = '/System/Library/Fonts/HelveticaNeue.ttc'
+FALLBACK_FONTS = ['/usr/share/fonts/opentype/inter/Inter-Bold.otf']
+IMAGE_SUFFIXES = {'.jpg', '.jpeg', '.png', '.heic', '.webp', '.tif', '.tiff'}
 TRACKING = -1.2
 
 
@@ -36,13 +38,23 @@ def font_path(explicit, index):
         idx = index if index is not None else 0
     elif Path(FONT_PATH).is_file():
         path, idx = Path(FONT_PATH), 1 if index is None else index
+    elif any(Path(f).is_file() for f in FALLBACK_FONTS):
+        path, idx = Path(next(f for f in FALLBACK_FONTS if Path(f).is_file())), index or 0
+        print(f'Note: Helvetica Neue unavailable; substituting {path.name}.', file=sys.stderr)
     else:
         raise ValueError('Helvetica Neue unavailable. Select a bold sans-serif with --font and disclose the substitution.')
     font = ImageFont.truetype(str(path), 60, index=idx)
     return font, path, idx
 
 
+def is_still(source):
+    return source.suffix.lower() in IMAGE_SUFFIXES
+
+
 def frame(source, seconds, ffmpeg, cache):
+    if is_still(source):
+        with Image.open(source) as im:
+            return ImageOps.exif_transpose(im).convert('RGB')
     t = float(seconds)
     if not math.isfinite(t) or t < 0:
         raise ValueError(f'Invalid source time: {seconds}')
@@ -142,10 +154,12 @@ def gallery(title, slides):
 def render(args):
     manifest_path = Path(args.manifest).expanduser().resolve()
     data = json.loads(manifest_path.read_text())
-    source = Path(data['source']).expanduser()
-    if not source.is_absolute():
-        source = manifest_path.parent/source
-    source = source.resolve(strict=True)
+    def resolve(value):
+        path = Path(value).expanduser()
+        if not path.is_absolute():
+            path = manifest_path.parent/path
+        return path.resolve(strict=True)
+    source = resolve(data['source']) if data.get('source') else None
     slides = data['slides']
     if not isinstance(slides,list) or not slides:
         raise ValueError('Manifest needs a nonempty slides list.')
@@ -169,7 +183,10 @@ def render(args):
             check_text(font,slide[which]['text'])
             if slide[which].get('crop',data.get('default_crop')) is None:
                 raise ValueError('Select a source crop for every panel before rendering.')
-    ffmpeg = ffmpeg_path(args.ffmpeg)
+            if not (slide[which].get('source') or source):
+                raise ValueError('Every panel needs a source: set a top-level source or a panel source.')
+    panel_sources = [resolve(s[w]['source']) if s[w].get('source') else source for s in slides for w in ('top','bottom')]
+    ffmpeg = None if all(is_still(p) for p in panel_sources) else ffmpeg_path(args.ffmpeg)
     work.mkdir(parents=True,exist_ok=True)
     seen = {}; warnings = []; panels = []; frame_slides = []
     copy = [data.get('title','Carousel'),f'{len(slides)} slides · 1080 × 1440','']
@@ -179,9 +196,11 @@ def render(args):
             output = Image.new('RGB',(1080,1440)); frame_slide={'slide':number}
             copy.append(f'SLIDE {number:02d}')
             for which,y in (('top',0),('bottom',720)):
-                panel=slide[which]; t=float(panel['time'])
+                panel=slide[which]
+                psrc=resolve(panel['source']) if panel.get('source') else source
+                t=0.0 if is_still(psrc) else float(panel['time'])
                 crop=panel.get('crop',data.get('default_crop'))
-                raw=frame(source,t,ffmpeg,work/'frame-cache')
+                raw=frame(psrc,t,ffmpeg,work/'frame-cache')
                 photo=crop_image(raw,crop)
                 digest=hashlib.sha256(raw.tobytes()).hexdigest()
                 label=f'{number:02d} {which}'
@@ -190,9 +209,9 @@ def render(args):
                 seen[digest]=label
                 rendered,widths=render_panel(photo,panel['text'],font,alpha)
                 output.paste(rendered,(0,y))
-                panels.append({'slide':number,'panel':which,'source_seconds':t,'crop':crop,
+                panels.append({'slide':number,'panel':which,'source':str(psrc),'source_seconds':t,'crop':crop,
                                'line_widths':[round(w,2) for w in widths],'source_frame_sha256':digest})
-                frame_slide[which]={'time':t,'crop':crop,'text':panel['text']}
+                frame_slide[which]={'source':str(psrc),'time':t,'crop':crop,'text':panel['text']}
                 copy.append(which.upper()+': '+panel['text'].replace('\n',' '))
             frame_slides.append(frame_slide); copy.append('')
             output.save(stage/'slides'/f'{number:02d}.jpg',quality=97,subsampling=0)
@@ -211,7 +230,7 @@ def render(args):
         overview(paths,stage/'preview.jpg',small)
         (stage/'index.html').write_text(gallery(data.get('title','Carousel'),slides))
         (stage/'slide-copy.txt').write_text('\n'.join(copy))
-        provenance={'title':data.get('title','Carousel'),'source':str(source),
+        provenance={'title':data.get('title','Carousel'),'source':str(source) if source else None,
                     'frame_match':data['frame_match'],'frame_note':data['frame_note'],
                     'font':{'file':str(fp),'index':fi,'name':font.getname(),'size':60},
                     'shade_alpha':alpha,'slides':frame_slides}
@@ -233,7 +252,7 @@ def scout(args):
     out=Path(args.out).expanduser().resolve()
     if out.exists():
         raise ValueError(f'Scout directory already exists: {out}')
-    ffmpeg=ffmpeg_path(args.ffmpeg); out.mkdir(parents=True)
+    ffmpeg=None if is_still(source) else ffmpeg_path(args.ffmpeg); out.mkdir(parents=True)
     thumbs=[]
     for number,t in enumerate(times,1):
         im=frame(source,t,ffmpeg,out/'frame-cache')
@@ -263,9 +282,9 @@ def main():
     p.add_argument('--work',required=True); p.add_argument('--ffmpeg')
     p.add_argument('--font'); p.add_argument('--font-index',type=int)
     args=parser.parse_args()
-    global Image,ImageDraw,ImageFont,ImageFilter
+    global Image,ImageDraw,ImageFont,ImageFilter,ImageOps
     try:
-        from PIL import Image,ImageDraw,ImageFont,ImageFilter
+        from PIL import Image,ImageDraw,ImageFont,ImageFilter,ImageOps
     except ImportError:
         parser.error('Pillow is required. Run with the workspace Python or install Pillow into an isolated runtime.')
     try:

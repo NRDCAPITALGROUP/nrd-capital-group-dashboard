@@ -4,7 +4,7 @@ The helper renders the layout. Codex supplies the copy, timestamps, and crops af
 
 ## Runtime
 
-Python needs Pillow. FFmpeg is resolved from `--ffmpeg`, `PATH`, or an installed `imageio_ffmpeg` package. Use the app's workspace dependency tool if default Python lacks Pillow. Helvetica Neue on macOS defaults to `/System/Library/Fonts/HelveticaNeue.ttc`, index 1 (Bold). Override `--font` and `--font-index` when needed. `--help` works without Pillow.
+Python needs Pillow. FFmpeg is resolved from `--ffmpeg`, `PATH`, or an installed `imageio_ffmpeg` package. Use the app's workspace dependency tool if default Python lacks Pillow. Helvetica Neue on macOS defaults to `/System/Library/Fonts/HelveticaNeue.ttc`, index 1 (Bold). Override `--font` and `--font-index` when needed. Without Helvetica Neue, the script falls back to Inter Bold if installed and prints a substitution note. `--help` works without Pillow.
 
 Replace `SKILL_DIR` below with this skill's actual directory. Source paths in a manifest are relative to that manifest unless absolute.
 
@@ -50,6 +50,7 @@ These crop values illustrate the schema for a portrait 2160 × 3840 source. **Ch
 - `default_crop`: `[left, top, width, height]`; each panel's `crop` overrides it. Every rendered panel needs a crop.
 - `time`: nonnegative source seconds; decimals allowed.
 - `text`: manual `\n` breaks, maximum two nonempty lines. Rebreak or shorten lines over 996 px; do not automatically reduce the type size.
+- `source` (per panel, optional): overrides the top-level `source`. It can be a still photo (`.jpg`, `.png`, `.heic`, …) instead of a video; stills ignore `time`, honor EXIF rotation, and need no FFmpeg. Use this for photoshoot carousels. The top-level `source` may be omitted when every panel names its own.
 - `shade_alpha`: optional maximum opacity, default 100 out of 255. Around 58 suits dark clothing; 100 suits the grey-shirt reference. Review the subtle gradient visually.
 
 ## Render
