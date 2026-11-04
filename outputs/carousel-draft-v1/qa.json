@@ -1,0 +1,295 @@
+{
+  "size": [
+    1080,
+    1440
+  ],
+  "slide_count": 8,
+  "panels": [
+    {
+      "slide": 1,
+      "panel": "top",
+      "source": "/tmp/claude-0/-home-user-nrd-capital-group-dashboard/5a984f1a-92c3-569c-9c94-48f7fc8978e8/scratchpad/draft/bg/p0.png",
+      "source_seconds": 0.0,
+      "crop": [
+        0,
+        0,
+        1500,
+        1000
+      ],
+      "line_widths": [
+        683.86,
+        316.95
+      ],
+      "source_frame_sha256": "5590821f4ade633748ff9957913495a473c0075f991ccbd2a78bf751250dc60e"
+    },
+    {
+      "slide": 1,
+      "panel": "bottom",
+      "source": "/tmp/claude-0/-home-user-nrd-capital-group-dashboard/5a984f1a-92c3-569c-9c94-48f7fc8978e8/scratchpad/draft/bg/p1.png",
+      "source_seconds": 0.0,
+      "crop": [
+        0,
+        0,
+        1500,
+        1000
+      ],
+      "line_widths": [
+        528.05,
+        282.31
+      ],
+      "source_frame_sha256": "70aa267c0109fc3fce5e9ece20923762263c64d2b50399a98588d33fc7d7d6f2"
+    },
+    {
+      "slide": 2,
+      "panel": "top",
+      "source": "/tmp/claude-0/-home-user-nrd-capital-group-dashboard/5a984f1a-92c3-569c-9c94-48f7fc8978e8/scratchpad/draft/bg/p0.png",
+      "source_seconds": 0.0,
+      "crop": [
+        0,
+        0,
+        1500,
+        1000
+      ],
+      "line_widths": [
+        625.37,
+        495.83
+      ],
+      "source_frame_sha256": "5590821f4ade633748ff9957913495a473c0075f991ccbd2a78bf751250dc60e"
+    },
+    {
+      "slide": 2,
+      "panel": "bottom",
+      "source": "/tmp/claude-0/-home-user-nrd-capital-group-dashboard/5a984f1a-92c3-569c-9c94-48f7fc8978e8/scratchpad/draft/bg/p1.png",
+      "source_seconds": 0.0,
+      "crop": [
+        0,
+        0,
+        1500,
+        1000
+      ],
+      "line_widths": [
+        480.68
+      ],
+      "source_frame_sha256": "70aa267c0109fc3fce5e9ece20923762263c64d2b50399a98588d33fc7d7d6f2"
+    },
+    {
+      "slide": 3,
+      "panel": "top",
+      "source": "/tmp/claude-0/-home-user-nrd-capital-group-dashboard/5a984f1a-92c3-569c-9c94-48f7fc8978e8/scratchpad/draft/bg/p0.png",
+      "source_seconds": 0.0,
+      "crop": [
+        0,
+        0,
+        1500,
+        1000
+      ],
+      "line_widths": [
+        585.34,
+        331.34
+      ],
+      "source_frame_sha256": "5590821f4ade633748ff9957913495a473c0075f991ccbd2a78bf751250dc60e"
+    },
+    {
+      "slide": 3,
+      "panel": "bottom",
+      "source": "/tmp/claude-0/-home-user-nrd-capital-group-dashboard/5a984f1a-92c3-569c-9c94-48f7fc8978e8/scratchpad/draft/bg/p1.png",
+      "source_seconds": 0.0,
+      "crop": [
+        0,
+        0,
+        1500,
+        1000
+      ],
+      "line_widths": [
+        585.79
+      ],
+      "source_frame_sha256": "70aa267c0109fc3fce5e9ece20923762263c64d2b50399a98588d33fc7d7d6f2"
+    },
+    {
+      "slide": 4,
+      "panel": "top",
+      "source": "/tmp/claude-0/-home-user-nrd-capital-group-dashboard/5a984f1a-92c3-569c-9c94-48f7fc8978e8/scratchpad/draft/bg/p0.png",
+      "source_seconds": 0.0,
+      "crop": [
+        0,
+        0,
+        1500,
+        1000
+      ],
+      "line_widths": [
+        786.75,
+        367.74
+      ],
+      "source_frame_sha256": "5590821f4ade633748ff9957913495a473c0075f991ccbd2a78bf751250dc60e"
+    },
+    {
+      "slide": 4,
+      "panel": "bottom",
+      "source": "/tmp/claude-0/-home-user-nrd-capital-group-dashboard/5a984f1a-92c3-569c-9c94-48f7fc8978e8/scratchpad/draft/bg/p1.png",
+      "source_seconds": 0.0,
+      "crop": [
+        0,
+        0,
+        1500,
+        1000
+      ],
+      "line_widths": [
+        512.01,
+        609.2
+      ],
+      "source_frame_sha256": "70aa267c0109fc3fce5e9ece20923762263c64d2b50399a98588d33fc7d7d6f2"
+    },
+    {
+      "slide": 5,
+      "panel": "top",
+      "source": "/tmp/claude-0/-home-user-nrd-capital-group-dashboard/5a984f1a-92c3-569c-9c94-48f7fc8978e8/scratchpad/draft/bg/p0.png",
+      "source_seconds": 0.0,
+      "crop": [
+        0,
+        0,
+        1500,
+        1000
+      ],
+      "line_widths": [
+        607.01,
+        508.96
+      ],
+      "source_frame_sha256": "5590821f4ade633748ff9957913495a473c0075f991ccbd2a78bf751250dc60e"
+    },
+    {
+      "slide": 5,
+      "panel": "bottom",
+      "source": "/tmp/claude-0/-home-user-nrd-capital-group-dashboard/5a984f1a-92c3-569c-9c94-48f7fc8978e8/scratchpad/draft/bg/p1.png",
+      "source_seconds": 0.0,
+      "crop": [
+        0,
+        0,
+        1500,
+        1000
+      ],
+      "line_widths": [
+        515.85,
+        431.38
+      ],
+      "source_frame_sha256": "70aa267c0109fc3fce5e9ece20923762263c64d2b50399a98588d33fc7d7d6f2"
+    },
+    {
+      "slide": 6,
+      "panel": "top",
+      "source": "/tmp/claude-0/-home-user-nrd-capital-group-dashboard/5a984f1a-92c3-569c-9c94-48f7fc8978e8/scratchpad/draft/bg/p0.png",
+      "source_seconds": 0.0,
+      "crop": [
+        0,
+        0,
+        1500,
+        1000
+      ],
+      "line_widths": [
+        497.01,
+        466.12
+      ],
+      "source_frame_sha256": "5590821f4ade633748ff9957913495a473c0075f991ccbd2a78bf751250dc60e"
+    },
+    {
+      "slide": 6,
+      "panel": "bottom",
+      "source": "/tmp/claude-0/-home-user-nrd-capital-group-dashboard/5a984f1a-92c3-569c-9c94-48f7fc8978e8/scratchpad/draft/bg/p1.png",
+      "source_seconds": 0.0,
+      "crop": [
+        0,
+        0,
+        1500,
+        1000
+      ],
+      "line_widths": [
+        615.05,
+        591.03
+      ],
+      "source_frame_sha256": "70aa267c0109fc3fce5e9ece20923762263c64d2b50399a98588d33fc7d7d6f2"
+    },
+    {
+      "slide": 7,
+      "panel": "top",
+      "source": "/tmp/claude-0/-home-user-nrd-capital-group-dashboard/5a984f1a-92c3-569c-9c94-48f7fc8978e8/scratchpad/draft/bg/p0.png",
+      "source_seconds": 0.0,
+      "crop": [
+        0,
+        0,
+        1500,
+        1000
+      ],
+      "line_widths": [
+        580.18,
+        503.46
+      ],
+      "source_frame_sha256": "5590821f4ade633748ff9957913495a473c0075f991ccbd2a78bf751250dc60e"
+    },
+    {
+      "slide": 7,
+      "panel": "bottom",
+      "source": "/tmp/claude-0/-home-user-nrd-capital-group-dashboard/5a984f1a-92c3-569c-9c94-48f7fc8978e8/scratchpad/draft/bg/p1.png",
+      "source_seconds": 0.0,
+      "crop": [
+        0,
+        0,
+        1500,
+        1000
+      ],
+      "line_widths": [
+        630.92,
+        507.62
+      ],
+      "source_frame_sha256": "70aa267c0109fc3fce5e9ece20923762263c64d2b50399a98588d33fc7d7d6f2"
+    },
+    {
+      "slide": 8,
+      "panel": "top",
+      "source": "/tmp/claude-0/-home-user-nrd-capital-group-dashboard/5a984f1a-92c3-569c-9c94-48f7fc8978e8/scratchpad/draft/bg/p0.png",
+      "source_seconds": 0.0,
+      "crop": [
+        0,
+        0,
+        1500,
+        1000
+      ],
+      "line_widths": [
+        479.68,
+        355.89
+      ],
+      "source_frame_sha256": "5590821f4ade633748ff9957913495a473c0075f991ccbd2a78bf751250dc60e"
+    },
+    {
+      "slide": 8,
+      "panel": "bottom",
+      "source": "/tmp/claude-0/-home-user-nrd-capital-group-dashboard/5a984f1a-92c3-569c-9c94-48f7fc8978e8/scratchpad/draft/bg/p1.png",
+      "source_seconds": 0.0,
+      "crop": [
+        0,
+        0,
+        1500,
+        1000
+      ],
+      "line_widths": [
+        810.87,
+        733.92
+      ],
+      "source_frame_sha256": "70aa267c0109fc3fce5e9ece20923762263c64d2b50399a98588d33fc7d7d6f2"
+    }
+  ],
+  "warnings": [
+    "02 top repeats the source frame used by 01 top.",
+    "02 bottom repeats the source frame used by 01 bottom.",
+    "03 top repeats the source frame used by 02 top.",
+    "03 bottom repeats the source frame used by 02 bottom.",
+    "04 top repeats the source frame used by 03 top.",
+    "04 bottom repeats the source frame used by 03 bottom.",
+    "05 top repeats the source frame used by 04 top.",
+    "05 bottom repeats the source frame used by 04 bottom.",
+    "06 top repeats the source frame used by 05 top.",
+    "06 bottom repeats the source frame used by 05 bottom.",
+    "07 top repeats the source frame used by 06 top.",
+    "07 bottom repeats the source frame used by 06 bottom.",
+    "08 top repeats the source frame used by 07 top.",
+    "08 bottom repeats the source frame used by 07 bottom."
+  ]
+}

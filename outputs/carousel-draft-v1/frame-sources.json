@@ -1,0 +1,218 @@
+{
+  "title": "Credit dispute carousel — draft v1 (no photos)",
+  "source": null,
+  "frame_match": "illustrative",
+  "frame_note": "Placeholder dark panels; no photos yet. Copy drafted from the founder's own DM wording, not a transcript.",
+  "font": {
+    "file": "/usr/share/fonts/opentype/inter/Inter-Bold.otf",
+    "index": 0,
+    "name": [
+      "Inter",
+      "Bold"
+    ],
+    "size": 60
+  },
+  "shade_alpha": 0,
+  "slides": [
+    {
+      "slide": 1,
+      "top": {
+        "source": "/tmp/claude-0/-home-user-nrd-capital-group-dashboard/5a984f1a-92c3-569c-9c94-48f7fc8978e8/scratchpad/draft/bg/p0.png",
+        "time": 0.0,
+        "crop": [
+          0,
+          0,
+          1500,
+          1000
+        ],
+        "text": "Your dispute came back\n“updated.”"
+      },
+      "bottom": {
+        "source": "/tmp/claude-0/-home-user-nrd-capital-group-dashboard/5a984f1a-92c3-569c-9c94-48f7fc8978e8/scratchpad/draft/bg/p1.png",
+        "time": 0.0,
+        "crop": [
+          0,
+          0,
+          1500,
+          1000
+        ],
+        "text": "That doesn’t mean\nit worked."
+      }
+    },
+    {
+      "slide": 2,
+      "top": {
+        "source": "/tmp/claude-0/-home-user-nrd-capital-group-dashboard/5a984f1a-92c3-569c-9c94-48f7fc8978e8/scratchpad/draft/bg/p0.png",
+        "time": 0.0,
+        "crop": [
+          0,
+          0,
+          1500,
+          1000
+        ],
+        "text": "“Updated” just means\nthey received it…"
+      },
+      "bottom": {
+        "source": "/tmp/claude-0/-home-user-nrd-capital-group-dashboard/5a984f1a-92c3-569c-9c94-48f7fc8978e8/scratchpad/draft/bg/p1.png",
+        "time": 0.0,
+        "crop": [
+          0,
+          0,
+          1500,
+          1000
+        ],
+        "text": "…and rejected it."
+      }
+    },
+    {
+      "slide": 3,
+      "top": {
+        "source": "/tmp/claude-0/-home-user-nrd-capital-group-dashboard/5a984f1a-92c3-569c-9c94-48f7fc8978e8/scratchpad/draft/bg/p0.png",
+        "time": 0.0,
+        "crop": [
+          0,
+          0,
+          1500,
+          1000
+        ],
+        "text": "Generic disputes get\nstall letters."
+      },
+      "bottom": {
+        "source": "/tmp/claude-0/-home-user-nrd-capital-group-dashboard/5a984f1a-92c3-569c-9c94-48f7fc8978e8/scratchpad/draft/bg/p1.png",
+        "time": 0.0,
+        "crop": [
+          0,
+          0,
+          1500,
+          1000
+        ],
+        "text": "I see this all the time."
+      }
+    },
+    {
+      "slide": 4,
+      "top": {
+        "source": "/tmp/claude-0/-home-user-nrd-capital-group-dashboard/5a984f1a-92c3-569c-9c94-48f7fc8978e8/scratchpad/draft/bg/p0.png",
+        "time": 0.0,
+        "crop": [
+          0,
+          0,
+          1500,
+          1000
+        ],
+        "text": "Collections. Late payments.\nCharge-offs."
+      },
+      "bottom": {
+        "source": "/tmp/claude-0/-home-user-nrd-capital-group-dashboard/5a984f1a-92c3-569c-9c94-48f7fc8978e8/scratchpad/draft/bg/p1.png",
+        "time": 0.0,
+        "crop": [
+          0,
+          0,
+          1500,
+          1000
+        ],
+        "text": "Most people try to\nfix it themselves first."
+      }
+    },
+    {
+      "slide": 5,
+      "top": {
+        "source": "/tmp/claude-0/-home-user-nrd-capital-group-dashboard/5a984f1a-92c3-569c-9c94-48f7fc8978e8/scratchpad/draft/bg/p0.png",
+        "time": 0.0,
+        "crop": [
+          0,
+          0,
+          1500,
+          1000
+        ],
+        "text": "Most don’t know how\nto read the report."
+      },
+      "bottom": {
+        "source": "/tmp/claude-0/-home-user-nrd-capital-group-dashboard/5a984f1a-92c3-569c-9c94-48f7fc8978e8/scratchpad/draft/bg/p1.png",
+        "time": 0.0,
+        "crop": [
+          0,
+          0,
+          1500,
+          1000
+        ],
+        "text": "So the same items\nstay on the file."
+      }
+    },
+    {
+      "slide": 6,
+      "top": {
+        "source": "/tmp/claude-0/-home-user-nrd-capital-group-dashboard/5a984f1a-92c3-569c-9c94-48f7fc8978e8/scratchpad/draft/bg/p0.png",
+        "time": 0.0,
+        "crop": [
+          0,
+          0,
+          1500,
+          1000
+        ],
+        "text": "The goal isn’t just\nto get approved."
+      },
+      "bottom": {
+        "source": "/tmp/claude-0/-home-user-nrd-capital-group-dashboard/5a984f1a-92c3-569c-9c94-48f7fc8978e8/scratchpad/draft/bg/p1.png",
+        "time": 0.0,
+        "crop": [
+          0,
+          0,
+          1500,
+          1000
+        ],
+        "text": "An approval with high\ninterest is worthless."
+      }
+    },
+    {
+      "slide": 7,
+      "top": {
+        "source": "/tmp/claude-0/-home-user-nrd-capital-group-dashboard/5a984f1a-92c3-569c-9c94-48f7fc8978e8/scratchpad/draft/bg/p0.png",
+        "time": 0.0,
+        "crop": [
+          0,
+          0,
+          1500,
+          1000
+        ],
+        "text": "You want the house.\nAnd the best rate."
+      },
+      "bottom": {
+        "source": "/tmp/claude-0/-home-user-nrd-capital-group-dashboard/5a984f1a-92c3-569c-9c94-48f7fc8978e8/scratchpad/draft/bg/p1.png",
+        "time": 0.0,
+        "crop": [
+          0,
+          0,
+          1500,
+          1000
+        ],
+        "text": "That takes a clean file,\nnot another letter."
+      }
+    },
+    {
+      "slide": 8,
+      "top": {
+        "source": "/tmp/claude-0/-home-user-nrd-capital-group-dashboard/5a984f1a-92c3-569c-9c94-48f7fc8978e8/scratchpad/draft/bg/p0.png",
+        "time": 0.0,
+        "crop": [
+          0,
+          0,
+          1500,
+          1000
+        ],
+        "text": "That’s why I built\nNRD Capital."
+      },
+      "bottom": {
+        "source": "/tmp/claude-0/-home-user-nrd-capital-group-dashboard/5a984f1a-92c3-569c-9c94-48f7fc8978e8/scratchpad/draft/bg/p1.png",
+        "time": 0.0,
+        "crop": [
+          0,
+          0,
+          1500,
+          1000
+        ],
+        "text": "Let’s get your file cleaned up\nso you can move forward."
+      }
+    }
+  ]
+}
