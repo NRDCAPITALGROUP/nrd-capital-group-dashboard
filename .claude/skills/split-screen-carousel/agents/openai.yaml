@@ -1,0 +1,4 @@
+interface:
+  display_name: "Split Screen Carousel"
+  short_description: "Turn a video and transcript into split-screen slides"
+  default_prompt: "/split-screen-carousel — use the attached video and transcript to create our usual carousel."
