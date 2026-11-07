@@ -4,385 +4,617 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>NRD Funding Presentation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#05070f; --panel:#0b1020; --blue:#38bdf8; --blue2:#00c2ff; --green:#00f5a0;
-    --violet:#7c5cff; --text:#e0f2fe; --muted:#93c5fd; --dim:#64748b;
-    --line:rgba(56,189,248,.22);
-    --chev:linear-gradient(90deg,#d9fff0,#bfeaff);
+    --bg:#03060d; --ink:#f4f8ff; --body:#b6c4d8; --dim:#6b7a90; --faint:#3a4658;
+    --green:#00f5a0; --cyan:#00c2ff; --blue:#3b82f6; --violet:#8b5cf6;
+    --glass:rgba(255,255,255,.035); --glass2:rgba(255,255,255,.06);
+    --line:rgba(148,197,255,.12); --line2:rgba(148,197,255,.22);
+    --grad:linear-gradient(100deg,var(--green),var(--cyan));
+    --display:"Plus Jakarta Sans",Inter,system-ui,sans-serif;
+    --ease:cubic-bezier(.2,.7,.2,1);
   }
   *{box-sizing:border-box}
-  html{scroll-behavior:smooth;scroll-snap-type:y proximity}
-  body{margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--text);
-    background:radial-gradient(circle at 15% 0%,rgba(0,194,255,.14),transparent 30%),radial-gradient(circle at 85% 20%,rgba(0,245,160,.08),transparent 26%),#030712}
-  .deck{width:min(1180px,calc(100% - 32px));margin:0 auto;padding:24px 0 80px}
-  .slide{position:relative;scroll-snap-align:start;min-height:min(660px,calc(100vh - 48px));margin:0 0 22px;padding:48px 52px;
-    border:1px solid var(--line);border-radius:26px;overflow:hidden;
-    background:radial-gradient(circle at top right,rgba(0,245,160,.07),transparent 34%),linear-gradient(180deg,#0a1223,#040a16);
-    box-shadow:0 0 0 1px rgba(56,189,248,.06),0 24px 70px rgba(0,0,0,.55);display:flex;flex-direction:column;justify-content:center}
-  .slide:before{content:"";position:absolute;inset:0 0 auto 0;height:2px;background:linear-gradient(90deg,var(--green),var(--blue2),transparent)}
-  .mark{display:flex;justify-content:center;margin-bottom:18px}
-  .logo{width:74px;height:74px;border-radius:20px;overflow:hidden;display:flex;align-items:center;justify-content:center;
-    background:linear-gradient(135deg,#020617,#0f172a);border:1px solid rgba(56,189,248,.32);box-shadow:0 0 30px rgba(0,194,255,.25)}
+  html{scroll-behavior:smooth;scroll-snap-type:y mandatory}
+  body{margin:0;background:var(--bg);color:var(--body);font:16px/1.6 Inter,system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
+  a{color:inherit}
+  h1,h2,h3{font-family:var(--display);color:var(--ink);margin:0;letter-spacing:-.035em;line-height:1.05}
+  p{margin:0}
+  .g{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  svg.i{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+
+  /* ---------- slide shell ---------- */
+  .slide{position:relative;min-height:100vh;min-height:100svh;scroll-snap-align:start;display:flex;align-items:center;overflow:hidden;isolation:isolate;padding:96px 0 72px}
+  .slide:before{content:"";position:absolute;inset:0;z-index:-2;
+    background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+    background-size:64px 64px;mask-image:radial-gradient(ellipse 70% 60% at 50% 40%,#000 20%,transparent 75%);opacity:.5}
+  .slide:after{content:"";position:absolute;z-index:-1;width:720px;height:720px;border-radius:50%;filter:blur(120px);opacity:.22;pointer-events:none;
+    background:radial-gradient(circle,var(--glow,var(--cyan)),transparent 65%);left:var(--gx,60%);top:var(--gy,-20%)}
+  .slide:nth-child(even){--glow:var(--green);--gx:-15%;--gy:30%}
+  .slide:nth-child(3n){--glow:var(--violet);--gx:65%;--gy:45%}
+  .wrap{width:min(1180px,calc(100% - 40px));margin:0 auto}
+  .eyebrow{display:inline-flex;align-items:center;gap:10px;font:700 12px/1 var(--display);letter-spacing:.18em;text-transform:uppercase;color:var(--green);margin-bottom:18px}
+  .eyebrow b{color:var(--dim);font-weight:700}
+  .eyebrow:before{content:"";width:28px;height:1px;background:var(--grad)}
+  .h2{font-size:clamp(34px,5vw,62px);font-weight:800;max-width:900px}
+  .sub{font-size:clamp(16px,1.5vw,19px);color:var(--body);max-width:640px;margin-top:18px}
+  .head{margin-bottom:clamp(32px,5vh,56px)}
+  .head.c{text-align:center}.head.c .sub,.head.c .h2{margin-left:auto;margin-right:auto}
+  .head.c .eyebrow:after{content:"";width:28px;height:1px;background:var(--grad)}
+  .fine{font-size:12px;color:var(--dim);line-height:1.55}
+  .card{background:linear-gradient(180deg,var(--glass2),var(--glass));border:1px solid var(--line);border-radius:22px;backdrop-filter:blur(12px);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 20px 50px -20px rgba(0,0,0,.6);transition:border-color .3s,transform .3s var(--ease)}
+  .card:hover{border-color:var(--line2);transform:translateY(-3px)}
+  .ico{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;color:var(--green);
+    background:linear-gradient(135deg,rgba(0,245,160,.14),rgba(0,194,255,.08));border:1px solid rgba(0,245,160,.22)}
+  .btn{display:inline-flex;align-items:center;gap:10px;border-radius:999px;padding:16px 26px;font:700 15px/1 var(--display);text-decoration:none;
+    background:var(--grad);color:#021412;box-shadow:0 10px 40px -8px rgba(0,245,160,.45);transition:transform .2s,box-shadow .2s}
+  .btn:hover{transform:translateY(-2px);box-shadow:0 16px 50px -8px rgba(0,245,160,.6)}
+  .btn.ghost{background:var(--glass2);color:var(--ink);border:1px solid var(--line2);box-shadow:none}
+  .btn svg.i{width:18px;height:18px}
+  .chip{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;border:1px solid var(--line2);background:var(--glass);font:600 13px/1 Inter;color:var(--ink)}
+  .chip .dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green)}
+
+  /* reveal */
+  .rv{opacity:0;transform:translateY(26px);transition:opacity .8s var(--ease),transform .8s var(--ease);transition-delay:calc(var(--d,0) * 80ms)}
+  .slide.in .rv{opacity:1;transform:none}
+
+  /* logo */
+  .logo{width:52px;height:52px;border-radius:15px;overflow:hidden;display:grid;place-items:center;flex:none;
+    background:linear-gradient(135deg,#0b1220,#020617);border:1px solid var(--line2);box-shadow:0 0 30px rgba(0,194,255,.2)}
   .logo img{width:100%;height:100%;object-fit:cover}
-  .logo .fb{display:none;text-align:center;font-weight:950;letter-spacing:-.06em;line-height:.85;color:#fff;font-size:21px}
-  .logo .fb span{display:block;font-size:7px;letter-spacing:.16em;color:var(--green);margin-top:3px}
-  .logo.nofile .fb{display:block}
-  .logo.big{width:120px;height:120px;border-radius:30px}.logo.big .fb{font-size:34px}.logo.big .fb span{font-size:10px}
-  h1,h2,h3{margin:0;color:#fff;letter-spacing:-.035em}
-  .title{text-align:center;font-weight:950;text-transform:uppercase;font-size:clamp(26px,4.4vw,50px);line-height:1;margin-bottom:30px;letter-spacing:-.02em}
-  .title em{font-style:normal;background:linear-gradient(90deg,var(--green),var(--blue2));-webkit-background-clip:text;background-clip:text;color:transparent}
-  p{line-height:1.6;margin:0}
-  .lead{font-size:clamp(16px,1.6vw,19px);color:#cfe8ff;max-width:820px;margin:0 auto;text-align:center}
-  .lead+.lead{margin-top:16px}
-  .muted{color:var(--muted)}
-  .fine{font-size:12px;color:var(--dim);line-height:1.5}
-  .hero-h{font-size:clamp(34px,5.6vw,66px);font-weight:950;text-align:center;line-height:1.04;letter-spacing:-.045em}
-  .hero-h .g{color:var(--green);text-shadow:0 0 26px rgba(0,245,160,.3)}
-  .pill{display:inline-flex;border-radius:999px;padding:7px 12px;background:rgba(0,194,255,.1);color:var(--blue);border:1px solid var(--line);font-size:12px;font-weight:900;letter-spacing:.08em;text-transform:uppercase}
-  .center{text-align:center}
-  .btn{display:inline-flex;align-items:center;gap:8px;border-radius:14px;padding:15px 22px;font-weight:950;text-decoration:none;
-    background:linear-gradient(135deg,var(--green),var(--blue2));color:#021617;box-shadow:0 0 26px rgba(0,245,160,.22)}
-  .btn.ghost{background:transparent;color:var(--blue);border:1px solid var(--line);box-shadow:none}
+  .logo svg.mark{width:74%;height:74%;filter:drop-shadow(0 0 10px rgba(0,245,160,.35))}
+  .logo.has-img{background:#020617}
 
-  /* chevron rows */
-  .chev{display:flex;align-items:stretch;min-height:76px;filter:drop-shadow(0 8px 18px rgba(0,0,0,.35))}
-  .chev .tag{flex:0 0 108px;display:flex;align-items:center;justify-content:center;padding-right:14px;font-weight:900;color:#fff;
-    background:linear-gradient(135deg,var(--violet),#5b8cff);clip-path:polygon(0 0,82% 0,100% 50%,82% 100%,0 100%)}
-  .chev .body{flex:1;margin-left:-22px;display:flex;flex-direction:column;justify-content:center;padding:12px 56px 12px 40px;
-    background:var(--chev);color:#0b1324;clip-path:polygon(0 0,calc(100% - 34px) 0,100% 50%,calc(100% - 34px) 100%,0 100%,22px 50%);font-weight:700;font-size:14px;line-height:1.4}
-  .chev .body b{display:block;font-size:15px;font-weight:900;text-decoration:underline;text-underline-offset:3px;margin-bottom:2px}
+  /* ---------- HUD ---------- */
+  .topbar{position:fixed;inset:0 0 auto 0;z-index:30;display:flex;align-items:center;justify-content:space-between;padding:16px 24px;
+    background:linear-gradient(180deg,rgba(3,6,13,.85),transparent);pointer-events:none}
+  .topbar > *{pointer-events:auto}
+  .brand{display:flex;align-items:center;gap:12px;font:800 15px/1.1 var(--display);color:var(--ink);letter-spacing:-.01em}
+  .brand small{display:block;font:600 11px Inter;color:var(--dim);letter-spacing:.06em;text-transform:uppercase}
+  .brand .logo{width:40px;height:40px;border-radius:12px}
+  .wm{font:800 20px/1 var(--display);letter-spacing:.02em}
+  .wm small{display:block;margin-top:4px;font:700 9px/1 var(--display)!important;letter-spacing:.32em!important;color:var(--green)!important}
+  .counter{font:700 13px/1 var(--display);color:var(--ink);letter-spacing:.08em;padding:10px 14px;border-radius:999px;background:rgba(10,16,28,.7);border:1px solid var(--line);backdrop-filter:blur(10px)}
+  .counter span{color:var(--dim)}
+  .progress{position:fixed;left:0;top:0;height:3px;z-index:40;background:var(--grad);width:0;box-shadow:0 0 16px var(--green);transition:width .4s var(--ease)}
+  .dots{position:fixed;right:22px;top:50%;transform:translateY(-50%);z-index:30;display:flex;flex-direction:column;gap:10px}
+  .dots button{width:8px;height:8px;padding:0;border-radius:99px;border:0;background:var(--faint);cursor:pointer;transition:all .3s var(--ease)}
+  .dots button.on{height:26px;background:var(--grad)}
+  .navbtns{position:fixed;right:22px;bottom:22px;z-index:30;display:flex;gap:8px}
+  .navbtns button{width:46px;height:46px;border-radius:50%;border:1px solid var(--line2);background:rgba(10,16,28,.75);backdrop-filter:blur(10px);color:var(--ink);cursor:pointer;display:grid;place-items:center;transition:all .2s}
+  .navbtns button:hover{border-color:var(--green);color:var(--green)}
 
-  .grid{display:grid;gap:18px}
-  .g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:repeat(3,1fr)}.g6{grid-template-columns:repeat(6,1fr)}
-  .split{display:grid;grid-template-columns:1.05fr .95fr;gap:36px;align-items:center}
+  /* ---------- 1 cover ---------- */
+  .cover{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center}
+  .cover h1{font-size:clamp(44px,6.6vw,92px);font-weight:800;letter-spacing:-.05em;line-height:.98;margin:22px 0 24px}
+  .cover .sub{font-size:clamp(17px,1.6vw,20px)}
+  .cover .ctas{display:flex;gap:12px;flex-wrap:wrap;margin-top:34px}
+  .trust{display:flex;gap:28px;margin-top:44px;flex-wrap:wrap}
+  .trust div{font:800 26px/1 var(--display);color:var(--ink);letter-spacing:-.03em}
+  .trust small{display:block;font:600 12px/1.4 Inter;color:var(--dim);letter-spacing:.04em;margin-top:6px;text-transform:uppercase}
+  .stack{position:relative;height:440px;perspective:1400px}
+  .cc{position:absolute;left:50%;top:50%;width:min(360px,80vw);aspect-ratio:1.586;border-radius:20px;padding:24px;color:#fff;
+    display:flex;flex-direction:column;justify-content:space-between;border:1px solid rgba(255,255,255,.18);
+    box-shadow:0 40px 80px -20px rgba(0,0,0,.8),inset 0 1px 0 rgba(255,255,255,.25);overflow:hidden;
+    transform:translate(-50%,-50%) rotateX(12deg) rotateY(-18deg) rotateZ(var(--r)) translate3d(var(--x),var(--y),0);animation:float 7s ease-in-out infinite;animation-delay:var(--ad)}
+  .cc:before{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 35%,rgba(255,255,255,.18) 50%,transparent 65%);transform:translateX(-60%);animation:sheen 6s ease-in-out infinite;animation-delay:var(--ad)}
+  .cc.a{--r:-10deg;--x:-60px;--y:-70px;--ad:0s;background:linear-gradient(135deg,#1e293b,#0f172a 60%,#0b3b4a)}
+  .cc.b{--r:-2deg;--x:0px;--y:0px;--ad:-2s;background:linear-gradient(135deg,#0d3b66,#065f73 55%,#0a7f6a)}
+  .cc.c{--r:7deg;--x:60px;--y:72px;--ad:-4s;background:linear-gradient(135deg,#00b386,#00a3d9)}
+  .cc .row{display:flex;justify-content:space-between;align-items:center;font:700 12px/1 var(--display);letter-spacing:.14em;text-transform:uppercase;opacity:.85}
+  .cc .chipz{width:42px;height:32px;border-radius:7px;background:linear-gradient(135deg,#fde68a,#d4a72c);opacity:.9}
+  .cc .apr{font:800 40px/1 var(--display);letter-spacing:-.04em}
+  .cc .apr small{font-size:13px;letter-spacing:.06em;opacity:.8;margin-left:6px}
+  .cc .lim{font:600 13px/1.3 Inter;opacity:.9}
+  .cc .lim b{display:block;font:800 20px var(--display);letter-spacing:-.02em}
+  .float-chip{position:absolute;z-index:3;padding:14px 18px;border-radius:16px;background:rgba(8,14,26,.85);border:1px solid var(--line2);backdrop-filter:blur(14px);box-shadow:0 20px 40px -10px rgba(0,0,0,.7)}
+  .float-chip small{display:block;font:600 11px Inter;color:var(--dim);text-transform:uppercase;letter-spacing:.08em}
+  .float-chip b{font:800 24px/1.2 var(--display);color:var(--ink);letter-spacing:-.03em}
+  .float-chip.one{right:0;top:20px}.float-chip.two{left:0;bottom:24px}
+  .float-chip.two b{color:var(--green)}
+  .ghostmark{position:absolute;left:50%;top:50%;width:420px;height:420px;transform:translate(-50%,-50%);border:0;background:none;box-shadow:none;opacity:.07;border-radius:0}
+  .ghostmark svg.mark{filter:none}.ghostmark img{display:none}
+  @keyframes float{50%{margin-top:-12px}}
+  @keyframes sheen{0%,60%{transform:translateX(-80%)}100%{transform:translateX(120%)}}
 
-  /* why cards */
-  .why .grid{grid-template-rows:repeat(3,auto);grid-auto-flow:column}
-  .why .chev .tag{flex-basis:62px;font-size:18px}
-  .why .chev .body{font-size:13.5px;text-align:center;padding-left:34px}
-  .why .grid > :nth-child(n+4) .tag{background:linear-gradient(135deg,#22d3ee,#38bdf8)}
-  .why .grid > :nth-child(n+7) .tag{background:linear-gradient(135deg,#60a5fa,#818cf8)}
+  /* ---------- 2 how ---------- */
+  .how{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .how .card{padding:28px}
+  .how .n{font:800 13px var(--display);color:var(--dim);letter-spacing:.14em;margin:22px 0 8px}
+  .how h3{font-size:22px;margin-bottom:10px}
+  .how p{font-size:15px}
+  .runway{margin-top:22px;padding:26px 28px}
+  .runway .lbl{display:flex;justify-content:space-between;font:600 12px Inter;color:var(--dim);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px}
+  .runway .bar{display:flex;height:46px;border-radius:12px;overflow:hidden;font:700 14px/46px var(--display)}
+  .runway .z{flex:12;background:var(--grad);color:#021412;padding-left:18px;position:relative}
+  .runway .s{flex:6;background:repeating-linear-gradient(45deg,#1b2433,#1b2433 8px,#151d2a 8px,#151d2a 16px);color:var(--dim);padding-left:16px}
+  .runway .ticks{display:flex;justify-content:space-between;font:600 12px Inter;color:var(--dim);margin-top:10px}
 
-  /* steps */
-  .step .head{position:relative;background:linear-gradient(90deg,#3b82f6,#60a5fa);color:#fff;font-weight:900;padding:16px 18px;font-size:18px;
-    clip-path:polygon(0 0,calc(100% - 22px) 0,100% 50%,calc(100% - 22px) 100%,0 100%)}
-  .step p{margin-top:14px;color:#dbeafe;font-size:15px}
+  /* ---------- 3 founder ---------- */
+  .founder{display:grid;grid-template-columns:.85fr 1.15fr;gap:64px;align-items:center}
+  .portrait{position:relative;aspect-ratio:4/5;max-height:560px;width:100%;border-radius:28px;padding:2px;background:linear-gradient(160deg,var(--green),transparent 40%,transparent 60%,var(--cyan))}
+  .portrait .in{width:100%;height:100%;border-radius:26px;overflow:hidden;background:radial-gradient(circle at 50% 30%,#14233d,#050a14);display:grid;place-items:center}
+  .portrait img{width:100%;height:100%;object-fit:cover}
+  .portrait .ph{font:800 140px var(--display);color:rgba(0,194,255,.18)}
+  .portrait .tagx{position:absolute;left:20px;bottom:20px;right:20px}
+  .quote{font:700 clamp(22px,2.4vw,30px)/1.3 var(--display);color:var(--ink);letter-spacing:-.02em;margin:22px 0 26px;position:relative;padding-left:22px;border-left:2px solid var(--green)}
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:30px}
+  .stats .card{padding:20px}
+  .stats b{display:block;font:800 clamp(28px,3vw,40px)/1 var(--display);letter-spacing:-.04em}
+  .stats span{display:block;margin-top:8px;font:600 12px/1.4 Inter;color:var(--dim);text-transform:uppercase;letter-spacing:.06em}
+  .ig{display:inline-flex;align-items:center;gap:8px;margin-top:24px;font-weight:600;color:var(--ink);text-decoration:none}
+  .ig:hover{color:var(--green)}
 
-  /* lenders */
-  .lender{border:1px solid var(--line);border-radius:18px;padding:18px;background:rgba(2,8,23,.6)}
-  .lender h3{font-size:17px;margin-bottom:6px;color:var(--green)}
-  .lender p{font-size:14px;color:#cbd5e1}
+  /* ---------- 4 why ---------- */
+  .why{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .why .card{padding:22px;display:flex;gap:16px;align-items:flex-start}
+  .why h3{font-size:17px;letter-spacing:-.015em;margin-bottom:4px;line-height:1.25}
+  .why p{font-size:14px;line-height:1.5}
+  .why .num{font:800 12px var(--display);color:var(--faint);margin-left:auto;letter-spacing:.06em}
 
-  /* trajectory table */
-  table{width:100%;border-collapse:collapse;font-size:12.5px;background:#f8fafc;color:#0f172a;border-radius:12px;overflow:hidden}
-  th,td{padding:7px 10px;text-align:left;border-bottom:1px solid #e2e8f0;white-space:nowrap}
-  th{background:#0f172a;color:#e0f2fe;font-size:11px;text-transform:uppercase;letter-spacing:.06em}
-  td.r,th.r{text-align:right}
-  .ok{background:#dcfce7;color:#166534;font-weight:800;border-radius:6px;padding:2px 6px}
-  tfoot td{font-weight:900;background:#e0f2fe}
-  .phase{margin-bottom:18px}
-  .phase .chev{min-height:52px}
-  .phase .chev .tag{flex-basis:96px;background:linear-gradient(135deg,#22d3ee,#38bdf8)}
-  .phase .chev .body{font-size:15px;font-weight:900}
-  .phase p{font-size:13.5px;color:#cbd5e1;margin-top:8px}
+  /* ---------- 5 steps ---------- */
+  .track{position:relative;display:grid;grid-template-columns:repeat(6,1fr);gap:14px}
+  .track:before{content:"";position:absolute;left:8%;right:8%;top:34px;height:2px;background:linear-gradient(90deg,var(--green),var(--cyan),var(--violet));opacity:.6}
+  .stp{text-align:center;position:relative}
+  .stp .ball{width:68px;height:68px;margin:0 auto 22px;border-radius:50%;display:grid;place-items:center;background:#07101d;border:1px solid var(--line2);color:var(--green);position:relative;
+    box-shadow:0 0 0 8px var(--bg),0 0 30px rgba(0,245,160,.15)}
+  .stp .ball svg.i{width:26px;height:26px}
+  .stp .ball em{position:absolute;top:-6px;right:-6px;width:24px;height:24px;border-radius:50%;background:var(--grad);color:#021412;font:800 12px/24px var(--display);font-style:normal}
+  .stp h3{font-size:17px;line-height:1.25;letter-spacing:-.015em;margin-bottom:6px}
+  .stp p{font-size:13.5px;line-height:1.5;color:var(--dim)}
+  .stp:last-child .ball{background:var(--grad);color:#021412;border:0}
 
-  /* bullets */
-  .bullets{list-style:none;padding:0;margin:0 auto;max-width:860px;display:grid;gap:22px}
-  .bullets li{position:relative;padding-left:40px;font-size:clamp(16px,1.7vw,20px);font-weight:700;line-height:1.5;color:#f1f5f9}
-  .bullets li:before{content:"";position:absolute;left:0;top:6px;width:22px;height:22px;border-radius:7px;background:linear-gradient(135deg,var(--green),var(--blue2));box-shadow:0 0 14px rgba(0,245,160,.3)}
-  .bullets.sm li{font-size:16px;padding-left:32px}.bullets.sm li:before{width:16px;height:16px;top:5px;border-radius:5px}
-  .bullets.sm{gap:12px;margin:0}
+  /* ---------- 6 lenders ---------- */
+  .lenders{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+  .lgrid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .lgrid .card{padding:24px}
+  .lgrid h3{font-size:19px;margin:18px 0 6px}
+  .lgrid p{font-size:14px}
+  .big{font:700 clamp(22px,2.3vw,30px)/1.35 var(--display);color:var(--ink);letter-spacing:-.02em}
+  .big span{color:var(--dim)}
 
-  /* timeframe */
-  .tf{display:grid;grid-template-columns:minmax(260px,.9fr) 1.1fr;gap:16px 34px;align-items:center}
-  .tf .chev .tag{flex-basis:96px}
-  .tf .chev .body{text-align:center;padding-left:34px}
-  .tf p{font-size:17px;font-weight:700;color:#f1f5f9}
+  /* ---------- 7 trajectory ---------- */
+  .stairs{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;align-items:end;min-height:420px}
+  .tier{display:flex;flex-direction:column;justify-content:flex-end;height:100%}
+  .tier .col{position:relative;border-radius:22px 22px 6px 6px;padding:26px;border:1px solid var(--line2);overflow:hidden;
+    background:linear-gradient(180deg,rgba(0,194,255,.12),rgba(0,245,160,.03))}
+  .tier .col:before{content:"";position:absolute;inset:0 0 auto 0;height:3px;background:var(--grad)}
+  .tier:nth-child(1) .col{min-height:58%}.tier:nth-child(2) .col{min-height:76%}.tier:nth-child(3) .col{min-height:96%;background:linear-gradient(180deg,rgba(0,245,160,.18),rgba(0,194,255,.04))}
+  .tier .ph{font:700 12px var(--display);letter-spacing:.16em;color:var(--green);text-transform:uppercase}
+  .tier h3{font-size:clamp(22px,2.2vw,28px);margin:10px 0 6px}
+  .tier .amt{font:800 clamp(30px,3.4vw,44px)/1 var(--display);color:var(--ink);letter-spacing:-.04em;margin:14px 0 12px}
+  .tier .amt small{display:block;font:600 12px Inter;color:var(--dim);letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px}
+  .tier .amt.t{font-size:clamp(22px,2.2vw,28px);letter-spacing:-.03em}
+  .tier p{font-size:14.5px}
+  .tier .need{display:flex;flex-wrap:wrap;gap:6px;margin-top:16px}
+  .tier .need span{font:600 12px Inter;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,.05);border:1px solid var(--line);color:var(--ink)}
 
-  /* cycle */
-  .cycle{position:relative;width:min(440px,100%);aspect-ratio:1;margin:0 auto}
-  .cycle svg{position:absolute;inset:0;width:100%;height:100%}
-  .node{position:absolute;width:27%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;display:flex;align-items:center;justify-content:center;text-align:center;
-    background:radial-gradient(circle at 30% 25%,#3b82f6,#1d4ed8);color:#fff;font-weight:900;font-size:clamp(10px,1.2vw,13px);line-height:1.15;padding:8px;
-    text-transform:uppercase;border:2px dashed rgba(255,255,255,.35);box-shadow:0 0 0 6px rgba(29,78,216,.25),0 10px 26px rgba(0,0,0,.5)}
-  .node.on{background:radial-gradient(circle at 30% 25%,#34d399,#059669)}
+  /* ---------- 8 commitment ---------- */
+  .commit{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .commit .card{padding:34px 30px;min-height:300px;display:flex;flex-direction:column}
+  .commit .big-n{font:800 88px/1 var(--display);letter-spacing:-.06em;background:linear-gradient(180deg,rgba(255,255,255,.18),rgba(255,255,255,0));-webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:auto}
+  .commit h3{font-size:24px;margin:26px 0 10px}
+  .commit p{font-size:15px}
 
-  /* packages */
-  .pkg{border:1px solid var(--line);border-radius:22px;padding:26px;background:rgba(2,8,23,.65);display:flex;flex-direction:column;gap:14px}
-  .pkg.feat{border-color:rgba(0,245,160,.55);box-shadow:0 0 34px rgba(0,245,160,.12)}
-  .pkg .price{font-size:48px;font-weight:950;letter-spacing:-.05em;color:#fff}
-  .pkg .price small{font-size:15px;color:var(--muted);font-weight:800;letter-spacing:0}
-  .pkg h3{font-size:20px;text-transform:uppercase;letter-spacing:.02em}
-  .banner{margin-top:26px;text-align:center;font-weight:900;font-size:clamp(17px,2vw,24px);color:#fff;text-decoration:underline;text-decoration-color:var(--green);text-underline-offset:6px}
+  /* ---------- 9 timeframe ---------- */
+  .gantt{padding:34px 34px 26px}
+  .grow{display:grid;grid-template-columns:260px 1fr;gap:28px;align-items:center;padding:20px 0;border-bottom:1px solid var(--line)}
+  .grow:last-of-type{border-bottom:0}
+  .grow .lv{font:700 12px var(--display);letter-spacing:.14em;color:var(--green);text-transform:uppercase}
+  .grow h3{font-size:19px;margin:6px 0 4px;letter-spacing:-.015em}
+  .grow p{font-size:13.5px;color:var(--dim);line-height:1.45}
+  .lane{position:relative;height:52px;border-radius:12px;background:repeating-linear-gradient(90deg,transparent 0 calc(12.5% - 1px),var(--line) calc(12.5% - 1px) 12.5%)}
+  .lane .b{position:absolute;top:8px;bottom:8px;left:0;border-radius:10px;background:var(--grad);display:flex;align-items:center;padding:0 14px;white-space:nowrap;
+    font:800 14px var(--display);color:#021412;width:0;transition:width 1.2s var(--ease);transition-delay:calc(var(--d,0) * 150ms + 300ms);box-shadow:0 0 24px rgba(0,245,160,.25)}
+  .lane .b.range{background:linear-gradient(90deg,transparent 0,transparent 37.5%,rgba(0,194,255,.9) 37.5%,var(--green) 100%);box-shadow:none}
+  .lane .b.range:before{content:"";position:absolute;left:0;top:50%;width:37.5%;border-top:2px dashed rgba(0,194,255,.5)}
+  .lane .b.range span{margin-left:auto;margin-right:auto;padding-left:37.5%}
+  .slide.in .lane .b{width:var(--w)}
+  .scale{display:grid;grid-template-columns:260px 1fr;gap:28px;margin-top:6px}
+  .scale div:last-child{display:flex;justify-content:space-between;font:600 12px Inter;color:var(--dim)}
 
-  /* founder */
-  .photo{aspect-ratio:4/5;width:100%;max-width:420px;max-height:540px;margin:0 auto;border-radius:22px;border:1px solid var(--line);overflow:hidden;background:linear-gradient(135deg,#0f172a,#020617);display:flex;align-items:center;justify-content:center}
-  .photo img{width:100%;height:100%;object-fit:cover}
-  .photo .ph{font-size:90px;font-weight:950;color:rgba(56,189,248,.35)}
-  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:22px}
-  .stat{border:1px solid var(--line);border-radius:16px;padding:14px;background:rgba(2,8,23,.6)}
-  .stat b{display:block;font-size:26px;color:var(--green);letter-spacing:-.04em}
-  .stat span{font-size:12px;color:var(--muted);font-weight:800;text-transform:uppercase;letter-spacing:.06em}
+  /* ---------- 10 cycle ---------- */
+  .cyc{display:grid;grid-template-columns:.9fr 1.1fr;gap:40px;align-items:center}
+  .ring{position:relative;width:min(520px,100%);aspect-ratio:1;margin:0 auto}
+  .ring svg.r{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+  .ring .spin{transform-origin:50% 50%;animation:spin 30s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .ring .core{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);text-align:center}
+  .ring .core b{display:block;font:800 clamp(48px,6vw,72px)/1 var(--display);letter-spacing:-.05em}
+  .ring .core small{font:600 12px Inter;color:var(--dim);letter-spacing:.1em;text-transform:uppercase}
+  .nd{position:absolute;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:10px;width:130px;text-align:center}
+  .nd .o{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;background:#07101d;border:1px solid var(--line2);color:var(--green);box-shadow:0 0 0 8px var(--bg),0 10px 30px rgba(0,0,0,.5)}
+  .nd.on .o{background:var(--grad);color:#021412;border:0;box-shadow:0 0 0 8px var(--bg),0 0 40px rgba(0,245,160,.45)}
+  .nd span{font:700 14px/1.2 var(--display);color:var(--ink)}
+  .loopl{list-style:none;padding:0;margin:28px 0 0;display:grid;gap:12px}
+  .loopl li{display:flex;gap:12px;align-items:center;font-weight:600;color:var(--ink)}
+  .loopl li svg.i{color:var(--green);width:18px;height:18px}
 
-  /* hud */
-  .counter{position:fixed;left:20px;top:20px;z-index:20;background:rgba(15,23,42,.85);backdrop-filter:blur(10px);border:1px solid var(--line);
-    border-radius:999px;padding:9px 16px;font-weight:900;font-size:15px;color:#fff}
-  .nav{position:fixed;right:20px;bottom:20px;z-index:20;display:flex;gap:8px}
-  .nav button{width:44px;height:44px;border-radius:12px;border:1px solid var(--line);background:rgba(15,23,42,.85);color:var(--blue);font-size:18px;font-weight:900;cursor:pointer}
-  .nav button:hover{border-color:var(--green);color:var(--green)}
+  /* ---------- 11 packages ---------- */
+  .pkgs{display:grid;grid-template-columns:1fr 1fr;gap:22px;max-width:980px;margin:0 auto}
+  .pk{padding:34px;display:flex;flex-direction:column;position:relative}
+  .pk.feat{border:1px solid transparent;background:linear-gradient(#07101d,#07101d) padding-box,linear-gradient(140deg,var(--green),rgba(0,194,255,.2) 50%,var(--cyan)) border-box;box-shadow:0 30px 80px -30px rgba(0,245,160,.35)}
+  .badge{position:absolute;top:-13px;right:28px;padding:7px 14px;border-radius:999px;background:var(--grad);color:#021412;font:800 11px/1 var(--display);letter-spacing:.1em;text-transform:uppercase}
+  .pk .for{font:600 13px Inter;color:var(--dim)}
+  .pk h3{font-size:24px;margin:8px 0 22px}
+  .pk .price{font:800 64px/1 var(--display);color:var(--ink);letter-spacing:-.05em;display:flex;align-items:baseline;gap:10px}
+  .pk .price small{font:600 14px Inter;color:var(--dim);letter-spacing:0}
+  .pk .plus{font-size:14px;margin:10px 0 24px;padding-bottom:24px;border-bottom:1px solid var(--line)}
+  .pk ul{list-style:none;padding:0;margin:0 0 30px;display:grid;gap:12px}
+  .pk li{display:flex;gap:12px;font-size:15px;color:var(--ink)}
+  .pk li svg.i{width:20px;height:20px;color:var(--green);margin-top:2px}
+  .pk .btn{margin-top:auto;justify-content:center}
+  .offer{display:flex;align-items:center;justify-content:center;gap:12px;margin:34px auto 0;width:max-content;max-width:100%;padding:14px 22px;border-radius:999px;border:1px dashed rgba(0,245,160,.45);background:rgba(0,245,160,.06);color:var(--ink);font:700 15px/1.35 var(--display);text-align:left}
+  .offer svg.i{color:var(--green)}
 
-  @media(max-width:860px){
-    .slide{padding:64px 20px 32px;min-height:auto}
-    .g2,.g3,.split,.tf{grid-template-columns:1fr}
-    .g6{grid-template-columns:1fr 1fr}
-    .why .grid{grid-template-rows:none;grid-auto-flow:row}
-    .tf p{margin-bottom:10px}
-    .tablewrap{overflow-x:auto}
-    .stats{grid-template-columns:1fr 1fr 1fr}
-    .chev .body{padding-right:44px}
+  /* ---------- 12 included ---------- */
+  .incl{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+  .incl .card{padding:24px}
+  .incl h3{font-size:17px;margin:18px 0 6px;letter-spacing:-.015em;line-height:1.25}
+  .incl p{font-size:14px;line-height:1.5}
+  .incl .team{grid-column:span 1;background:linear-gradient(160deg,rgba(0,245,160,.16),rgba(0,194,255,.06));border-color:rgba(0,245,160,.3);display:flex;flex-direction:column}
+  .incl .team .btn{margin-top:auto;padding:13px 18px;font-size:14px;align-self:flex-start}
+
+  /* ---------- 13 cta ---------- */
+  .cta{text-align:center}
+  .cta h2{font-size:clamp(48px,8vw,112px);font-weight:800;letter-spacing:-.055em;line-height:.95}
+  .cta .sub{margin:24px auto 0}
+  .cta .ctas{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:38px}
+  .cta .logo{width:76px;height:76px;border-radius:22px;margin:0 auto 30px}
+  .disclaimer{max-width:820px;margin:64px auto 0;padding-top:24px;border-top:1px solid var(--line)}
+
+  /* ---------- responsive ---------- */
+  @media(max-width:980px){
+    html{scroll-snap-type:none}
+    .slide{min-height:auto;padding:96px 0 64px}
+    .dots{display:none}
+    .cover,.founder,.lenders,.cyc{grid-template-columns:1fr;gap:40px}
+    .stack{height:360px}
+    .how,.commit,.stairs{grid-template-columns:1fr}
+    .stairs{min-height:0}.tier .col{min-height:0!important}
+    .why,.incl{grid-template-columns:1fr 1fr}
+    .track{grid-template-columns:1fr 1fr 1fr;row-gap:36px}.track:before{display:none}
+    .pkgs{grid-template-columns:1fr}
+    .grow,.scale{grid-template-columns:1fr;gap:12px}.scale div:first-child{display:none}
+    .portrait{max-width:420px;margin:0 auto}
+  }
+  @media(max-width:620px){
+    .wrap{width:calc(100% - 32px)}
+    .why,.incl,.lgrid{grid-template-columns:1fr}
+    .track{grid-template-columns:1fr 1fr}
+    .stats{grid-template-columns:1fr 1fr 1fr;gap:8px}.stats .card{padding:14px}
+    .topbar{padding:12px 16px}.brand small{display:none}
+    .float-chip.one{top:0}.float-chip.two{bottom:0}
+    .cc{width:240px;padding:16px}.cc .apr{font-size:28px}
+    .cc.a{--x:-30px;--y:-56px}.cc.c{--x:30px;--y:56px}
+    .pk{padding:26px}.pk .price{font-size:52px}
+    .gantt{padding:22px}
+    .offer{border-radius:18px}
+  }
+  @media(prefers-reduced-motion:reduce){
+    *,*:before{animation:none!important;transition:none!important}
+    .rv{opacity:1;transform:none}
+    .lane .b{width:var(--w)}
   }
   @media print{
     @page{size:13.333in 7.5in;margin:0}
-    body{background:#030712;-webkit-print-color-adjust:exact;print-color-adjust:exact}
-    .counter,.nav{display:none}
-    .deck{width:100%;padding:0}
-    .slide{height:7.5in;min-height:0;margin:0;border-radius:0;break-after:page;box-shadow:none}
+    body{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    .topbar,.progress,.dots,.navbtns{display:none}
+    .slide{height:7.5in;min-height:0;padding:48px 0;break-after:page}
+    .rv{opacity:1;transform:none}.lane .b{width:var(--w)}
+    *{animation:none!important}
   }
 </style>
 </head>
 <body>
 
-<div class="counter" id="counter">1 of 13</div>
-<div class="nav"><button id="prev" aria-label="Previous slide">↑</button><button id="next" aria-label="Next slide">↓</button></div>
+<div class="progress" id="progress"></div>
+<header class="topbar">
+  <div class="brand"><div class="logo" data-logo></div><div class="wm">NRD<small>Capital Group</small></div></div>
+  <div class="counter" id="counter">01 <span>/ 13</span></div>
+</header>
+<nav class="dots" id="dots" aria-label="Slides"></nav>
+<div class="navbtns">
+  <button id="prev" aria-label="Previous slide"><svg class="i" viewBox="0 0 24 24"><path d="M18 15l-6-6-6 6"/></svg></button>
+  <button id="next" aria-label="Next slide"><svg class="i" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
+</div>
 
-<main class="deck" id="deck">
+<main id="deck">
 
-  <!-- 1. Cover -->
-  <section class="slide">
-    <div class="mark"><div class="logo big" data-logo></div></div>
-    <div class="center" style="margin-bottom:22px"><span class="pill">NRD Capital Group · Business Funding</span></div>
-    <h1 class="hero-h">Secure <span class="g" data-cfg="fundingRange"></span><br>to start or grow your business<br>at <span class="g">0% intro APR</span></h1>
-    <p class="lead muted" style="margin-top:26px">A done-with-you funding strategy built around your credit, your business, and the right lenders.</p>
-  </section>
-
-  <!-- 2. How 0% works -->
-  <section class="slide">
-    <div class="mark"><div class="logo" data-logo></div></div>
-    <h2 class="title">How does <em>0% interest</em> funding work?</h2>
-    <p class="lead">It sounds too good to be true, so here's exactly what's happening.</p>
-    <p class="lead">Banks compete hard for good business customers. One of the main ways they compete is with aggressive promotional terms, like 0% introductory APR on business credit cards and lines of credit.</p>
-    <p class="lead">By sequencing applications across the right banks, in the right order, with your profile positioned correctly, we work to stack those promotional offers into a meaningful pool of capital, often for 12+ months at 0%.</p>
-    <p class="lead">After the promo period the rate goes up. The play is to put that capital to work in something that produces a return <em>before</em> it does, so the money works for you instead of costing you.</p>
-  </section>
-
-  <!-- 3. Founder -->
-  <section class="slide">
-    <div class="split">
-      <div class="photo" id="founderPhoto"><span class="ph">N</span></div>
-      <div>
-        <span class="pill">Meet the founder</span>
-        <h2 style="font-size:clamp(30px,4vw,48px);margin:14px 0 6px" data-cfg="founderName"></h2>
-        <p class="muted" style="font-weight:800" data-cfg="founderTitle"></p>
-        <p style="margin-top:18px;font-size:17px;color:#e2e8f0" data-cfg="founderBio"></p>
-        <div class="stats">
-          <div class="stat"><b data-cfg="statFunded"></b><span>Client funding secured</span></div>
-          <div class="stat"><b data-cfg="statClients"></b><span>Clients funded</span></div>
-          <div class="stat"><b data-cfg="statBanks"></b><span>Lenders in network</span></div>
-        </div>
-        <p style="margin-top:18px" class="muted">Follow on Instagram <a style="color:var(--green);font-weight:900" data-cfg-href="instagramUrl" data-cfg="instagram"></a></p>
+<!-- 01 COVER -->
+<section class="slide" data-name="Welcome">
+  <div class="wrap cover">
+    <div>
+      <span class="chip rv"><i class="dot"></i>Now accepting new funding clients</span>
+      <h1 class="rv" style="--d:1">Fund your business at <span class="g">0% intro APR.</span></h1>
+      <p class="sub rv" style="--d:2">Secure <b style="color:var(--ink)" data-cfg="fundingRange"></b> to start or scale, with a done-with-you strategy built around your credit, your business and the right lenders.</p>
+      <div class="ctas rv" style="--d:3">
+        <a class="btn" data-cfg-href="bookingUrl">Book a strategy call <i data-icon="arrow"></i></a>
+        <a class="btn ghost" href="#s2">See how it works</a>
+      </div>
+      <div class="trust rv" style="--d:4">
+        <div><span data-cfg="statFunded"></span><small>Funding secured</small></div>
+        <div><span data-cfg="statClients"></span><small>Clients funded</small></div>
+        <div>12–18 mo<small>Typical 0% runway</small></div>
       </div>
     </div>
-  </section>
-
-  <!-- 4. Why business credit cards -->
-  <section class="slide why">
-    <div class="mark"><div class="logo" data-logo></div></div>
-    <h2 class="title">Why use business credit cards at all?</h2>
-    <div class="grid g3">
-      <div class="chev"><div class="tag">1</div><div class="body">Most don't report to your personal credit report</div></div>
-      <div class="chev"><div class="tag">2</div><div class="body">Balances usually don't hit your personal utilization</div></div>
-      <div class="chev"><div class="tag">3</div><div class="body">Separates business &amp; personal finances</div></div>
-      <div class="chev"><div class="tag">4</div><div class="body">Often higher limits than personal cards</div></div>
-      <div class="chev"><div class="tag">5</div><div class="body">Reward points &amp; cash back on spend</div></div>
-      <div class="chev"><div class="tag">6</div><div class="body">0% intro APR, commonly 12–18 months</div></div>
-      <div class="chev"><div class="tag">7</div><div class="body">No existing business credit or revenue needed for many cards</div></div>
-      <div class="chev"><div class="tag">8</div><div class="body">Low minimum payments, so cash flow stays free</div></div>
-      <div class="chev"><div class="tag">9</div><div class="body">Balance transfer options to extend 0% runway</div></div>
+    <div class="stack rv" style="--d:2" aria-hidden="true">
+      <div class="logo ghostmark" data-logo></div>
+      <div class="cc a"><div class="row"><span>Business</span><span>Card 01</span></div><div class="apr">0%<small>APR · 12 MO</small></div><div class="lim">Credit limit<b>$25,000</b></div></div>
+      <div class="cc b"><div class="row"><span class="chipz"></span><span>Card 02</span></div><div class="apr">0%<small>APR · 15 MO</small></div><div class="lim">Credit limit<b>$30,000</b></div></div>
+      <div class="cc c"><div class="row"><span class="chipz"></span><span>Card 03</span></div><div class="apr">0%<small>APR · 18 MO</small></div><div class="lim">Credit limit<b>$40,000</b></div></div>
+      <div class="float-chip one"><small>Round 1 · approved</small><b data-count="95000" data-prefix="$">$0</b></div>
+      <div class="float-chip two"><small>Interest in promo</small><b>$0.00</b></div>
     </div>
-    <p class="fine center" style="margin-top:22px">Reporting and terms vary by issuer. Most business cards require a personal guarantee and a personal credit check at application.</p>
-  </section>
+  </div>
+</section>
 
-  <!-- 5. Six steps -->
-  <section class="slide">
-    <div class="mark"><div class="logo" data-logo></div></div>
-    <h2 class="title">The six steps to get <em>funding ready</em></h2>
-    <div class="grid g6">
-      <div class="step"><div class="head">Step 1</div><p>Optimize your personal credit</p></div>
-      <div class="step"><div class="head">Step 2</div><p>Form or restructure a lender-friendly LLC</p></div>
-      <div class="step"><div class="head">Step 3</div><p>Make your business info correct &amp; consistent everywhere</p></div>
-      <div class="step"><div class="head">Step 4</div><p>Build a strategic application plan</p></div>
-      <div class="step"><div class="head">Step 5</div><p>Build relationships with the right banks</p></div>
-      <div class="step"><div class="head">Step 6</div><p>Apply, in sequence</p></div>
+<!-- 02 HOW IT WORKS -->
+<section class="slide" id="s2" data-name="How 0% works">
+  <div class="wrap">
+    <div class="head">
+      <div class="eyebrow rv">02 <b>How it works</b></div>
+      <h2 class="h2 rv" style="--d:1">How does <span class="g">0% interest</span> funding actually work?</h2>
+      <p class="sub rv" style="--d:2">It sounds too good to be true, so here's exactly what's happening.</p>
     </div>
-  </section>
-
-  <!-- 6. Who we work with -->
-  <section class="slide">
-    <div class="mark"><div class="logo" data-logo></div></div>
-    <h2 class="title">Who do we work with?</h2>
-    <div class="split">
-      <div class="grid g2">
-        <div class="lender"><h3>National banks</h3><p>Major issuers with the strongest 0% promos and highest limits.</p></div>
-        <div class="lender"><h3>Regional banks</h3><p>Relationship-driven lenders that reward local deposits.</p></div>
-        <div class="lender"><h3>Credit unions</h3><p>Member-friendly terms and flexible underwriting.</p></div>
-        <div class="lender"><h3>Digital lenders</h3><p>Fast decisions and lines that grow with your revenue.</p></div>
-      </div>
-      <p style="font-size:clamp(17px,1.8vw,21px);line-height:1.6;color:#e2e8f0">We work across national institutions, regional banks, credit unions and digital lenders to find the best terms for your file. We know each lender's preferences, the order to apply in, and how to present your application as strongly as possible.</p>
+    <div class="how">
+      <div class="card rv" style="--d:2"><div class="ico"><i data-icon="building"></i></div><div class="n">STEP 01</div><h3>Banks compete for you</h3><p>Banks compete hard for good business customers, and 0% introductory APR is one of their favorite weapons.</p></div>
+      <div class="card rv" style="--d:3"><div class="ico"><i data-icon="layers"></i></div><div class="n">STEP 02</div><h3>We stack the promos</h3><p>We sequence applications across the right banks, in the right order, so multiple 0% offers add up to real capital.</p></div>
+      <div class="card rv" style="--d:4"><div class="ico"><i data-icon="trend"></i></div><div class="n">STEP 03</div><h3>Your capital goes to work</h3><p>Put the money into something that earns a return before the promo ends, so it works for you instead of costing you.</p></div>
     </div>
-  </section>
-
-  <!-- 7. Funding trajectory -->
-  <section class="slide">
-    <h2 class="title" style="text-align:left;font-size:clamp(24px,3vw,36px)">Your business funding <em>trajectory</em></h2>
-    <div class="split" style="align-items:start">
-      <div class="tablewrap">
-        <table>
-          <thead><tr><th>Lender</th><th>Product</th><th class="r">Limit</th><th>0% Promo</th><th>Doc type</th></tr></thead>
-          <tbody>
-            <tr><td>National Bank A</td><td>Biz CC</td><td class="r">$25,000</td><td><span class="ok">15 mo</span></td><td>No-doc</td></tr>
-            <tr><td>National Bank B</td><td>Biz CC</td><td class="r">$30,000</td><td><span class="ok">12 mo</span></td><td>No-doc</td></tr>
-            <tr><td>Regional Bank</td><td>Biz CC</td><td class="r">$20,000</td><td><span class="ok">12 mo</span></td><td>No-doc</td></tr>
-            <tr><td>Credit Union</td><td>Biz CC</td><td class="r">$15,000</td><td><span class="ok">18 mo</span></td><td>No-doc</td></tr>
-            <tr><td>National Bank C</td><td>Biz CC</td><td class="r">$25,000</td><td><span class="ok">12 mo</span></td><td>No-doc</td></tr>
-            <tr><td>Digital Lender</td><td>Line of credit</td><td class="r">$50,000</td><td>—</td><td>Bank stmts</td></tr>
-            <tr><td>Regional Bank</td><td>Term loan</td><td class="r">$75,000</td><td>—</td><td>Bank stmts</td></tr>
-            <tr><td>Credit Union</td><td>LOC</td><td class="r">$100,000</td><td>—</td><td>Full doc</td></tr>
-          </tbody>
-          <tfoot><tr><td colspan="2">Example total</td><td class="r">$340,000</td><td colspan="2"></td></tr></tfoot>
-        </table>
-        <p class="fine" style="margin-top:8px">Illustrative example only. Not a client result or a promise of approval.</p>
-      </div>
-      <div>
-        <div class="phase"><div class="chev"><div class="tag">Phase 1</div><div class="body">No-doc funding</div></div>
-          <p>Your first round. The goal is to work toward up to <span data-cfg="phase1Max"></span> in 0% business credit, typically without tax returns or bank statements.</p></div>
-        <div class="phase"><div class="chev"><div class="tag">Phase 2</div><div class="body">Bank statement funding</div></div>
-          <p>Deploy round-one capital into a cash-flowing business or investment. Those deposits become the bank statements that unlock larger lines.</p></div>
-        <div class="phase"><div class="chev"><div class="tag">Phase 3</div><div class="body">Full-doc funding</div></div>
-          <p>With statements and business tax returns, approach banks and credit unions for larger term loans and lines tied to your revenue.</p></div>
-      </div>
+    <div class="card runway rv" style="--d:5">
+      <div class="lbl"><span>Your 0% runway</span><span>Example timeline</span></div>
+      <div class="bar"><div class="z">0% intro APR: deploy &amp; grow</div><div class="s">Standard APR</div></div>
+      <div class="ticks"><span>Month 0</span><span>Month 6</span><span>Month 12</span><span>Month 18</span></div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- 8. How we get paid -->
-  <section class="slide">
-    <div class="mark"><div class="logo" data-logo></div></div>
-    <h2 class="title">Our <em>commitment</em></h2>
-    <ul class="bullets">
-      <li>Our funding fee is performance-based: it's charged on the back end, as a percentage of the funding you actually receive.</li>
-      <li>We teach you how banks think, and leave your credit profile in a stronger position than where we found it.</li>
-      <li>We run the strategy, the sequencing and the lender relationships, so you can stay focused on your business.</li>
-    </ul>
-  </section>
-
-  <!-- 9. Timeframe -->
-  <section class="slide">
-    <div class="mark"><div class="logo" data-logo></div></div>
-    <h2 class="title">Time frame for <em>funding</em></h2>
-    <div class="tf">
-      <div class="chev"><div class="tag">Level 1</div><div class="body">Credit &amp; business in position</div></div>
-      <p>We build the plan, and funds can often land in as little as 10 business days.</p>
-      <div class="chev"><div class="tag">Level 2</div><div class="body">Credit in place, no banking relationships</div></div>
-      <p>Fix a few items like banking relationships or paying down balances, usually 30 days or less.</p>
-      <div class="chev"><div class="tag">Level 3</div><div class="body">Not in position yet</div></div>
-      <p>Credit restoration first. Depending on your profile, typically 3–8 months.</p>
+<!-- 03 FOUNDER -->
+<section class="slide" data-name="Founder">
+  <div class="wrap founder">
+    <div class="portrait rv"><div class="in" id="founderPhoto"><span class="ph">N</span></div>
+      <div class="tagx"><span class="chip"><i class="dot"></i><span data-cfg="founderTitle"></span></span></div></div>
+    <div>
+      <div class="eyebrow rv">03 <b>Meet the founder</b></div>
+      <h2 class="h2 rv" style="--d:1" data-cfg="founderName"></h2>
+      <p class="quote rv" style="--d:2" data-cfg="founderQuote"></p>
+      <p class="rv" style="--d:3;font-size:17px" data-cfg="founderBio"></p>
+      <div class="stats">
+        <div class="card rv" style="--d:4"><b class="g" data-cfg="statFunded"></b><span>Client funding secured</span></div>
+        <div class="card rv" style="--d:5"><b class="g" data-cfg="statClients"></b><span>Clients funded</span></div>
+        <div class="card rv" style="--d:6"><b class="g" data-cfg="statBanks"></b><span>Lenders in network</span></div>
+      </div>
+      <a class="ig rv" style="--d:7" data-cfg-href="instagramUrl"><i data-icon="camera"></i><span data-cfg="instagram"></span></a>
     </div>
-    <p class="fine center" style="margin-top:26px">Timelines are estimates and depend on your credit profile and lender decisions.</p>
-  </section>
+  </div>
+</section>
 
-  <!-- 10. Funding cycle -->
-  <section class="slide">
-    <div class="split">
-      <div class="center">
-        <div class="mark"><div class="logo" data-logo></div></div>
-        <h2 style="font-size:clamp(34px,5vw,58px);font-weight:950;text-transform:uppercase;line-height:1.05">Repeatable*<br><span style="color:var(--green)">Funding</span><br>Strategy</h2>
-        <p class="muted" style="margin-top:12px">*Up to 3 funding rounds per year</p>
-      </div>
-      <div class="cycle">
-        <svg viewBox="0 0 100 100" aria-hidden="true">
-          <defs><marker id="ar" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#a7f3d0"/></marker></defs>
-          <circle cx="50" cy="50" r="36" fill="none" stroke="rgba(56,189,248,.25)" stroke-width=".6" stroke-dasharray="2 2"/>
-          <g fill="none" stroke="#a7f3d0" stroke-width="1.2" marker-end="url(#ar)">
-            <path d="M66.3,17.9 A36,36 0 0 1 75.5,24.5"/>
-            <path d="M85.6,55.6 A36,36 0 0 1 82.1,66.3"/>
-            <path d="M55.6,85.6 A36,36 0 0 1 44.4,85.6"/>
-            <path d="M17.9,66.3 A36,36 0 0 1 14.4,55.6"/>
-            <path d="M24.5,24.5 A36,36 0 0 1 33.7,17.9"/>
-          </g>
-        </svg>
-        <div class="node" style="left:50%;top:14%">Fix your credit</div>
-        <div class="node" style="left:84.2%;top:38.9%">Business in good standing</div>
-        <div class="node" style="left:71.2%;top:79.1%">Create a plan</div>
-        <div class="node" style="left:28.8%;top:79.1%">Build bank relationships</div>
-        <div class="node on" style="left:15.8%;top:38.9%">Apply</div>
-      </div>
+<!-- 04 WHY -->
+<section class="slide" data-name="Why business credit">
+  <div class="wrap">
+    <div class="head c">
+      <div class="eyebrow rv">04 <b>The vehicle</b></div>
+      <h2 class="h2 rv" style="--d:1">Why use <span class="g">business credit cards</span> at all?</h2>
     </div>
-  </section>
-
-  <!-- 11. Packages -->
-  <section class="slide">
-    <div class="mark"><div class="logo" data-logo></div></div>
-    <h2 class="title">Choose your <em>package</em></h2>
-    <div class="grid g2">
-      <div class="pkg">
-        <span class="pill" style="align-self:flex-start">Up to $100K</span>
-        <h3>Starter Funding Package</h3>
-        <div class="price"><span data-cfg="starterPrice"></span> <small>one-time onboarding</small></div>
-        <p class="muted">Best if you're targeting $100K or less in funding. Plus a performance-based success fee on approvals and 1-on-1 strategy calls.</p>
-      </div>
-      <div class="pkg feat">
-        <span class="pill" style="align-self:flex-start;color:var(--green);border-color:rgba(0,245,160,.4)">$100K+</span>
-        <h3>Accelerator Funding Package</h3>
-        <div class="price"><span data-cfg="acceleratorPrice"></span> <small>one-time onboarding</small></div>
-        <p class="muted">Best if you're targeting more than $100K across multiple rounds. Plus a performance-based success fee and priority 1-on-1 strategy calls.</p>
-      </div>
+    <div class="why">
+      <div class="card rv" style="--d:1"><div class="ico"><i data-icon="eyeoff"></i></div><div><h3>Off your personal report</h3><p>Most business cards don't report to personal credit.</p></div><span class="num">01</span></div>
+      <div class="card rv" style="--d:2"><div class="ico"><i data-icon="gauge"></i></div><div><h3>Protects utilization</h3><p>Balances usually don't count against your personal score.</p></div><span class="num">02</span></div>
+      <div class="card rv" style="--d:3"><div class="ico"><i data-icon="split"></i></div><div><h3>Clean separation</h3><p>Business and personal finances stay apart.</p></div><span class="num">03</span></div>
+      <div class="card rv" style="--d:4"><div class="ico"><i data-icon="trend"></i></div><div><h3>Higher limits</h3><p>Often well above what personal cards offer.</p></div><span class="num">04</span></div>
+      <div class="card rv" style="--d:5"><div class="ico"><i data-icon="gift"></i></div><div><h3>Points &amp; cash back</h3><p>Earn rewards on spend you'd make anyway.</p></div><span class="num">05</span></div>
+      <div class="card rv" style="--d:6"><div class="ico"><i data-icon="percent"></i></div><div><h3>0% for 12–18 months</h3><p>Introductory APR periods are common.</p></div><span class="num">06</span></div>
+      <div class="card rv" style="--d:7"><div class="ico"><i data-icon="zap"></i></div><div><h3>No revenue required</h3><p>Many cards approve without existing business credit.</p></div><span class="num">07</span></div>
+      <div class="card rv" style="--d:8"><div class="ico"><i data-icon="wallet"></i></div><div><h3>Low minimum payments</h3><p>Keeps your monthly cash flow free.</p></div><span class="num">08</span></div>
+      <div class="card rv" style="--d:9"><div class="ico"><i data-icon="repeat"></i></div><div><h3>Balance transfers</h3><p>Move balances to extend your 0% runway.</p></div><span class="num">09</span></div>
     </div>
-    <p class="banner" data-cfg="callOffer"></p>
-  </section>
+    <p class="fine rv" style="--d:10;text-align:center;margin-top:24px">Reporting and terms vary by issuer. Most business cards require a personal guarantee and a personal credit check at application.</p>
+  </div>
+</section>
 
-  <!-- 12. What's included -->
-  <section class="slide">
-    <div class="mark"><div class="logo" data-logo></div></div>
-    <h2 class="title">What's <em>included</em></h2>
-    <div class="split">
-      <ul class="bullets sm" style="max-width:none">
-        <li>1-on-1 strategy calls with a funding advisor</li>
-        <li>Full 3-bureau credit analysis</li>
-        <li>Dispute support for inaccurate, outdated or unverifiable items &amp; inquiries</li>
-        <li>Custom lender sequence &amp; application plan</li>
-        <li>Business entity &amp; compliance review</li>
-        <li>Access to our private client community</li>
-        <li>Direct access to your relationship manager</li>
+<!-- 05 SIX STEPS -->
+<section class="slide" data-name="Six steps">
+  <div class="wrap">
+    <div class="head c">
+      <div class="eyebrow rv">05 <b>The process</b></div>
+      <h2 class="h2 rv" style="--d:1">Six steps to get <span class="g">funding ready</span></h2>
+    </div>
+    <div class="track">
+      <div class="stp rv" style="--d:2"><div class="ball"><i data-icon="gauge"></i><em>1</em></div><h3>Optimize personal credit</h3><p>Scores, utilization &amp; report accuracy</p></div>
+      <div class="stp rv" style="--d:3"><div class="ball"><i data-icon="briefcase"></i><em>2</em></div><h3>Lender-ready LLC</h3><p>Form or restructure the right entity</p></div>
+      <div class="stp rv" style="--d:4"><div class="ball"><i data-icon="filecheck"></i><em>3</em></div><h3>Consistent business info</h3><p>Same details everywhere lenders look</p></div>
+      <div class="stp rv" style="--d:5"><div class="ball"><i data-icon="map"></i><em>4</em></div><h3>Strategic plan</h3><p>Which banks, what order, when</p></div>
+      <div class="stp rv" style="--d:6"><div class="ball"><i data-icon="building"></i><em>5</em></div><h3>Bank relationships</h3><p>Deposits &amp; history before you ask</p></div>
+      <div class="stp rv" style="--d:7"><div class="ball"><i data-icon="check"></i><em>6</em></div><h3>Apply</h3><p>In sequence, for maximum approvals</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 06 LENDERS -->
+<section class="slide" data-name="Who we work with">
+  <div class="wrap lenders">
+    <div>
+      <div class="eyebrow rv">06 <b>Our network</b></div>
+      <h2 class="h2 rv" style="--d:1">Who do we <span class="g">work with?</span></h2>
+      <p class="big rv" style="--d:2;margin-top:28px">We know each lender's preferences, the order to apply in, and <span>how to present your file so it gets a yes.</span></p>
+    </div>
+    <div class="lgrid">
+      <div class="card rv" style="--d:2"><div class="ico"><i data-icon="building"></i></div><h3>National banks</h3><p>The strongest 0% promos and highest limits.</p></div>
+      <div class="card rv" style="--d:3"><div class="ico"><i data-icon="pin"></i></div><h3>Regional banks</h3><p>Relationship lenders that reward local deposits.</p></div>
+      <div class="card rv" style="--d:4"><div class="ico"><i data-icon="users"></i></div><h3>Credit unions</h3><p>Member-friendly terms, flexible underwriting.</p></div>
+      <div class="card rv" style="--d:5"><div class="ico"><i data-icon="phone2"></i></div><h3>Digital lenders</h3><p>Fast decisions, lines that grow with revenue.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 07 TRAJECTORY -->
+<section class="slide" data-name="Funding trajectory">
+  <div class="wrap">
+    <div class="head">
+      <div class="eyebrow rv">07 <b>Your roadmap</b></div>
+      <h2 class="h2 rv" style="--d:1">Your business funding <span class="g">trajectory</span></h2>
+    </div>
+    <div class="stairs">
+      <div class="tier rv" style="--d:2"><div class="col">
+        <div class="ph">Phase 1</div><h3>No-doc funding</h3>
+        <div class="amt"><small>Work toward up to</small><span data-cfg="phase1Max"></span></div>
+        <p>0% business credit, typically without tax returns or bank statements.</p>
+        <div class="need"><span>Credit profile</span><span>LLC</span></div></div></div>
+      <div class="tier rv" style="--d:3"><div class="col">
+        <div class="ph">Phase 2</div><h3>Bank statement funding</h3>
+        <div class="amt t"><small>Unlocks</small>Lines &amp; term loans</div>
+        <p>Deploy round-one capital into a cash-flowing business. Those deposits become the statements that unlock bigger lines.</p>
+        <div class="need"><span>Business deposits</span><span>3–6 mo statements</span></div></div></div>
+      <div class="tier rv" style="--d:4"><div class="col">
+        <div class="ph">Phase 3</div><h3>Full-doc funding</h3>
+        <div class="amt t"><small>Unlocks</small>Revenue-based capital</div>
+        <p>With statements and business tax returns, approach banks and credit unions for larger loans tied to your revenue.</p>
+        <div class="need"><span>Tax returns</span><span>Financials</span><span>Revenue history</span></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 08 COMMITMENT -->
+<section class="slide" data-name="Our commitment">
+  <div class="wrap">
+    <div class="head c">
+      <div class="eyebrow rv">08 <b>Our commitment</b></div>
+      <h2 class="h2 rv" style="--d:1">We win <span class="g">when you win.</span></h2>
+    </div>
+    <div class="commit">
+      <div class="card rv" style="--d:2"><div class="big-n">01</div><div class="ico"><i data-icon="percent"></i></div><h3>Performance-based fee</h3><p>Our funding fee is charged on the back end, as a percentage of the funding you actually receive.</p></div>
+      <div class="card rv" style="--d:3"><div class="big-n">02</div><div class="ico"><i data-icon="trend"></i></div><h3>A stronger profile</h3><p>We teach you how banks think, and leave your credit profile stronger than where we found it.</p></div>
+      <div class="card rv" style="--d:4"><div class="big-n">03</div><div class="ico"><i data-icon="shield"></i></div><h3>We run the playbook</h3><p>Strategy, sequencing and lender relationships are on us, so you stay focused on your business.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 09 TIMEFRAME -->
+<section class="slide" data-name="Time frame">
+  <div class="wrap">
+    <div class="head">
+      <div class="eyebrow rv">09 <b>Timeline</b></div>
+      <h2 class="h2 rv" style="--d:1">How fast can you <span class="g">get funded?</span></h2>
+      <p class="sub rv" style="--d:2">It depends on where you're starting. Here's what we typically see.</p>
+    </div>
+    <div class="card gantt rv" style="--d:3">
+      <div class="grow"><div><div class="lv">Level 1</div><h3>Credit &amp; business in position</h3><p>We build the plan and apply.</p></div>
+        <div class="lane"><div class="b" style="--w:max(5%,130px);--d:1">~10 days</div></div></div>
+      <div class="grow"><div><div class="lv">Level 2</div><h3>Credit ready, no bank relationships</h3><p>Fix a few items: relationships, paying down balances.</p></div>
+        <div class="lane"><div class="b" style="--w:max(12.5%,140px);--d:2">≤ 30 days</div></div></div>
+      <div class="grow"><div><div class="lv">Level 3</div><h3>Not in position yet</h3><p>Credit restoration first, depending on your profile.</p></div>
+        <div class="lane"><div class="b range" style="--w:100%;--d:3"><span>3–8 months</span></div></div></div>
+      <div class="scale"><div></div><div><span>Today</span><span>2 mo</span><span>4 mo</span><span>6 mo</span><span>8 mo</span></div></div>
+    </div>
+    <p class="fine rv" style="--d:4;margin-top:16px">Timelines are estimates and depend on your credit profile and lender decisions.</p>
+  </div>
+</section>
+
+<!-- 10 CYCLE -->
+<section class="slide" data-name="Funding cycle">
+  <div class="wrap cyc">
+    <div>
+      <div class="eyebrow rv">10 <b>Repeatable</b></div>
+      <h2 class="h2 rv" style="--d:1">A funding strategy you can <span class="g">run again.</span></h2>
+      <p class="sub rv" style="--d:2">Once your profile is built, the cycle repeats, with up to three funding rounds per year.</p>
+      <ul class="loopl">
+        <li class="rv" style="--d:3"><i data-icon="check"></i>Each round strengthens the next</li>
+        <li class="rv" style="--d:4"><i data-icon="check"></i>Relationships compound over time</li>
+        <li class="rv" style="--d:5"><i data-icon="check"></i>Bigger limits as history builds</li>
       </ul>
-      <div class="pkg feat">
-        <h3>Your funding team</h3>
-        <p class="muted">You're not handed a PDF and wished luck. A dedicated advisor walks you through every step, from credit prep to the final approval call.</p>
-        <a class="btn" data-cfg-href="bookingUrl" style="align-self:flex-start">Book your strategy call →</a>
+    </div>
+    <div class="ring rv" style="--d:2">
+      <svg class="r" viewBox="0 0 100 100" aria-hidden="true">
+        <defs><linearGradient id="rg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#00f5a0"/><stop offset="1" stop-color="#00c2ff"/></linearGradient></defs>
+        <circle cx="50" cy="50" r="38" fill="none" stroke="rgba(148,197,255,.12)" stroke-width=".5"/>
+        <g class="spin"><circle cx="50" cy="50" r="38" fill="none" stroke="url(#rg)" stroke-width=".9" stroke-dasharray="40 199" stroke-linecap="round"/></g>
+        <circle cx="50" cy="50" r="27" fill="none" stroke="rgba(148,197,255,.08)" stroke-width=".4" stroke-dasharray="1 1.5"/>
+      </svg>
+      <div class="core"><b class="g">3×</b><small>Rounds / year</small></div>
+      <div class="nd" style="left:50%;top:12%"><div class="o"><i data-icon="gauge"></i></div><span>Fix your credit</span></div>
+      <div class="nd" style="left:86.1%;top:38.3%"><div class="o"><i data-icon="shield"></i></div><span>Business in good standing</span></div>
+      <div class="nd" style="left:72.3%;top:80.7%"><div class="o"><i data-icon="map"></i></div><span>Create a plan</span></div>
+      <div class="nd" style="left:27.7%;top:80.7%"><div class="o"><i data-icon="building"></i></div><span>Build bank relationships</span></div>
+      <div class="nd on" style="left:13.9%;top:38.3%"><div class="o"><i data-icon="zap"></i></div><span>Apply</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 11 PACKAGES -->
+<section class="slide" data-name="Packages">
+  <div class="wrap">
+    <div class="head c">
+      <div class="eyebrow rv">11 <b>Packages</b></div>
+      <h2 class="h2 rv" style="--d:1">Choose your <span class="g">path.</span></h2>
+    </div>
+    <div class="pkgs">
+      <div class="card pk rv" style="--d:2">
+        <div class="for">Targeting up to $100K</div><h3>Starter Funding</h3>
+        <div class="price"><span data-cfg="starterPrice"></span><small>one-time onboarding</small></div>
+        <p class="plus">+ performance-based success fee on approvals</p>
+        <ul>
+          <li><i data-icon="check"></i>1-on-1 strategy calls</li>
+          <li><i data-icon="check"></i>3-bureau credit analysis</li>
+          <li><i data-icon="check"></i>Custom lender sequence</li>
+          <li><i data-icon="check"></i>Private client community</li>
+        </ul>
+        <a class="btn ghost" data-cfg-href="bookingUrl">Get started <i data-icon="arrow"></i></a>
+      </div>
+      <div class="card pk feat rv" style="--d:3">
+        <span class="badge">Most popular</span>
+        <div class="for">Targeting $100K+</div><h3>Accelerator Funding</h3>
+        <div class="price"><span data-cfg="acceleratorPrice"></span><small>one-time onboarding</small></div>
+        <p class="plus">+ performance-based success fee on approvals</p>
+        <ul>
+          <li><i data-icon="check"></i>Everything in Starter</li>
+          <li><i data-icon="check"></i>Priority 1-on-1 strategy calls</li>
+          <li><i data-icon="check"></i>Multi-round funding roadmap</li>
+          <li><i data-icon="check"></i>Dedicated relationship manager</li>
+        </ul>
+        <a class="btn" data-cfg-href="bookingUrl">Get started <i data-icon="arrow"></i></a>
       </div>
     </div>
-  </section>
+    <div class="offer rv" style="--d:4"><i data-icon="gift"></i><span data-cfg="callOffer"></span></div>
+  </div>
+</section>
 
-  <!-- 13. CTA -->
-  <section class="slide">
-    <div class="mark"><div class="logo big" data-logo></div></div>
-    <h2 class="hero-h" style="font-size:clamp(32px,5vw,58px)">Let's get you <span class="g">funded.</span></h2>
-    <p class="lead muted" style="margin-top:18px">Book a free strategy call and we'll tell you exactly which level you're at and what it takes to get funded.</p>
-    <div class="center" style="margin-top:28px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
-      <a class="btn" data-cfg-href="bookingUrl">Book a strategy call →</a>
-      <a class="btn ghost" data-cfg-href="instagramUrl" data-cfg="instagram"></a>
+<!-- 12 INCLUDED -->
+<section class="slide" data-name="What's included">
+  <div class="wrap">
+    <div class="head c">
+      <div class="eyebrow rv">12 <b>What's included</b></div>
+      <h2 class="h2 rv" style="--d:1">Everything you need to <span class="g">get funded.</span></h2>
     </div>
-    <p class="fine center" style="margin:40px auto 0;max-width:860px">NRD Capital Group is not a lender. Funding is subject to lender approval, and approval amounts, rates and terms are not guaranteed. 0% APR offers are introductory and revert to the lender's standard rate after the promotional period. Business credit products typically require a personal guarantee. Results vary by credit profile. Examples shown are illustrative.</p>
-  </section>
+    <div class="incl">
+      <div class="card rv" style="--d:1"><div class="ico"><i data-icon="msg"></i></div><h3>1-on-1 strategy calls</h3><p>Direct time with a funding advisor.</p></div>
+      <div class="card rv" style="--d:2"><div class="ico"><i data-icon="search"></i></div><h3>3-bureau credit analysis</h3><p>A full audit of every factor lenders see.</p></div>
+      <div class="card rv" style="--d:3"><div class="ico"><i data-icon="filecheck"></i></div><h3>Dispute support</h3><p>For inaccurate, outdated or unverifiable items &amp; inquiries.</p></div>
+      <div class="card rv" style="--d:4"><div class="ico"><i data-icon="map"></i></div><h3>Custom lender sequence</h3><p>Which banks, in what order, and when.</p></div>
+      <div class="card rv" style="--d:5"><div class="ico"><i data-icon="briefcase"></i></div><h3>Entity &amp; compliance review</h3><p>Make your business lender-ready.</p></div>
+      <div class="card rv" style="--d:6"><div class="ico"><i data-icon="users"></i></div><h3>Private community</h3><p>Learn alongside other funded owners.</p></div>
+      <div class="card rv" style="--d:7"><div class="ico"><i data-icon="phone"></i></div><h3>Relationship manager</h3><p>A direct line from prep to approval.</p></div>
+      <div class="card team rv" style="--d:8"><h3 style="margin-top:0;font-size:20px">Ready when you are.</h3><p style="margin-bottom:18px">Find out which level you're at in one call.</p><a class="btn" data-cfg-href="bookingUrl">Book a call <i data-icon="arrow"></i></a></div>
+    </div>
+  </div>
+</section>
+
+<!-- 13 CTA -->
+<section class="slide" data-name="Get funded">
+  <div class="wrap cta">
+    <div class="logo rv" data-logo></div>
+    <h2 class="rv" style="--d:1">Let's get you<br><span class="g">funded.</span></h2>
+    <p class="sub rv" style="--d:2">Book a free strategy call. We'll tell you exactly where you stand and what it takes to get funded.</p>
+    <div class="ctas rv" style="--d:3">
+      <a class="btn" data-cfg-href="bookingUrl">Book a strategy call <i data-icon="arrow"></i></a>
+      <a class="btn ghost" data-cfg-href="instagramUrl"><i data-icon="camera"></i><span data-cfg="instagram"></span></a>
+    </div>
+    <p class="fine disclaimer rv" style="--d:4">NRD Capital Group is not a lender. Funding is subject to lender approval, and approval amounts, rates and terms are not guaranteed. 0% APR offers are introductory and revert to the lender's standard rate after the promotional period. Business credit products typically require a personal guarantee. Results vary by credit profile. Figures shown are illustrative.</p>
+  </div>
+</section>
 
 </main>
 
@@ -390,10 +622,11 @@
 /* ===== Edit these values to customize the deck ===== */
 const CONFIG = {
   fundingRange:     "$5K–$250K",
-  phase1Max:        "$250,000",
+  phase1Max:        "$250K",
   founderName:      "Nathan",
   founderTitle:     "Founder & CEO, NRD Capital Group",
-  founderBio:       "Nathan built NRD Capital Group to give business owners the same funding playbook the banks don't advertise: positioning credit, structuring the business, and sequencing applications so capital stacks instead of stalls.",
+  founderQuote:     "“The banks have a playbook. My job is to make sure you're the one holding it.”",
+  founderBio:       "Nathan built NRD Capital Group to give business owners the funding strategy banks don't advertise: positioning credit, structuring the business, and sequencing applications so capital stacks instead of stalls.",
   founderPhoto:     "",                 // e.g. "founder.jpg" (file in this repo)
   statFunded:       "$1M+",
   statClients:      "100+",
@@ -404,20 +637,53 @@ const CONFIG = {
   starterPrice:     "$497",
   acceleratorPrice: "$997",
   callOffer:        "Enroll on your strategy call and get 20% off your onboarding fee.",
-  logo:             "ChatGPT Image May 15, 2026, 05_37_39 PM (1) (1).png"
+  logo:             "logo.png"           // add your logo file to the repo with this name; the NRD mark shows until then
 };
 /* =================================================== */
 
+const ICONS = {
+  arrow:'M5 12h14M12 5l7 7-7 7', check:'M20 6L9 17l-5-5',
+  building:'M3 21h18M5 21V10M19 21V10M9.7 21V10M14.3 21V10M2 10l10-7 10 7z',
+  layers:'M12 2l10 5-10 5L2 7zM2 17l10 5 10-5M2 12l10 5 10-5',
+  trend:'M3 17l6-6 4 4 8-8M14 7h7v7',
+  eyeoff:'M3 3l18 18M10.6 10.6a2 2 0 002.8 2.8M9.9 5.1A10 10 0 0112 5c5 0 9 4.5 10 7-.4 1-1.2 2.3-2.4 3.5M6.2 6.2C4.1 7.6 2.6 9.8 2 12c1 2.5 5 7 10 7 1.6 0 3.1-.4 4.4-1.1',
+  gauge:'M12 14l4-4M3.3 19a10 10 0 1117.4 0',
+  split:'M16 3h5v5M8 3H3v5M21 3l-9 9M3 3l9 9v10',
+  gift:'M20 12v10H4V12M2 7h20v5H2zM12 22V7M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z',
+  percent:'M19 5L5 19M6.5 9a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM17.5 20a2.5 2.5 0 100-5 2.5 2.5 0 000 5z',
+  zap:'M13 2L3 14h9l-1 8 10-12h-9l1-8z',
+  wallet:'M20 7H5a2 2 0 010-4h14v4M3 5v14a2 2 0 002 2h16V7M16 14h.01',
+  repeat:'M17 1l4 4-4 4M3 11V9a4 4 0 014-4h14M7 23l-4-4 4-4M21 13v2a4 4 0 01-4 4H3',
+  briefcase:'M20 7H4a2 2 0 00-2 2v10a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2zM16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16',
+  filecheck:'M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8zM14 2v6h6M9 15l2 2 4-4',
+  map:'M3 6l6-3 6 3 6-3v15l-6 3-6-3-6 3zM9 3v15M15 6v15',
+  pin:'M12 21s-7-6.5-7-12a7 7 0 0114 0c0 5.5-7 12-7 12zM12 11a2 2 0 100-4 2 2 0 000 4z',
+  users:'M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 11a4 4 0 100-8 4 4 0 000 8zM23 21v-2a4 4 0 00-3-3.9M16 3.1a4 4 0 010 7.8',
+  phone2:'M7 2h10a2 2 0 012 2v16a2 2 0 01-2 2H7a2 2 0 01-2-2V4a2 2 0 012-2zM12 18h.01',
+  shield:'M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10zM9 12l2 2 4-4',
+  search:'M11 19a8 8 0 100-16 8 8 0 000 16zM21 21l-4.3-4.3',
+  msg:'M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z',
+  phone:'M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3.1 19.5 19.5 0 01-6-6A19.8 19.8 0 012.1 4.2 2 2 0 014.1 2h3a2 2 0 012 1.7c.1 1 .4 1.9.7 2.8a2 2 0 01-.5 2.1L8 9.9a16 16 0 006 6l1.3-1.3a2 2 0 012.1-.4c.9.3 1.8.6 2.8.7a2 2 0 011.7 2z',
+  camera:'M7 2h10a5 5 0 015 5v10a5 5 0 01-5 5H7a5 5 0 01-5-5V7a5 5 0 015-5zM16 11.4A4 4 0 1112.6 8 4 4 0 0116 11.4zM17.5 6.5h.01'
+};
+document.querySelectorAll('i[data-icon]').forEach(el => {
+  el.outerHTML = `<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="${ICONS[el.dataset.icon] || ''}"/></svg>`;
+});
 document.querySelectorAll('[data-cfg]').forEach(el => { el.textContent = CONFIG[el.dataset.cfg] ?? ''; });
 document.querySelectorAll('[data-cfg-href]').forEach(el => {
   const url = CONFIG[el.dataset.cfgHref] || '#';
   el.href = url;
   if (/^https?:/.test(url)) { el.target = '_blank'; el.rel = 'noopener'; }
 });
+const MARK = `<svg viewBox="0 0 48 48" class="mark" aria-hidden="true"><defs>
+  <linearGradient id="mk" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#00c2ff"/><stop offset="1" stop-color="#00f5a0"/></linearGradient></defs>
+  <path d="M11 37V15h6.5l13 15.5V18h-3.2L33.5 9l6.2 9h-3.2v19H30L17.5 22.4V37z" fill="url(#mk)"/>
+  <rect x="9" y="39.5" width="30" height="1.6" rx=".8" fill="#00f5a0" opacity=".35"/></svg>`;
 document.querySelectorAll('[data-logo]').forEach(box => {
-  box.innerHTML = '<img alt="NRD Capital Group logo"><div class="fb">NRD<span>CAPITAL</span></div>';
-  const img = box.querySelector('img');
-  img.onerror = () => { img.remove(); box.classList.add('nofile'); };
+  box.innerHTML = MARK;
+  if (!CONFIG.logo) return;
+  const img = new Image(); img.alt = 'NRD Capital Group logo';
+  img.onload = () => { box.innerHTML = ''; box.classList.add('has-img'); box.appendChild(img); };
   img.src = CONFIG.logo;
 });
 if (CONFIG.founderPhoto) {
@@ -427,20 +693,44 @@ if (CONFIG.founderPhoto) {
   img.src = CONFIG.founderPhoto;
 }
 
+/* count-up */
+const fmt = n => n.toLocaleString('en-US');
+function countUp(el){
+  if (el.dataset.done) return; el.dataset.done = 1;
+  const end = +el.dataset.count, pre = el.dataset.prefix || '', t0 = performance.now(), dur = 1600;
+  const step = t => { const p = Math.min(1,(t-t0)/dur), e = 1-Math.pow(1-p,3);
+    el.textContent = pre + fmt(Math.round(end*e)); if (p<1) requestAnimationFrame(step); };
+  requestAnimationFrame(step);
+}
+
+/* navigation */
 const slides = [...document.querySelectorAll('.slide')];
-const counter = document.getElementById('counter');
+const counter = document.getElementById('counter'), bar = document.getElementById('progress'), dots = document.getElementById('dots');
+const pad = n => String(n).padStart(2,'0');
+slides.forEach((s,i) => { const b = document.createElement('button'); b.title = s.dataset.name; b.setAttribute('aria-label', s.dataset.name); b.onclick = () => s.scrollIntoView({behavior:'smooth'}); dots.appendChild(b); });
 let current = 0;
-const io = new IntersectionObserver(entries => {
-  entries.forEach(e => { if (e.isIntersecting) { current = slides.indexOf(e.target); counter.textContent = `${current + 1} of ${slides.length}`; } });
-}, { threshold: 0.5 });
+const setCurrent = i => {
+  current = i;
+  counter.innerHTML = `${pad(i+1)} <span>/ ${pad(slides.length)}</span>`;
+  bar.style.width = ((i+1)/slides.length*100) + '%';
+  [...dots.children].forEach((d,j) => d.classList.toggle('on', j===i));
+};
+const io = new IntersectionObserver(entries => entries.forEach(e => {
+  if (!e.isIntersecting) return;
+  e.target.classList.add('in');
+  e.target.querySelectorAll('[data-count]').forEach(countUp);
+  if (e.intersectionRatio >= .5 || e.target.offsetHeight > innerHeight) setCurrent(slides.indexOf(e.target));
+}), { threshold: [.2,.5] });
 slides.forEach(s => io.observe(s));
-const go = d => slides[Math.max(0, Math.min(slides.length - 1, current + d))].scrollIntoView({ behavior: 'smooth', block: 'start' });
+setCurrent(0);
+const go = d => slides[Math.max(0, Math.min(slides.length-1, current+d))].scrollIntoView({behavior:'smooth'});
 document.getElementById('prev').onclick = () => go(-1);
 document.getElementById('next').onclick = () => go(1);
 document.addEventListener('keydown', e => {
   if (['ArrowDown','ArrowRight','PageDown',' '].includes(e.key)) { e.preventDefault(); go(1); }
   if (['ArrowUp','ArrowLeft','PageUp'].includes(e.key)) { e.preventDefault(); go(-1); }
 });
+window.addEventListener('beforeprint', () => slides.forEach(s => s.classList.add('in')));
 </script>
 </body>
 </html>
