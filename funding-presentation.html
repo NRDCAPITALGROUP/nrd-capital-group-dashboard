@@ -10,7 +10,7 @@
 <style>
   :root{
     --bg:#03060d; --ink:#f4f8ff; --body:#b6c4d8; --dim:#6b7a90; --faint:#3a4658;
-    --green:#00f5a0; --cyan:#00c2ff; --blue:#3b82f6; --violet:#8b5cf6;
+    --green:#00f5a0; --cyan:#00c2ff; --violet:#8b5cf6; --amber:#fbbf24; --red:#fb7185;
     --glass:rgba(255,255,255,.035); --glass2:rgba(255,255,255,.06);
     --line:rgba(148,197,255,.12); --line2:rgba(148,197,255,.22);
     --grad:linear-gradient(100deg,var(--green),var(--cyan));
@@ -18,48 +18,47 @@
     --ease:cubic-bezier(.2,.7,.2,1);
   }
   *{box-sizing:border-box}
-  html{scroll-behavior:smooth;scroll-snap-type:y mandatory}
   body{margin:0;background:var(--bg);color:var(--body);font:16px/1.6 Inter,system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
   a{color:inherit}
   h1,h2,h3{font-family:var(--display);color:var(--ink);margin:0;letter-spacing:-.035em;line-height:1.05}
   p{margin:0}
+  button{font:inherit}
   .g{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
   svg.i{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+  .notes{display:none}
 
-  /* ---------- slide shell ---------- */
-  .slide{position:relative;min-height:100vh;min-height:100svh;scroll-snap-align:start;display:flex;align-items:center;overflow:hidden;isolation:isolate;padding:96px 0 72px}
+  /* ---------- slide shell (designed on a 1600×900 canvas) ---------- */
+  .slide{position:relative;display:flex;align-items:center;overflow:hidden;isolation:isolate;padding:96px 0 64px;background:var(--bg)}
   .slide:before{content:"";position:absolute;inset:0;z-index:-2;
     background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
     background-size:64px 64px;mask-image:radial-gradient(ellipse 70% 60% at 50% 40%,#000 20%,transparent 75%);opacity:.5}
-  .slide:after{content:"";position:absolute;z-index:-1;width:720px;height:720px;border-radius:50%;filter:blur(120px);opacity:.22;pointer-events:none;
-    background:radial-gradient(circle,var(--glow,var(--cyan)),transparent 65%);left:var(--gx,60%);top:var(--gy,-20%)}
+  .slide:after{content:"";position:absolute;z-index:-1;width:760px;height:760px;border-radius:50%;filter:blur(120px);opacity:.22;pointer-events:none;
+    background:radial-gradient(circle,var(--glow,var(--cyan)),transparent 65%);left:var(--gx,60%);top:var(--gy,-25%)}
   .slide:nth-child(even){--glow:var(--green);--gx:-15%;--gy:30%}
   .slide:nth-child(3n){--glow:var(--violet);--gx:65%;--gy:45%}
-  .wrap{width:min(1180px,calc(100% - 40px));margin:0 auto}
-  .eyebrow{display:inline-flex;align-items:center;gap:10px;font:700 12px/1 var(--display);letter-spacing:.18em;text-transform:uppercase;color:var(--green);margin-bottom:18px}
+  .wrap{width:1360px;max-width:calc(100% - 40px);margin:0 auto}
+  .eyebrow{display:inline-flex;align-items:center;gap:10px;font:700 13px/1 var(--display);letter-spacing:.18em;text-transform:uppercase;color:var(--green);margin-bottom:18px}
   .eyebrow b{color:var(--dim);font-weight:700}
   .eyebrow:before{content:"";width:28px;height:1px;background:var(--grad)}
-  .h2{font-size:clamp(34px,5vw,62px);font-weight:800;max-width:900px}
-  .sub{font-size:clamp(16px,1.5vw,19px);color:var(--body);max-width:640px;margin-top:18px}
-  .head{margin-bottom:clamp(32px,5vh,56px)}
+  .h2{font-size:60px;font-weight:800;max-width:1000px}
+  .sub{font-size:19px;color:var(--body);max-width:680px;margin-top:16px}
+  .head{margin-bottom:44px}
   .head.c{text-align:center}.head.c .sub,.head.c .h2{margin-left:auto;margin-right:auto}
   .head.c .eyebrow:after{content:"";width:28px;height:1px;background:var(--grad)}
   .fine{font-size:12px;color:var(--dim);line-height:1.55}
-  .card{background:linear-gradient(180deg,var(--glass2),var(--glass));border:1px solid var(--line);border-radius:22px;backdrop-filter:blur(12px);
-    box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 20px 50px -20px rgba(0,0,0,.6);transition:border-color .3s,transform .3s var(--ease)}
-  .card:hover{border-color:var(--line2);transform:translateY(-3px)}
-  .ico{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;color:var(--green);
+  .card{background:linear-gradient(180deg,var(--glass2),var(--glass));border:1px solid var(--line);border-radius:22px;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 20px 50px -20px rgba(0,0,0,.6)}
+  .ico{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;color:var(--green);flex:none;
     background:linear-gradient(135deg,rgba(0,245,160,.14),rgba(0,194,255,.08));border:1px solid rgba(0,245,160,.22)}
-  .btn{display:inline-flex;align-items:center;gap:10px;border-radius:999px;padding:16px 26px;font:700 15px/1 var(--display);text-decoration:none;
+  .btn{display:inline-flex;align-items:center;gap:10px;border-radius:999px;padding:16px 26px;font:700 15px/1 var(--display);text-decoration:none;border:0;cursor:pointer;
     background:var(--grad);color:#021412;box-shadow:0 10px 40px -8px rgba(0,245,160,.45);transition:transform .2s,box-shadow .2s}
-  .btn:hover{transform:translateY(-2px);box-shadow:0 16px 50px -8px rgba(0,245,160,.6)}
-  .btn.ghost{background:var(--glass2);color:var(--ink);border:1px solid var(--line2);box-shadow:none}
+  .btn:hover{transform:translateY(-2px)}
   .btn svg.i{width:18px;height:18px}
   .chip{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;border:1px solid var(--line2);background:var(--glass);font:600 13px/1 Inter;color:var(--ink)}
   .chip .dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green)}
 
   /* reveal */
-  .rv{opacity:0;transform:translateY(26px);transition:opacity .8s var(--ease),transform .8s var(--ease);transition-delay:calc(var(--d,0) * 80ms)}
+  .rv{opacity:0;transform:translateY(24px);transition:opacity .7s var(--ease),transform .7s var(--ease);transition-delay:calc(var(--d,0) * 70ms + 120ms)}
   .slide.in .rv{opacity:1;transform:none}
 
   /* logo */
@@ -70,38 +69,42 @@
   .logo.has-img{background:#020617}
 
   /* ---------- HUD ---------- */
-  .topbar{position:fixed;inset:0 0 auto 0;z-index:30;display:flex;align-items:center;justify-content:space-between;padding:16px 24px;
-    background:linear-gradient(180deg,rgba(3,6,13,.85),transparent);pointer-events:none}
+  .topbar{position:fixed;inset:0 0 auto 0;z-index:30;display:flex;align-items:center;justify-content:space-between;padding:14px 22px;pointer-events:none}
   .topbar > *{pointer-events:auto}
-  .brand{display:flex;align-items:center;gap:12px;font:800 15px/1.1 var(--display);color:var(--ink);letter-spacing:-.01em}
-  .brand small{display:block;font:600 11px Inter;color:var(--dim);letter-spacing:.06em;text-transform:uppercase}
+  .brand{display:flex;align-items:center;gap:12px}
   .brand .logo{width:40px;height:40px;border-radius:12px}
-  .wm{font:800 20px/1 var(--display);letter-spacing:.02em}
-  .wm small{display:block;margin-top:4px;font:700 9px/1 var(--display)!important;letter-spacing:.32em!important;color:var(--green)!important}
-  .counter{font:700 13px/1 var(--display);color:var(--ink);letter-spacing:.08em;padding:10px 14px;border-radius:999px;background:rgba(10,16,28,.7);border:1px solid var(--line);backdrop-filter:blur(10px)}
+  .wm{font:800 20px/1 var(--display);letter-spacing:.02em;color:var(--ink)}
+  .wm small{display:block;margin-top:4px;font:700 9px/1 var(--display);letter-spacing:.32em;color:var(--green);text-transform:uppercase}
+  .hudr{display:flex;align-items:center;gap:8px}
+  .counter,.hbtn{font:700 13px/1 var(--display);color:var(--ink);letter-spacing:.08em;padding:10px 14px;border-radius:999px;background:rgba(10,16,28,.7);border:1px solid var(--line);backdrop-filter:blur(10px);transition:opacity .5s}
   .counter span{color:var(--dim)}
+  .hbtn{cursor:pointer;display:inline-flex;align-items:center;gap:6px;letter-spacing:.04em;color:var(--body)}
+  .hbtn:hover{color:var(--green);border-color:var(--green)}
+  .hbtn svg.i{width:15px;height:15px}
   .progress{position:fixed;left:0;top:0;height:3px;z-index:40;background:var(--grad);width:0;box-shadow:0 0 16px var(--green);transition:width .4s var(--ease)}
-  .dots{position:fixed;right:22px;top:50%;transform:translateY(-50%);z-index:30;display:flex;flex-direction:column;gap:10px}
-  .dots button{width:8px;height:8px;padding:0;border-radius:99px;border:0;background:var(--faint);cursor:pointer;transition:all .3s var(--ease)}
-  .dots button.on{height:26px;background:var(--grad)}
-  .navbtns{position:fixed;right:22px;bottom:22px;z-index:30;display:flex;gap:8px}
-  .navbtns button{width:46px;height:46px;border-radius:50%;border:1px solid var(--line2);background:rgba(10,16,28,.75);backdrop-filter:blur(10px);color:var(--ink);cursor:pointer;display:grid;place-items:center;transition:all .2s}
+  .navbtns{position:fixed;right:22px;bottom:22px;z-index:30;display:flex;gap:8px;transition:opacity .5s}
+  .navbtns button{width:46px;height:46px;border-radius:50%;border:1px solid var(--line2);background:rgba(10,16,28,.75);backdrop-filter:blur(10px);color:var(--ink);cursor:pointer;display:grid;place-items:center}
   .navbtns button:hover{border-color:var(--green);color:var(--green)}
+  .help{position:fixed;left:22px;bottom:22px;z-index:30;font:600 12px Inter;color:var(--faint);transition:opacity .5s}
+  .help kbd{font:700 11px Inter;color:var(--dim);border:1px solid var(--line2);border-radius:5px;padding:2px 6px;margin:0 2px}
+  body.idle .help,body.idle .navbtns,body.idle .hbtn{opacity:0}
 
   /* ---------- 1 cover ---------- */
   .cover{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center}
-  .cover h1{font-size:clamp(44px,6.6vw,92px);font-weight:800;letter-spacing:-.05em;line-height:.98;margin:22px 0 24px}
-  .cover .sub{font-size:clamp(17px,1.6vw,20px)}
-  .cover .ctas{display:flex;gap:12px;flex-wrap:wrap;margin-top:34px}
-  .trust{display:flex;gap:28px;margin-top:44px;flex-wrap:wrap}
-  .trust div{font:800 26px/1 var(--display);color:var(--ink);letter-spacing:-.03em}
-  .trust small{display:block;font:600 12px/1.4 Inter;color:var(--dim);letter-spacing:.04em;margin-top:6px;text-transform:uppercase}
-  .stack{position:relative;height:440px;perspective:1400px}
-  .cc{position:absolute;left:50%;top:50%;width:min(360px,80vw);aspect-ratio:1.586;border-radius:20px;padding:24px;color:#fff;
+  .cover h1{font-size:88px;font-weight:800;letter-spacing:-.05em;line-height:.98;margin:22px 0 24px}
+  .cover .sub{font-size:20px}
+  .prep{display:flex;gap:34px;margin-top:40px;padding-top:28px;border-top:1px solid var(--line);flex-wrap:wrap}
+  .prep small{display:block;font:700 11px/1 var(--display);letter-spacing:.16em;text-transform:uppercase;color:var(--dim);margin-bottom:10px}
+  .prep b{font:800 24px/1.1 var(--display);color:var(--ink);letter-spacing:-.02em}
+  .client{outline:none;border-bottom:2px dashed transparent;min-width:140px;display:inline-block;cursor:text}
+  .client:hover,.client:focus{border-bottom-color:rgba(0,245,160,.5)}
+  .client:empty:before{content:attr(data-ph);color:var(--faint)}
+  .stack{position:relative;height:460px;perspective:1400px}
+  .cc{position:absolute;left:50%;top:50%;width:360px;aspect-ratio:1.586;border-radius:20px;padding:24px;color:#fff;
     display:flex;flex-direction:column;justify-content:space-between;border:1px solid rgba(255,255,255,.18);
     box-shadow:0 40px 80px -20px rgba(0,0,0,.8),inset 0 1px 0 rgba(255,255,255,.25);overflow:hidden;
     transform:translate(-50%,-50%) rotateX(12deg) rotateY(-18deg) rotateZ(var(--r)) translate3d(var(--x),var(--y),0);animation:float 7s ease-in-out infinite;animation-delay:var(--ad)}
-  .cc:before{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 35%,rgba(255,255,255,.18) 50%,transparent 65%);transform:translateX(-60%);animation:sheen 6s ease-in-out infinite;animation-delay:var(--ad)}
+  .cc:before{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 35%,rgba(255,255,255,.18) 50%,transparent 65%);transform:translateX(-80%);animation:sheen 6s ease-in-out infinite;animation-delay:var(--ad)}
   .cc.a{--r:-10deg;--x:-60px;--y:-70px;--ad:0s;background:linear-gradient(135deg,#1e293b,#0f172a 60%,#0b3b4a)}
   .cc.b{--r:-2deg;--x:0px;--y:0px;--ad:-2s;background:linear-gradient(135deg,#0d3b66,#065f73 55%,#0a7f6a)}
   .cc.c{--r:7deg;--x:60px;--y:72px;--ad:-4s;background:linear-gradient(135deg,#00b386,#00a3d9)}
@@ -111,13 +114,11 @@
   .cc .apr small{font-size:13px;letter-spacing:.06em;opacity:.8;margin-left:6px}
   .cc .lim{font:600 13px/1.3 Inter;opacity:.9}
   .cc .lim b{display:block;font:800 20px var(--display);letter-spacing:-.02em}
-  .float-chip{position:absolute;z-index:3;padding:14px 18px;border-radius:16px;background:rgba(8,14,26,.85);border:1px solid var(--line2);backdrop-filter:blur(14px);box-shadow:0 20px 40px -10px rgba(0,0,0,.7)}
+  .float-chip{position:absolute;z-index:3;padding:14px 18px;border-radius:16px;background:rgba(8,14,26,.88);border:1px solid var(--line2);box-shadow:0 20px 40px -10px rgba(0,0,0,.7)}
   .float-chip small{display:block;font:600 11px Inter;color:var(--dim);text-transform:uppercase;letter-spacing:.08em}
   .float-chip b{font:800 24px/1.2 var(--display);color:var(--ink);letter-spacing:-.03em}
   .float-chip.one{right:0;top:20px}.float-chip.two{left:0;bottom:24px}
   .float-chip.two b{color:var(--green)}
-  .ghostmark{position:absolute;left:50%;top:50%;width:420px;height:420px;transform:translate(-50%,-50%);border:0;background:none;box-shadow:none;opacity:.07;border-radius:0}
-  .ghostmark svg.mark{filter:none}.ghostmark img{display:none}
   @keyframes float{50%{margin-top:-12px}}
   @keyframes sheen{0%,60%{transform:translateX(-80%)}100%{transform:translateX(120%)}}
 
@@ -125,188 +126,238 @@
   .how{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
   .how .card{padding:28px}
   .how .n{font:800 13px var(--display);color:var(--dim);letter-spacing:.14em;margin:22px 0 8px}
-  .how h3{font-size:22px;margin-bottom:10px}
-  .how p{font-size:15px}
-  .runway{margin-top:22px;padding:26px 28px}
+  .how h3{font-size:23px;margin-bottom:10px}
+  .how p{font-size:15.5px}
+  .runway{margin-top:20px;padding:24px 28px}
   .runway .lbl{display:flex;justify-content:space-between;font:600 12px Inter;color:var(--dim);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px}
-  .runway .bar{display:flex;height:46px;border-radius:12px;overflow:hidden;font:700 14px/46px var(--display)}
-  .runway .z{flex:12;background:var(--grad);color:#021412;padding-left:18px;position:relative}
+  .runway .bar{display:flex;height:48px;border-radius:12px;overflow:hidden;font:700 15px/48px var(--display)}
+  .runway .z{flex:12;background:var(--grad);color:#021412;padding-left:18px}
   .runway .s{flex:6;background:repeating-linear-gradient(45deg,#1b2433,#1b2433 8px,#151d2a 8px,#151d2a 16px);color:var(--dim);padding-left:16px}
   .runway .ticks{display:flex;justify-content:space-between;font:600 12px Inter;color:var(--dim);margin-top:10px}
 
   /* ---------- 3 founder ---------- */
-  .founder{display:grid;grid-template-columns:.85fr 1.15fr;gap:64px;align-items:center}
-  .portrait{position:relative;aspect-ratio:4/5;max-height:560px;width:100%;border-radius:28px;padding:2px;background:linear-gradient(160deg,var(--green),transparent 40%,transparent 60%,var(--cyan))}
+  .founder{display:grid;grid-template-columns:.8fr 1.2fr;gap:72px;align-items:center}
+  .portrait{position:relative;aspect-ratio:4/5;height:640px;max-width:100%;border-radius:28px;padding:2px;background:linear-gradient(160deg,var(--green),transparent 40%,transparent 60%,var(--cyan))}
   .portrait .in{width:100%;height:100%;border-radius:26px;overflow:hidden;background:radial-gradient(circle at 50% 30%,#14233d,#050a14);display:grid;place-items:center}
   .portrait img{width:100%;height:100%;object-fit:cover}
   .portrait .ph{font:800 140px var(--display);color:rgba(0,194,255,.18)}
   .portrait .tagx{position:absolute;left:20px;bottom:20px;right:20px}
-  .quote{font:700 clamp(22px,2.4vw,30px)/1.3 var(--display);color:var(--ink);letter-spacing:-.02em;margin:22px 0 26px;position:relative;padding-left:22px;border-left:2px solid var(--green)}
+  .quote{font:700 30px/1.3 var(--display);color:var(--ink);letter-spacing:-.02em;margin:22px 0 24px;padding-left:22px;border-left:2px solid var(--green)}
   .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:30px}
   .stats .card{padding:20px}
-  .stats b{display:block;font:800 clamp(28px,3vw,40px)/1 var(--display);letter-spacing:-.04em}
+  .stats b{display:block;font:800 40px/1 var(--display);letter-spacing:-.04em}
   .stats span{display:block;margin-top:8px;font:600 12px/1.4 Inter;color:var(--dim);text-transform:uppercase;letter-spacing:.06em}
   .ig{display:inline-flex;align-items:center;gap:8px;margin-top:24px;font-weight:600;color:var(--ink);text-decoration:none}
-  .ig:hover{color:var(--green)}
 
   /* ---------- 4 why ---------- */
   .why{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
   .why .card{padding:22px;display:flex;gap:16px;align-items:flex-start}
-  .why h3{font-size:17px;letter-spacing:-.015em;margin-bottom:4px;line-height:1.25}
-  .why p{font-size:14px;line-height:1.5}
+  .why h3{font-size:18px;letter-spacing:-.015em;margin-bottom:4px;line-height:1.25}
+  .why p{font-size:14.5px;line-height:1.5}
   .why .num{font:800 12px var(--display);color:var(--faint);margin-left:auto;letter-spacing:.06em}
 
   /* ---------- 5 steps ---------- */
-  .track{position:relative;display:grid;grid-template-columns:repeat(6,1fr);gap:14px}
-  .track:before{content:"";position:absolute;left:8%;right:8%;top:34px;height:2px;background:linear-gradient(90deg,var(--green),var(--cyan),var(--violet));opacity:.6}
-  .stp{text-align:center;position:relative}
-  .stp .ball{width:68px;height:68px;margin:0 auto 22px;border-radius:50%;display:grid;place-items:center;background:#07101d;border:1px solid var(--line2);color:var(--green);position:relative;
+  .track{position:relative;display:grid;grid-template-columns:repeat(6,1fr);gap:16px}
+  .track:before{content:"";position:absolute;left:8%;right:8%;top:40px;height:2px;background:linear-gradient(90deg,var(--green),var(--cyan),var(--violet));opacity:.6}
+  .stp{text-align:center}
+  .stp .ball{width:80px;height:80px;margin:0 auto 24px;border-radius:50%;display:grid;place-items:center;background:#07101d;border:1px solid var(--line2);color:var(--green);position:relative;
     box-shadow:0 0 0 8px var(--bg),0 0 30px rgba(0,245,160,.15)}
-  .stp .ball svg.i{width:26px;height:26px}
-  .stp .ball em{position:absolute;top:-6px;right:-6px;width:24px;height:24px;border-radius:50%;background:var(--grad);color:#021412;font:800 12px/24px var(--display);font-style:normal}
-  .stp h3{font-size:17px;line-height:1.25;letter-spacing:-.015em;margin-bottom:6px}
-  .stp p{font-size:13.5px;line-height:1.5;color:var(--dim)}
+  .stp .ball svg.i{width:30px;height:30px}
+  .stp .ball em{position:absolute;top:-6px;right:-6px;width:26px;height:26px;border-radius:50%;background:var(--grad);color:#021412;font:800 13px/26px var(--display);font-style:normal}
+  .stp h3{font-size:19px;line-height:1.25;letter-spacing:-.015em;margin-bottom:8px}
+  .stp p{font-size:14.5px;line-height:1.5;color:var(--dim)}
   .stp:last-child .ball{background:var(--grad);color:#021412;border:0}
 
   /* ---------- 6 lenders ---------- */
-  .lenders{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+  .lenders{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
   .lgrid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-  .lgrid .card{padding:24px}
-  .lgrid h3{font-size:19px;margin:18px 0 6px}
-  .lgrid p{font-size:14px}
-  .big{font:700 clamp(22px,2.3vw,30px)/1.35 var(--display);color:var(--ink);letter-spacing:-.02em}
+  .lgrid .card{padding:26px}
+  .lgrid h3{font-size:20px;margin:18px 0 6px}
+  .lgrid p{font-size:15px}
+  .big{font:700 30px/1.35 var(--display);color:var(--ink);letter-spacing:-.02em}
   .big span{color:var(--dim)}
 
   /* ---------- 7 trajectory ---------- */
-  .stairs{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;align-items:end;min-height:420px}
+  .stairs{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;align-items:end;height:440px}
   .tier{display:flex;flex-direction:column;justify-content:flex-end;height:100%}
   .tier .col{position:relative;border-radius:22px 22px 6px 6px;padding:26px;border:1px solid var(--line2);overflow:hidden;
     background:linear-gradient(180deg,rgba(0,194,255,.12),rgba(0,245,160,.03))}
   .tier .col:before{content:"";position:absolute;inset:0 0 auto 0;height:3px;background:var(--grad)}
-  .tier:nth-child(1) .col{min-height:58%}.tier:nth-child(2) .col{min-height:76%}.tier:nth-child(3) .col{min-height:96%;background:linear-gradient(180deg,rgba(0,245,160,.18),rgba(0,194,255,.04))}
+  .tier:nth-child(1) .col{min-height:62%}.tier:nth-child(2) .col{min-height:80%}.tier:nth-child(3) .col{min-height:100%;background:linear-gradient(180deg,rgba(0,245,160,.18),rgba(0,194,255,.04))}
   .tier .ph{font:700 12px var(--display);letter-spacing:.16em;color:var(--green);text-transform:uppercase}
-  .tier h3{font-size:clamp(22px,2.2vw,28px);margin:10px 0 6px}
-  .tier .amt{font:800 clamp(30px,3.4vw,44px)/1 var(--display);color:var(--ink);letter-spacing:-.04em;margin:14px 0 12px}
+  .tier h3{font-size:28px;margin:10px 0 6px}
+  .tier .amt{font:800 46px/1 var(--display);color:var(--ink);letter-spacing:-.04em;margin:14px 0 12px}
+  .tier .amt.t{font-size:28px;letter-spacing:-.03em}
   .tier .amt small{display:block;font:600 12px Inter;color:var(--dim);letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px}
-  .tier .amt.t{font-size:clamp(22px,2.2vw,28px);letter-spacing:-.03em}
-  .tier p{font-size:14.5px}
+  .tier p{font-size:15px}
   .tier .need{display:flex;flex-wrap:wrap;gap:6px;margin-top:16px}
   .tier .need span{font:600 12px Inter;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,.05);border:1px solid var(--line);color:var(--ink)}
 
   /* ---------- 8 commitment ---------- */
   .commit{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-  .commit .card{padding:34px 30px;min-height:300px;display:flex;flex-direction:column}
-  .commit .big-n{font:800 88px/1 var(--display);letter-spacing:-.06em;background:linear-gradient(180deg,rgba(255,255,255,.18),rgba(255,255,255,0));-webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:auto}
-  .commit h3{font-size:24px;margin:26px 0 10px}
-  .commit p{font-size:15px}
+  .commit .card{padding:34px 30px;min-height:340px;display:flex;flex-direction:column}
+  .commit .big-n{font:800 96px/1 var(--display);letter-spacing:-.06em;background:linear-gradient(180deg,rgba(255,255,255,.18),rgba(255,255,255,0));-webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:auto}
+  .commit h3{font-size:26px;margin:26px 0 10px}
+  .commit p{font-size:16px}
 
   /* ---------- 9 timeframe ---------- */
-  .gantt{padding:34px 34px 26px}
-  .grow{display:grid;grid-template-columns:260px 1fr;gap:28px;align-items:center;padding:20px 0;border-bottom:1px solid var(--line)}
+  .gantt{padding:30px 34px 24px}
+  .grow{display:grid;grid-template-columns:300px 1fr;gap:28px;align-items:center;padding:20px 0;border-bottom:1px solid var(--line)}
   .grow:last-of-type{border-bottom:0}
   .grow .lv{font:700 12px var(--display);letter-spacing:.14em;color:var(--green);text-transform:uppercase}
-  .grow h3{font-size:19px;margin:6px 0 4px;letter-spacing:-.015em}
-  .grow p{font-size:13.5px;color:var(--dim);line-height:1.45}
-  .lane{position:relative;height:52px;border-radius:12px;background:repeating-linear-gradient(90deg,transparent 0 calc(12.5% - 1px),var(--line) calc(12.5% - 1px) 12.5%)}
+  .grow h3{font-size:20px;margin:6px 0 4px;letter-spacing:-.015em}
+  .grow p{font-size:14px;color:var(--dim);line-height:1.45}
+  .lane{position:relative;height:54px;border-radius:12px;background:repeating-linear-gradient(90deg,transparent 0 calc(12.5% - 1px),var(--line) calc(12.5% - 1px) 12.5%)}
   .lane .b{position:absolute;top:8px;bottom:8px;left:0;border-radius:10px;background:var(--grad);display:flex;align-items:center;padding:0 14px;white-space:nowrap;
-    font:800 14px var(--display);color:#021412;width:0;transition:width 1.2s var(--ease);transition-delay:calc(var(--d,0) * 150ms + 300ms);box-shadow:0 0 24px rgba(0,245,160,.25)}
+    font:800 15px var(--display);color:#021412;width:0;transition:width 1.2s var(--ease);transition-delay:calc(var(--d,0) * 150ms + 300ms);box-shadow:0 0 24px rgba(0,245,160,.25)}
   .lane .b.range{background:linear-gradient(90deg,transparent 0,transparent 37.5%,rgba(0,194,255,.9) 37.5%,var(--green) 100%);box-shadow:none}
   .lane .b.range:before{content:"";position:absolute;left:0;top:50%;width:37.5%;border-top:2px dashed rgba(0,194,255,.5)}
-  .lane .b.range span{margin-left:auto;margin-right:auto;padding-left:37.5%}
+  .lane .b.range span{margin:0 auto;padding-left:37.5%}
   .slide.in .lane .b{width:var(--w)}
-  .scale{display:grid;grid-template-columns:260px 1fr;gap:28px;margin-top:6px}
+  .grow.me{background:linear-gradient(90deg,rgba(0,245,160,.08),transparent);border-radius:14px;margin:0 -16px;padding-left:16px;padding-right:16px}
+  .grow .you{display:none;margin-left:8px;font:800 10px/1 var(--display);letter-spacing:.12em;padding:4px 8px;border-radius:999px;background:var(--grad);color:#021412;vertical-align:middle}
+  .grow.me .you{display:inline-block}
+  .scale{display:grid;grid-template-columns:300px 1fr;gap:28px;margin-top:6px}
   .scale div:last-child{display:flex;justify-content:space-between;font:600 12px Inter;color:var(--dim)}
 
   /* ---------- 10 cycle ---------- */
   .cyc{display:grid;grid-template-columns:.9fr 1.1fr;gap:40px;align-items:center}
-  .ring{position:relative;width:min(520px,100%);aspect-ratio:1;margin:0 auto}
+  .ring{position:relative;width:560px;max-width:100%;aspect-ratio:1;margin:0 auto}
   .ring svg.r{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
   .ring .spin{transform-origin:50% 50%;animation:spin 30s linear infinite}
   @keyframes spin{to{transform:rotate(360deg)}}
   .ring .core{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);text-align:center}
-  .ring .core b{display:block;font:800 clamp(48px,6vw,72px)/1 var(--display);letter-spacing:-.05em}
+  .ring .core b{display:block;font:800 76px/1 var(--display);letter-spacing:-.05em}
   .ring .core small{font:600 12px Inter;color:var(--dim);letter-spacing:.1em;text-transform:uppercase}
-  .nd{position:absolute;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:10px;width:130px;text-align:center}
-  .nd .o{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;background:#07101d;border:1px solid var(--line2);color:var(--green);box-shadow:0 0 0 8px var(--bg),0 10px 30px rgba(0,0,0,.5)}
+  .nd{position:absolute;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:10px;width:140px;text-align:center}
+  .nd .o{width:68px;height:68px;border-radius:50%;display:grid;place-items:center;background:#07101d;border:1px solid var(--line2);color:var(--green);box-shadow:0 0 0 8px var(--bg),0 10px 30px rgba(0,0,0,.5)}
   .nd.on .o{background:var(--grad);color:#021412;border:0;box-shadow:0 0 0 8px var(--bg),0 0 40px rgba(0,245,160,.45)}
-  .nd span{font:700 14px/1.2 var(--display);color:var(--ink)}
+  .nd span{font:700 15px/1.2 var(--display);color:var(--ink)}
   .loopl{list-style:none;padding:0;margin:28px 0 0;display:grid;gap:12px}
-  .loopl li{display:flex;gap:12px;align-items:center;font-weight:600;color:var(--ink)}
+  .loopl li{display:flex;gap:12px;align-items:center;font-weight:600;color:var(--ink);font-size:17px}
   .loopl li svg.i{color:var(--green);width:18px;height:18px}
 
-  /* ---------- 11 packages ---------- */
-  .pkgs{display:grid;grid-template-columns:1fr 1fr;gap:22px;max-width:980px;margin:0 auto}
-  .pk{padding:34px;display:flex;flex-direction:column;position:relative}
-  .pk.feat{border:1px solid transparent;background:linear-gradient(#07101d,#07101d) padding-box,linear-gradient(140deg,var(--green),rgba(0,194,255,.2) 50%,var(--cyan)) border-box;box-shadow:0 30px 80px -30px rgba(0,245,160,.35)}
-  .badge{position:absolute;top:-13px;right:28px;padding:7px 14px;border-radius:999px;background:var(--grad);color:#021412;font:800 11px/1 var(--display);letter-spacing:.1em;text-transform:uppercase}
+  /* ---------- 11 snapshot ---------- */
+  .snap{display:grid;grid-template-columns:1.05fr .95fr;gap:22px;align-items:stretch}
+  .snap .inputs{padding:28px 30px;display:grid;grid-template-columns:1fr 1fr;gap:22px 28px;align-content:start}
+  .fld label{display:flex;justify-content:space-between;align-items:baseline;font:700 12px var(--display);letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin-bottom:10px}
+  .fld label output{font:800 22px var(--display);letter-spacing:-.02em;color:var(--ink);text-transform:none}
+  .fld.wide{grid-column:span 2}
+  input[type=range]{width:100%;accent-color:var(--green);height:24px;cursor:pointer}
+  .seg{display:flex;gap:6px;background:rgba(0,0,0,.25);border:1px solid var(--line);border-radius:12px;padding:4px}
+  .seg button{flex:1;border:0;border-radius:9px;padding:10px 8px;background:transparent;color:var(--dim);font:700 14px var(--display);cursor:pointer}
+  .seg button.on.y{background:rgba(0,245,160,.14);color:var(--green);box-shadow:inset 0 0 0 1px rgba(0,245,160,.35)}
+  .seg button.on.n{background:rgba(251,113,133,.12);color:var(--red);box-shadow:inset 0 0 0 1px rgba(251,113,133,.3)}
+  .result{padding:28px 30px;display:flex;flex-direction:column;gap:18px}
+  .result .top{display:flex;align-items:center;gap:22px}
+  .gauge{width:150px;height:92px;flex:none;position:relative}
+  .gauge svg{width:100%;height:100%;overflow:visible}
+  .gauge b{position:absolute;left:0;right:0;bottom:0;text-align:center;font:800 32px/1 var(--display);color:var(--ink);letter-spacing:-.03em}
+  .lvl small{display:block;font:700 12px var(--display);letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+  .lvl b{display:block;font:800 44px/1.05 var(--display);letter-spacing:-.04em;margin:6px 0 4px}
+  .lvl span{font:600 15px Inter;color:var(--body)}
+  .kv{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .kv div{border:1px solid var(--line);border-radius:14px;padding:14px 16px;background:rgba(0,0,0,.2)}
+  .kv small{display:block;font:700 11px var(--display);letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin-bottom:6px}
+  .kv b{font:800 22px/1.15 var(--display);color:var(--ink);letter-spacing:-.02em}
+  .focus h4{margin:0 0 10px;font:700 12px var(--display);letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+  .focus ul{list-style:none;margin:0;padding:0;display:grid;gap:9px}
+  .focus li{display:flex;gap:10px;font-size:15px;color:var(--ink);line-height:1.4}
+  .focus li svg.i{width:18px;height:18px;color:var(--amber);margin-top:1px}
+  .focus li.ok svg.i{color:var(--green)}
+  [data-level="1"] .lvl b{color:var(--green)} [data-level="2"] .lvl b{color:var(--cyan)} [data-level="3"] .lvl b{color:var(--amber)}
+
+  /* ---------- 12 packages ---------- */
+  .pkgs{display:grid;grid-template-columns:1fr 1fr;gap:22px;max-width:1040px;margin:0 auto}
+  .pk{padding:32px;display:flex;flex-direction:column;position:relative;transition:box-shadow .4s,transform .4s var(--ease)}
+  .pk.feat{border:1px solid transparent;background:linear-gradient(#07101d,#07101d) padding-box,linear-gradient(140deg,var(--green),rgba(0,194,255,.2) 50%,var(--cyan)) border-box;box-shadow:0 30px 80px -30px rgba(0,245,160,.35);transform:translateY(-6px)}
+  .badge{display:none;position:absolute;top:-13px;right:28px;padding:7px 14px;border-radius:999px;background:var(--grad);color:#021412;font:800 11px/1 var(--display);letter-spacing:.1em;text-transform:uppercase}
+  .pk.feat .badge{display:block}
   .pk .for{font:600 13px Inter;color:var(--dim)}
-  .pk h3{font-size:24px;margin:8px 0 22px}
-  .pk .price{font:800 64px/1 var(--display);color:var(--ink);letter-spacing:-.05em;display:flex;align-items:baseline;gap:10px}
+  .pk h3{font-size:26px;margin:8px 0 20px}
+  .pk .price{font:800 66px/1 var(--display);color:var(--ink);letter-spacing:-.05em;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+  .pk .price s{font-size:28px;color:var(--faint);letter-spacing:-.02em;text-decoration-thickness:2px}
+  .pk .price s:empty{display:none}
   .pk .price small{font:600 14px Inter;color:var(--dim);letter-spacing:0}
-  .pk .plus{font-size:14px;margin:10px 0 24px;padding-bottom:24px;border-bottom:1px solid var(--line)}
-  .pk ul{list-style:none;padding:0;margin:0 0 30px;display:grid;gap:12px}
-  .pk li{display:flex;gap:12px;font-size:15px;color:var(--ink)}
+  .pk .plus{font-size:14px;margin:10px 0 22px;padding-bottom:22px;border-bottom:1px solid var(--line)}
+  .pk ul{list-style:none;padding:0;margin:0;display:grid;gap:12px}
+  .pk li{display:flex;gap:12px;font-size:15.5px;color:var(--ink)}
   .pk li svg.i{width:20px;height:20px;color:var(--green);margin-top:2px}
-  .pk .btn{margin-top:auto;justify-content:center}
-  .offer{display:flex;align-items:center;justify-content:center;gap:12px;margin:34px auto 0;width:max-content;max-width:100%;padding:14px 22px;border-radius:999px;border:1px dashed rgba(0,245,160,.45);background:rgba(0,245,160,.06);color:var(--ink);font:700 15px/1.35 var(--display);text-align:left}
+  .offer{display:flex;align-items:center;justify-content:center;gap:12px;margin:32px auto 0;width:max-content;max-width:100%;padding:14px 22px;border-radius:999px;border:1px dashed rgba(0,245,160,.45);background:rgba(0,245,160,.06);color:var(--ink);font:700 16px/1.35 var(--display)}
   .offer svg.i{color:var(--green)}
 
-  /* ---------- 12 included ---------- */
-  .incl{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
-  .incl .card{padding:24px}
-  .incl h3{font-size:17px;margin:18px 0 6px;letter-spacing:-.015em;line-height:1.25}
-  .incl p{font-size:14px;line-height:1.5}
-  .incl .team{grid-column:span 1;background:linear-gradient(160deg,rgba(0,245,160,.16),rgba(0,194,255,.06));border-color:rgba(0,245,160,.3);display:flex;flex-direction:column}
-  .incl .team .btn{margin-top:auto;padding:13px 18px;font-size:14px;align-self:flex-start}
+  /* ---------- 13 included + next steps ---------- */
+  .close{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+  .incl{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:30px}
+  .incl div{display:flex;gap:12px;align-items:center;padding:14px 16px;border:1px solid var(--line);border-radius:14px;background:var(--glass);font:600 15px/1.3 Inter;color:var(--ink)}
+  .incl svg.i{color:var(--green);width:20px;height:20px}
+  .next{padding:34px}
+  .next h3{font-size:24px;margin-bottom:6px}
+  .next .summary{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 24px}
+  .steps3{list-style:none;margin:0 0 28px;padding:0;display:grid;gap:18px;counter-reset:s}
+  .steps3 li{display:grid;grid-template-columns:44px 1fr;gap:16px;align-items:start;counter-increment:s}
+  .steps3 li:before{content:counter(s);width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font:800 17px var(--display);color:#021412;background:var(--grad)}
+  .steps3 b{display:block;font:700 18px/1.3 var(--display);color:var(--ink);letter-spacing:-.01em}
+  .steps3 span{font-size:14.5px}
+  .next .btn{width:100%;justify-content:center;font-size:17px;padding:19px}
+  .disclaimer{margin-top:18px}
 
-  /* ---------- 13 cta ---------- */
-  .cta{text-align:center}
-  .cta h2{font-size:clamp(48px,8vw,112px);font-weight:800;letter-spacing:-.055em;line-height:.95}
-  .cta .sub{margin:24px auto 0}
-  .cta .ctas{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:38px}
-  .cta .logo{width:76px;height:76px;border-radius:22px;margin:0 auto 30px}
-  .disclaimer{max-width:820px;margin:64px auto 0;padding-top:24px;border-top:1px solid var(--line)}
+  /* ---------- PRESENT MODE (desktop / screen share) ---------- */
+  @media (min-width:981px){
+    html,body{height:100%;overflow:hidden}
+    #deck{position:fixed;left:50%;top:50%;width:1600px;height:900px;transform:translate(-50%,-50%) scale(var(--s,1))}
+    .slide{position:absolute;inset:0;opacity:0;visibility:hidden;transition:opacity .45s ease,visibility 0s linear .45s}
+    .slide.active{opacity:1;visibility:visible;transition:opacity .45s ease}
+  }
 
-  /* ---------- responsive ---------- */
-  @media(max-width:980px){
-    html{scroll-snap-type:none}
-    .slide{min-height:auto;padding:96px 0 64px}
-    .dots{display:none}
-    .cover,.founder,.lenders,.cyc{grid-template-columns:1fr;gap:40px}
+  /* ---------- PHONE / SCROLL MODE ---------- */
+  @media (max-width:980px){
+    .slide{min-height:100svh;padding:90px 0 60px}
+    .h2{font-size:38px!important}.sub{font-size:17px}.head{margin-bottom:30px}
+    .cover,.founder,.lenders,.cyc,.snap,.close{grid-template-columns:1fr;gap:36px}
+    .cover h1{font-size:52px}
     .stack{height:360px}
     .how,.commit,.stairs{grid-template-columns:1fr}
-    .stairs{min-height:0}.tier .col{min-height:0!important}
-    .why,.incl{grid-template-columns:1fr 1fr}
+    .stairs{height:auto}.tier .col{min-height:0!important}
+    .why{grid-template-columns:1fr 1fr}
     .track{grid-template-columns:1fr 1fr 1fr;row-gap:36px}.track:before{display:none}
     .pkgs{grid-template-columns:1fr}
     .grow,.scale{grid-template-columns:1fr;gap:12px}.scale div:first-child{display:none}
-    .portrait{max-width:420px;margin:0 auto}
+    .portrait{height:auto;width:100%;max-width:420px;margin:0 auto}
+    .ring{width:100%}.quote{font-size:24px}.big{font-size:23px}
+    .help{display:none}
   }
-  @media(max-width:620px){
-    .wrap{width:calc(100% - 32px)}
-    .why,.incl,.lgrid{grid-template-columns:1fr}
+  @media (max-width:620px){
+    .wrap{max-width:calc(100% - 32px)}
+    .why,.lgrid,.incl{grid-template-columns:1fr}
     .track{grid-template-columns:1fr 1fr}
-    .stats{grid-template-columns:1fr 1fr 1fr;gap:8px}.stats .card{padding:14px}
-    .topbar{padding:12px 16px}.brand small{display:none}
+    .stats{gap:8px}.stats .card{padding:14px}.stats b{font-size:28px}
+    .cover h1{font-size:44px}
+    .prep{gap:20px}.prep b{font-size:19px}
     .float-chip.one{top:0}.float-chip.two{bottom:0}
     .cc{width:240px;padding:16px}.cc .apr{font-size:28px}
     .cc.a{--x:-30px;--y:-56px}.cc.c{--x:30px;--y:56px}
-    .pk{padding:26px}.pk .price{font-size:52px}
-    .gantt{padding:22px}
+    .pk{padding:24px}.pk .price{font-size:52px}
+    .gantt,.snap .inputs,.result,.next{padding:22px}
+    .snap .inputs{grid-template-columns:1fr}.fld.wide{grid-column:auto}
+    .result .top{gap:14px}.gauge{width:110px;height:70px}.lvl b{font-size:34px}
+    .nd{width:96px}.nd span{font-size:12px}.nd .o{width:52px;height:52px}
     .offer{border-radius:18px}
+    .hbtn{display:none}
   }
-  @media(prefers-reduced-motion:reduce){
+  @media (prefers-reduced-motion:reduce){
     *,*:before{animation:none!important;transition:none!important}
-    .rv{opacity:1;transform:none}
-    .lane .b{width:var(--w)}
+    .rv{opacity:1;transform:none}.lane .b{width:var(--w)}
   }
   @media print{
-    @page{size:13.333in 7.5in;margin:0}
+    @page{size:16in 9in;margin:0}
+    html,body{height:auto;overflow:visible}
     body{-webkit-print-color-adjust:exact;print-color-adjust:exact}
-    .topbar,.progress,.dots,.navbtns{display:none}
-    .slide{height:7.5in;min-height:0;padding:48px 0;break-after:page}
+    .topbar,.progress,.navbtns,.help{display:none}
+    #deck{position:static;transform:none;width:1600px;height:auto}
+    .slide{position:relative;opacity:1;visibility:visible;height:900px;break-after:page}
     .rv{opacity:1;transform:none}.lane .b{width:var(--w)}
-    *{animation:none!important}
+    *{animation:none!important;transition:none!important}
   }
 </style>
 </head>
@@ -315,13 +366,17 @@
 <div class="progress" id="progress"></div>
 <header class="topbar">
   <div class="brand"><div class="logo" data-logo></div><div class="wm">NRD<small>Capital Group</small></div></div>
-  <div class="counter" id="counter">01 <span>/ 13</span></div>
+  <div class="hudr">
+    <button class="hbtn" id="notesBtn" title="Open speaker notes (N)"><svg class="i" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8zM14 2v6h6M8 13h8M8 17h5"/></svg>Notes</button>
+    <button class="hbtn" id="fsBtn" title="Fullscreen (F)" aria-label="Fullscreen"><svg class="i" viewBox="0 0 24 24"><path d="M8 3H5a2 2 0 00-2 2v3M21 8V5a2 2 0 00-2-2h-3M3 16v3a2 2 0 002 2h3M16 21h3a2 2 0 002-2v-3"/></svg></button>
+    <div class="counter" id="counter">01 <span>/ 13</span></div>
+  </div>
 </header>
-<nav class="dots" id="dots" aria-label="Slides"></nav>
 <div class="navbtns">
-  <button id="prev" aria-label="Previous slide"><svg class="i" viewBox="0 0 24 24"><path d="M18 15l-6-6-6 6"/></svg></button>
-  <button id="next" aria-label="Next slide"><svg class="i" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
+  <button id="prev" aria-label="Previous slide"><svg class="i" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg></button>
+  <button id="next" aria-label="Next slide"><svg class="i" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></button>
 </div>
+<div class="help"><kbd>←</kbd><kbd>→</kbd> navigate · <kbd>F</kbd> fullscreen · <kbd>N</kbd> speaker notes</div>
 
 <main id="deck">
 
@@ -329,32 +384,32 @@
 <section class="slide" data-name="Welcome">
   <div class="wrap cover">
     <div>
-      <span class="chip rv"><i class="dot"></i>Now accepting new funding clients</span>
+      <span class="chip rv"><i class="dot"></i>Business Funding Strategy Session</span>
       <h1 class="rv" style="--d:1">Fund your business at <span class="g">0% intro APR.</span></h1>
       <p class="sub rv" style="--d:2">Secure <b style="color:var(--ink)" data-cfg="fundingRange"></b> to start or scale, with a done-with-you strategy built around your credit, your business and the right lenders.</p>
-      <div class="ctas rv" style="--d:3">
-        <a class="btn" data-cfg-href="bookingUrl">Book a strategy call <i data-icon="arrow"></i></a>
-        <a class="btn ghost" href="#s2">See how it works</a>
-      </div>
-      <div class="trust rv" style="--d:4">
-        <div><span data-cfg="statFunded"></span><small>Funding secured</small></div>
-        <div><span data-cfg="statClients"></span><small>Clients funded</small></div>
-        <div>12–18 mo<small>Typical 0% runway</small></div>
+      <div class="prep rv" style="--d:3">
+        <div><small>Prepared for</small><b class="client" contenteditable="true" spellcheck="false" data-ph="Client name" id="clientName"></b></div>
+        <div><small>Presented by</small><b data-cfg="presenter"></b></div>
+        <div><small>Date</small><b id="today"></b></div>
       </div>
     </div>
     <div class="stack rv" style="--d:2" aria-hidden="true">
-      <div class="logo ghostmark" data-logo></div>
       <div class="cc a"><div class="row"><span>Business</span><span>Card 01</span></div><div class="apr">0%<small>APR · 12 MO</small></div><div class="lim">Credit limit<b>$25,000</b></div></div>
       <div class="cc b"><div class="row"><span class="chipz"></span><span>Card 02</span></div><div class="apr">0%<small>APR · 15 MO</small></div><div class="lim">Credit limit<b>$30,000</b></div></div>
       <div class="cc c"><div class="row"><span class="chipz"></span><span>Card 03</span></div><div class="apr">0%<small>APR · 18 MO</small></div><div class="lim">Credit limit<b>$40,000</b></div></div>
-      <div class="float-chip one"><small>Round 1 · approved</small><b data-count="95000" data-prefix="$">$0</b></div>
+      <div class="float-chip one"><small>Example round 1</small><b data-count="95000" data-prefix="$">$0</b></div>
       <div class="float-chip two"><small>Interest in promo</small><b>$0.00</b></div>
     </div>
   </div>
+  <aside class="notes">
+    <p><b>Open warm.</b> Confirm they can see your screen. Click "Prepared for" and type the client's name before you start (or open the link with <code>?client=Name</code>).</p>
+    <p>Set the agenda: "I'll show you how 0% funding works, where you stand today, and the exact plan to get you funded. Sound good?"</p>
+    <p><b>Ask:</b> "Before we jump in, what would you do with the capital if we got it for you?" Write it down. You'll use it at the close.</p>
+  </aside>
 </section>
 
 <!-- 02 HOW IT WORKS -->
-<section class="slide" id="s2" data-name="How 0% works">
+<section class="slide" data-name="How 0% works">
   <div class="wrap">
     <div class="head">
       <div class="eyebrow rv">02 <b>How it works</b></div>
@@ -362,7 +417,7 @@
       <p class="sub rv" style="--d:2">It sounds too good to be true, so here's exactly what's happening.</p>
     </div>
     <div class="how">
-      <div class="card rv" style="--d:2"><div class="ico"><i data-icon="building"></i></div><div class="n">STEP 01</div><h3>Banks compete for you</h3><p>Banks compete hard for good business customers, and 0% introductory APR is one of their favorite weapons.</p></div>
+      <div class="card rv" style="--d:2"><div class="ico"><i data-icon="building"></i></div><div class="n">STEP 01</div><h3>Banks compete for you</h3><p>Banks compete hard for good business customers, and 0% introductory APR is one of their favorite tools.</p></div>
       <div class="card rv" style="--d:3"><div class="ico"><i data-icon="layers"></i></div><div class="n">STEP 02</div><h3>We stack the promos</h3><p>We sequence applications across the right banks, in the right order, so multiple 0% offers add up to real capital.</p></div>
       <div class="card rv" style="--d:4"><div class="ico"><i data-icon="trend"></i></div><div class="n">STEP 03</div><h3>Your capital goes to work</h3><p>Put the money into something that earns a return before the promo ends, so it works for you instead of costing you.</p></div>
     </div>
@@ -372,6 +427,12 @@
       <div class="ticks"><span>Month 0</span><span>Month 6</span><span>Month 12</span><span>Month 18</span></div>
     </div>
   </div>
+  <aside class="notes">
+    <p>Lead with the objection: "I know it sounds too good to be true."</p>
+    <p>Banks are in competition, and promo APR is how they win customers. We stack several promos in the right order.</p>
+    <p><b>Be honest about the runway:</b> after 12–18 months the rate goes up. The goal is to deploy the capital into something that returns more before then.</p>
+    <p><b>Ask:</b> "How would you use 12 months of interest-free capital in your business?"</p>
+  </aside>
 </section>
 
 <!-- 03 FOUNDER -->
@@ -392,6 +453,11 @@
       <a class="ig rv" style="--d:7" data-cfg-href="instagramUrl"><i data-icon="camera"></i><span data-cfg="instagram"></span></a>
     </div>
   </div>
+  <aside class="notes">
+    <p>Keep it under 60 seconds. Credibility, not a life story.</p>
+    <p>Share one real client win (name withheld): starting point → what we did → result.</p>
+    <p>Point them to the Instagram for proof and client stories after the call.</p>
+  </aside>
 </section>
 
 <!-- 04 WHY -->
@@ -412,8 +478,14 @@
       <div class="card rv" style="--d:8"><div class="ico"><i data-icon="wallet"></i></div><div><h3>Low minimum payments</h3><p>Keeps your monthly cash flow free.</p></div><span class="num">08</span></div>
       <div class="card rv" style="--d:9"><div class="ico"><i data-icon="repeat"></i></div><div><h3>Balance transfers</h3><p>Move balances to extend your 0% runway.</p></div><span class="num">09</span></div>
     </div>
-    <p class="fine rv" style="--d:10;text-align:center;margin-top:24px">Reporting and terms vary by issuer. Most business cards require a personal guarantee and a personal credit check at application.</p>
+    <p class="fine rv" style="--d:10;text-align:center;margin-top:22px">Reporting and terms vary by issuer. Most business cards require a personal guarantee and a personal credit check at application.</p>
   </div>
+  <aside class="notes">
+    <p>Don't read all nine. Pick the 3 that matter to <i>this</i> client (usually 01, 02, 06).</p>
+    <p>If they're worried about their personal score, spend time on 01 and 02.</p>
+    <p><b>Be accurate:</b> the application still pulls personal credit and requires a personal guarantee.</p>
+    <p><b>Ask:</b> "Do you currently have any business cards open?"</p>
+  </aside>
 </section>
 
 <!-- 05 SIX STEPS -->
@@ -432,6 +504,11 @@
       <div class="stp rv" style="--d:7"><div class="ball"><i data-icon="check"></i><em>6</em></div><h3>Apply</h3><p>In sequence, for maximum approvals</p></div>
     </div>
   </div>
+  <aside class="notes">
+    <p>Key message: most people skip straight to step 6. That's why they get denied.</p>
+    <p>Each step removes a reason for a bank to say no.</p>
+    <p><b>Ask:</b> "Have you applied for funding before? What happened?" Their answer tells you which step broke.</p>
+  </aside>
 </section>
 
 <!-- 06 LENDERS -->
@@ -449,6 +526,10 @@
       <div class="card rv" style="--d:5"><div class="ico"><i data-icon="phone2"></i></div><h3>Digital lenders</h3><p>Fast decisions, lines that grow with revenue.</p></div>
     </div>
   </div>
+  <aside class="notes">
+    <p>Mention which bank types fit their state and profile. Regional banks and credit unions are often where clients don't think to look.</p>
+    <p>Don't promise specific banks will approve. Say "lenders we see approve profiles like yours."</p>
+  </aside>
 </section>
 
 <!-- 07 TRAJECTORY -->
@@ -476,6 +557,11 @@
         <div class="need"><span>Tax returns</span><span>Financials</span><span>Revenue history</span></div></div></div>
     </div>
   </div>
+  <aside class="notes">
+    <p>This is the long game. Phase 1 is where we start, and each phase funds the next.</p>
+    <p>Phase 1 amounts depend on the credit profile. Say "work toward", not "guaranteed".</p>
+    <p><b>Ask:</b> "Is your business already producing deposits, or are we starting from zero?"</p>
+  </aside>
 </section>
 
 <!-- 08 COMMITMENT -->
@@ -491,6 +577,10 @@
       <div class="card rv" style="--d:4"><div class="big-n">03</div><div class="ico"><i data-icon="shield"></i></div><h3>We run the playbook</h3><p>Strategy, sequencing and lender relationships are on us, so you stay focused on your business.</p></div>
     </div>
   </div>
+  <aside class="notes">
+    <p>Explain the success fee clearly: the percentage, when it's due, and what counts as "funding received". No surprises later.</p>
+    <p>Our incentives are aligned: we only earn the big fee when they get funded.</p>
+  </aside>
 </section>
 
 <!-- 09 TIMEFRAME -->
@@ -502,16 +592,20 @@
       <p class="sub rv" style="--d:2">It depends on where you're starting. Here's what we typically see.</p>
     </div>
     <div class="card gantt rv" style="--d:3">
-      <div class="grow"><div><div class="lv">Level 1</div><h3>Credit &amp; business in position</h3><p>We build the plan and apply.</p></div>
+      <div class="grow" data-lv="1"><div><div class="lv">Level 1<span class="you">YOU</span></div><h3>Credit &amp; business in position</h3><p>We build the plan and apply.</p></div>
         <div class="lane"><div class="b" style="--w:max(5%,130px);--d:1">~10 days</div></div></div>
-      <div class="grow"><div><div class="lv">Level 2</div><h3>Credit ready, no bank relationships</h3><p>Fix a few items: relationships, paying down balances.</p></div>
+      <div class="grow" data-lv="2"><div><div class="lv">Level 2<span class="you">YOU</span></div><h3>Credit ready, no bank relationships</h3><p>Fix a few items: relationships, paying down balances.</p></div>
         <div class="lane"><div class="b" style="--w:max(12.5%,140px);--d:2">≤ 30 days</div></div></div>
-      <div class="grow"><div><div class="lv">Level 3</div><h3>Not in position yet</h3><p>Credit restoration first, depending on your profile.</p></div>
+      <div class="grow" data-lv="3"><div><div class="lv">Level 3<span class="you">YOU</span></div><h3>Not in position yet</h3><p>Credit restoration first, depending on your profile.</p></div>
         <div class="lane"><div class="b range" style="--w:100%;--d:3"><span>3–8 months</span></div></div></div>
       <div class="scale"><div></div><div><span>Today</span><span>2 mo</span><span>4 mo</span><span>6 mo</span><span>8 mo</span></div></div>
     </div>
-    <p class="fine rv" style="--d:4;margin-top:16px">Timelines are estimates and depend on your credit profile and lender decisions.</p>
+    <p class="fine rv" style="--d:4;margin-top:14px">Timelines are estimates and depend on your credit profile and lender decisions.</p>
   </div>
+  <aside class="notes">
+    <p>Don't guess their level yet. "We'll figure out exactly which one you are in two minutes."</p>
+    <p>After you fill in the Funding Snapshot (slide 11), their level gets a "YOU" tag here if you come back.</p>
+  </aside>
 </section>
 
 <!-- 10 CYCLE -->
@@ -542,19 +636,65 @@
       <div class="nd on" style="left:13.9%;top:38.3%"><div class="o"><i data-icon="zap"></i></div><span>Apply</span></div>
     </div>
   </div>
+  <aside class="notes">
+    <p>This isn't a one-time thing. Once their profile is in shape, we can run the cycle again, up to 3 rounds a year.</p>
+    <p>Transition: "So let's see where YOU are on this today." → next slide.</p>
+  </aside>
 </section>
 
-<!-- 11 PACKAGES -->
+<!-- 11 SNAPSHOT -->
+<section class="slide" data-name="Funding snapshot">
+  <div class="wrap">
+    <div class="head" style="margin-bottom:28px">
+      <div class="eyebrow rv">11 <b>Live assessment</b></div>
+      <h2 class="h2 rv" style="--d:1;font-size:52px"><span data-client-pos>Your</span> <span class="g">funding snapshot</span></h2>
+    </div>
+    <div class="snap">
+      <div class="card inputs rv" style="--d:2">
+        <div class="fld"><label for="score">Credit score <output id="o-score"></output></label><input type="range" id="score" min="500" max="850" step="5" value="700"></div>
+        <div class="fld"><label for="goal">Funding goal <output id="o-goal"></output></label><input type="range" id="goal" min="10000" max="500000" step="5000" value="150000"></div>
+        <div class="fld"><label for="util">Credit utilization <output id="o-util"></output></label><input type="range" id="util" min="0" max="100" step="1" value="25"></div>
+        <div class="fld"><label for="inq">Hard inquiries (12 mo) <output id="o-inq"></output></label><input type="range" id="inq" min="0" max="15" step="1" value="2"></div>
+        <div class="fld"><label>Has an LLC / corp</label><div class="seg" data-key="llc"><button class="y" data-v="1">Yes</button><button class="n" data-v="0">No</button></div></div>
+        <div class="fld"><label>Business bank account</label><div class="seg" data-key="bank"><button class="y" data-v="1">Yes</button><button class="n" data-v="0">No</button></div></div>
+        <div class="fld wide"><label>Late payments, collections or charge-offs (24 mo)</label><div class="seg" data-key="derog"><button class="n" data-v="1">Yes</button><button class="y" data-v="0">No</button></div></div>
+      </div>
+      <div class="card result rv" style="--d:3" id="result">
+        <div class="top">
+          <div class="gauge"><svg viewBox="0 0 120 70"><defs><linearGradient id="gg"><stop offset="0" stop-color="#fb7185"/><stop offset=".5" stop-color="#fbbf24"/><stop offset="1" stop-color="#00f5a0"/></linearGradient></defs>
+            <path d="M10 62a50 50 0 01100 0" fill="none" stroke="rgba(148,197,255,.12)" stroke-width="9" stroke-linecap="round"/>
+            <path id="garc" d="M10 62a50 50 0 01100 0" fill="none" stroke="url(#gg)" stroke-width="9" stroke-linecap="round" pathLength="100" stroke-dasharray="0 100" style="transition:stroke-dasharray .6s var(--ease)"/></svg><b id="g-score">700</b></div>
+          <div class="lvl"><small>Funding readiness</small><b id="r-level">Level 2</b><span id="r-desc"></span></div>
+        </div>
+        <div class="kv">
+          <div><small>Estimated timeline</small><b id="r-time"></b></div>
+          <div><small>Recommended path</small><b id="r-pkg"></b></div>
+        </div>
+        <div class="focus"><h4>What we'll focus on first</h4><ul id="r-focus"></ul></div>
+        <p class="fine" style="margin-top:auto">Preliminary estimate based on what you've shared. Not a credit decision or a promise of approval.</p>
+      </div>
+    </div>
+  </div>
+  <aside class="notes">
+    <p><b>The most important slide.</b> Ask each question out loud and set the controls as they answer. They'll watch their result update live.</p>
+    <p>Questions: score (ask which app they check, since app scores often run higher than lender scores) · funding goal · rough card balances vs. limits · inquiries in the past year · LLC? · business checking? · any late payments or collections?</p>
+    <p>Then read the result back: "Based on this you're Level X. Here's what we'd do first…"</p>
+    <p>If Level 3, reframe: "Good news, you know exactly what to fix, and we do that with you."</p>
+  </aside>
+</section>
+
+<!-- 12 PACKAGES -->
 <section class="slide" data-name="Packages">
   <div class="wrap">
-    <div class="head c">
-      <div class="eyebrow rv">11 <b>Packages</b></div>
+    <div class="head c" style="margin-bottom:40px">
+      <div class="eyebrow rv">12 <b>Packages</b></div>
       <h2 class="h2 rv" style="--d:1">Choose your <span class="g">path.</span></h2>
     </div>
     <div class="pkgs">
-      <div class="card pk rv" style="--d:2">
+      <div class="card pk rv" style="--d:2" data-pkg="starter">
+        <span class="badge" data-badge>Recommended</span>
         <div class="for">Targeting up to $100K</div><h3>Starter Funding</h3>
-        <div class="price"><span data-cfg="starterPrice"></span><small>one-time onboarding</small></div>
+        <div class="price"><span data-price="starterPrice"></span><s data-was="starterPrice"></s><small>one-time onboarding</small></div>
         <p class="plus">+ performance-based success fee on approvals</p>
         <ul>
           <li><i data-icon="check"></i>1-on-1 strategy calls</li>
@@ -562,12 +702,11 @@
           <li><i data-icon="check"></i>Custom lender sequence</li>
           <li><i data-icon="check"></i>Private client community</li>
         </ul>
-        <a class="btn ghost" data-cfg-href="bookingUrl">Get started <i data-icon="arrow"></i></a>
       </div>
-      <div class="card pk feat rv" style="--d:3">
-        <span class="badge">Most popular</span>
+      <div class="card pk rv" style="--d:3" data-pkg="accelerator">
+        <span class="badge" data-badge>Recommended</span>
         <div class="for">Targeting $100K+</div><h3>Accelerator Funding</h3>
-        <div class="price"><span data-cfg="acceleratorPrice"></span><small>one-time onboarding</small></div>
+        <div class="price"><span data-price="acceleratorPrice"></span><s data-was="acceleratorPrice"></s><small>one-time onboarding</small></div>
         <p class="plus">+ performance-based success fee on approvals</p>
         <ul>
           <li><i data-icon="check"></i>Everything in Starter</li>
@@ -575,45 +714,52 @@
           <li><i data-icon="check"></i>Multi-round funding roadmap</li>
           <li><i data-icon="check"></i>Dedicated relationship manager</li>
         </ul>
-        <a class="btn" data-cfg-href="bookingUrl">Get started <i data-icon="arrow"></i></a>
       </div>
     </div>
     <div class="offer rv" style="--d:4"><i data-icon="gift"></i><span data-cfg="callOffer"></span></div>
   </div>
+  <aside class="notes">
+    <p>The recommended package is set automatically from the funding goal on the Snapshot slide.</p>
+    <p>Present the recommended one first, then stop talking and let them respond.</p>
+    <p>The on-call discount is shown with strikethrough prices. Only offer it if it's real for this call.</p>
+  </aside>
 </section>
 
-<!-- 12 INCLUDED -->
-<section class="slide" data-name="What's included">
-  <div class="wrap">
-    <div class="head c">
-      <div class="eyebrow rv">12 <b>What's included</b></div>
-      <h2 class="h2 rv" style="--d:1">Everything you need to <span class="g">get funded.</span></h2>
+<!-- 13 INCLUDED + NEXT STEPS -->
+<section class="slide" data-name="Next steps">
+  <div class="wrap close">
+    <div>
+      <div class="eyebrow rv">13 <b>Let's get started</b></div>
+      <h2 class="h2 rv" style="--d:1;font-size:64px"><span data-client-greet>Let's get you</span> <span class="g">funded.</span></h2>
+      <div class="incl">
+        <div class="rv" style="--d:2"><i data-icon="msg"></i>1-on-1 strategy calls</div>
+        <div class="rv" style="--d:3"><i data-icon="search"></i>3-bureau credit analysis</div>
+        <div class="rv" style="--d:4"><i data-icon="filecheck"></i>Dispute support for inaccurate items</div>
+        <div class="rv" style="--d:5"><i data-icon="map"></i>Custom lender sequence</div>
+        <div class="rv" style="--d:6"><i data-icon="briefcase"></i>Entity &amp; compliance review</div>
+        <div class="rv" style="--d:7"><i data-icon="users"></i>Private client community</div>
+        <div class="rv" style="--d:8"><i data-icon="phone"></i>Dedicated relationship manager</div>
+        <div class="rv" style="--d:9"><i data-icon="shield"></i>Performance-based success fee</div>
+      </div>
     </div>
-    <div class="incl">
-      <div class="card rv" style="--d:1"><div class="ico"><i data-icon="msg"></i></div><h3>1-on-1 strategy calls</h3><p>Direct time with a funding advisor.</p></div>
-      <div class="card rv" style="--d:2"><div class="ico"><i data-icon="search"></i></div><h3>3-bureau credit analysis</h3><p>A full audit of every factor lenders see.</p></div>
-      <div class="card rv" style="--d:3"><div class="ico"><i data-icon="filecheck"></i></div><h3>Dispute support</h3><p>For inaccurate, outdated or unverifiable items &amp; inquiries.</p></div>
-      <div class="card rv" style="--d:4"><div class="ico"><i data-icon="map"></i></div><h3>Custom lender sequence</h3><p>Which banks, in what order, and when.</p></div>
-      <div class="card rv" style="--d:5"><div class="ico"><i data-icon="briefcase"></i></div><h3>Entity &amp; compliance review</h3><p>Make your business lender-ready.</p></div>
-      <div class="card rv" style="--d:6"><div class="ico"><i data-icon="users"></i></div><h3>Private community</h3><p>Learn alongside other funded owners.</p></div>
-      <div class="card rv" style="--d:7"><div class="ico"><i data-icon="phone"></i></div><h3>Relationship manager</h3><p>A direct line from prep to approval.</p></div>
-      <div class="card team rv" style="--d:8"><h3 style="margin-top:0;font-size:20px">Ready when you are.</h3><p style="margin-bottom:18px">Find out which level you're at in one call.</p><a class="btn" data-cfg-href="bookingUrl">Book a call <i data-icon="arrow"></i></a></div>
+    <div class="card next rv" style="--d:3">
+      <h3>Your next steps</h3>
+      <div class="summary"><span class="chip" id="s-level"></span><span class="chip" id="s-pkg"></span><span class="chip" id="s-goal"></span></div>
+      <ol class="steps3">
+        <li><div><b>Enroll today</b><span id="s-enroll">Lock in your on-call onboarding discount.</span></div></li>
+        <li><div><b>Onboarding &amp; credit review</b><span>We pull your reports and review your business setup.</span></div></li>
+        <li><div><b>Your custom funding plan</b><span>Lender sequence, timeline and what to do first.</span></div></li>
+      </ol>
+      <a class="btn" data-cfg-href="enrollUrl">Enroll now <i data-icon="arrow"></i></a>
+      <p class="fine disclaimer">NRD Capital Group is not a lender. Funding is subject to lender approval, and approval amounts, rates and terms are not guaranteed. 0% APR offers are introductory and revert to the lender's standard rate after the promotional period. Business credit products typically require a personal guarantee. Results vary by credit profile.</p>
     </div>
   </div>
-</section>
-
-<!-- 13 CTA -->
-<section class="slide" data-name="Get funded">
-  <div class="wrap cta">
-    <div class="logo rv" data-logo></div>
-    <h2 class="rv" style="--d:1">Let's get you<br><span class="g">funded.</span></h2>
-    <p class="sub rv" style="--d:2">Book a free strategy call. We'll tell you exactly where you stand and what it takes to get funded.</p>
-    <div class="ctas rv" style="--d:3">
-      <a class="btn" data-cfg-href="bookingUrl">Book a strategy call <i data-icon="arrow"></i></a>
-      <a class="btn ghost" data-cfg-href="instagramUrl"><i data-icon="camera"></i><span data-cfg="instagram"></span></a>
-    </div>
-    <p class="fine disclaimer rv" style="--d:4">NRD Capital Group is not a lender. Funding is subject to lender approval, and approval amounts, rates and terms are not guaranteed. 0% APR offers are introductory and revert to the lender's standard rate after the promotional period. Business credit products typically require a personal guarantee. Results vary by credit profile. Figures shown are illustrative.</p>
-  </div>
+  <aside class="notes">
+    <p>Tie back to what they said they'd do with the capital (from slide 1).</p>
+    <p>Walk through the 3 next steps, then ask directly: "Are you ready to get started today?"</p>
+    <p>Send the enrollment link in the chat while you're still on the call, and stay on until checkout is done.</p>
+    <p>Objection "I need to think about it": ask "What specifically do you want to think through?" and answer that.</p>
+  </aside>
 </section>
 
 </main>
@@ -623,6 +769,7 @@
 const CONFIG = {
   fundingRange:     "$5K–$250K",
   phase1Max:        "$250K",
+  presenter:        "NRD Funding Team",
   founderName:      "Nathan",
   founderTitle:     "Founder & CEO, NRD Capital Group",
   founderQuote:     "“The banks have a playbook. My job is to make sure you're the one holding it.”",
@@ -633,26 +780,27 @@ const CONFIG = {
   statBanks:        "40+",
   instagram:        "@nrdcapitalgroup",
   instagramUrl:     "https://instagram.com/nrdcapitalgroup",
-  bookingUrl:       "#",                // your Calendly / booking link
-  starterPrice:     "$497",
-  acceleratorPrice: "$997",
-  callOffer:        "Enroll on your strategy call and get 20% off your onboarding fee.",
-  logo:             "logo.png"           // add your logo file to the repo with this name; the NRD mark shows until then
+  enrollUrl:        "#",                // your checkout / payment link
+  starterPrice:     497,
+  acceleratorPrice: 997,
+  onCallDiscount:   20,                 // percent off when they enroll on the call (0 = no offer shown)
+  callOffer:        "Enroll on this call and save 20% on your onboarding fee.",
+  logo:             "logo.png"          // add your logo file to the repo with this name; the NRD mark shows until then
 };
+/* Tip: open with ?client=Name&rep=YourName to pre-fill the cover. */
 /* =================================================== */
 
+const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
+const money = n => '$' + Math.round(n).toLocaleString('en-US');
 const ICONS = {
-  arrow:'M5 12h14M12 5l7 7-7 7', check:'M20 6L9 17l-5-5',
+  arrow:'M5 12h14M12 5l7 7-7 7', check:'M20 6L9 17l-5-5', alert:'M12 9v4M12 17h.01M10.3 3.9L1.8 18a2 2 0 001.7 3h17a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z',
   building:'M3 21h18M5 21V10M19 21V10M9.7 21V10M14.3 21V10M2 10l10-7 10 7z',
-  layers:'M12 2l10 5-10 5L2 7zM2 17l10 5 10-5M2 12l10 5 10-5',
-  trend:'M3 17l6-6 4 4 8-8M14 7h7v7',
+  layers:'M12 2l10 5-10 5L2 7zM2 17l10 5 10-5M2 12l10 5 10-5', trend:'M3 17l6-6 4 4 8-8M14 7h7v7',
   eyeoff:'M3 3l18 18M10.6 10.6a2 2 0 002.8 2.8M9.9 5.1A10 10 0 0112 5c5 0 9 4.5 10 7-.4 1-1.2 2.3-2.4 3.5M6.2 6.2C4.1 7.6 2.6 9.8 2 12c1 2.5 5 7 10 7 1.6 0 3.1-.4 4.4-1.1',
-  gauge:'M12 14l4-4M3.3 19a10 10 0 1117.4 0',
-  split:'M16 3h5v5M8 3H3v5M21 3l-9 9M3 3l9 9v10',
+  gauge:'M12 14l4-4M3.3 19a10 10 0 1117.4 0', split:'M16 3h5v5M8 3H3v5M21 3l-9 9M3 3l9 9v10',
   gift:'M20 12v10H4V12M2 7h20v5H2zM12 22V7M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z',
   percent:'M19 5L5 19M6.5 9a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM17.5 20a2.5 2.5 0 100-5 2.5 2.5 0 000 5z',
-  zap:'M13 2L3 14h9l-1 8 10-12h-9l1-8z',
-  wallet:'M20 7H5a2 2 0 010-4h14v4M3 5v14a2 2 0 002 2h16V7M16 14h.01',
+  zap:'M13 2L3 14h9l-1 8 10-12h-9l1-8z', wallet:'M20 7H5a2 2 0 010-4h14v4M3 5v14a2 2 0 002 2h16V7M16 14h.01',
   repeat:'M17 1l4 4-4 4M3 11V9a4 4 0 014-4h14M7 23l-4-4 4-4M21 13v2a4 4 0 01-4 4H3',
   briefcase:'M20 7H4a2 2 0 00-2 2v10a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2zM16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16',
   filecheck:'M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8zM14 2v6h6M9 15l2 2 4-4',
@@ -660,26 +808,33 @@ const ICONS = {
   pin:'M12 21s-7-6.5-7-12a7 7 0 0114 0c0 5.5-7 12-7 12zM12 11a2 2 0 100-4 2 2 0 000 4z',
   users:'M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 11a4 4 0 100-8 4 4 0 000 8zM23 21v-2a4 4 0 00-3-3.9M16 3.1a4 4 0 010 7.8',
   phone2:'M7 2h10a2 2 0 012 2v16a2 2 0 01-2 2H7a2 2 0 01-2-2V4a2 2 0 012-2zM12 18h.01',
-  shield:'M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10zM9 12l2 2 4-4',
-  search:'M11 19a8 8 0 100-16 8 8 0 000 16zM21 21l-4.3-4.3',
+  shield:'M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10zM9 12l2 2 4-4', search:'M11 19a8 8 0 100-16 8 8 0 000 16zM21 21l-4.3-4.3',
   msg:'M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z',
   phone:'M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3.1 19.5 19.5 0 01-6-6A19.8 19.8 0 012.1 4.2 2 2 0 014.1 2h3a2 2 0 012 1.7c.1 1 .4 1.9.7 2.8a2 2 0 01-.5 2.1L8 9.9a16 16 0 006 6l1.3-1.3a2 2 0 012.1-.4c.9.3 1.8.6 2.8.7a2 2 0 011.7 2z',
   camera:'M7 2h10a5 5 0 015 5v10a5 5 0 01-5 5H7a5 5 0 01-5-5V7a5 5 0 015-5zM16 11.4A4 4 0 1112.6 8 4 4 0 0116 11.4zM17.5 6.5h.01'
 };
-document.querySelectorAll('i[data-icon]').forEach(el => {
-  el.outerHTML = `<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="${ICONS[el.dataset.icon] || ''}"/></svg>`;
-});
-document.querySelectorAll('[data-cfg]').forEach(el => { el.textContent = CONFIG[el.dataset.cfg] ?? ''; });
-document.querySelectorAll('[data-cfg-href]').forEach(el => {
-  const url = CONFIG[el.dataset.cfgHref] || '#';
-  el.href = url;
+const icon = n => `<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="${ICONS[n] || ''}"/></svg>`;
+$$('i[data-icon]').forEach(el => { el.outerHTML = icon(el.dataset.icon); });
+
+/* config + personalization */
+const params = new URLSearchParams(location.search);
+if (params.get('rep')) CONFIG.presenter = params.get('rep');
+$$('[data-cfg]').forEach(el => { el.textContent = CONFIG[el.dataset.cfg] ?? ''; });
+$$('[data-cfg-href]').forEach(el => {
+  const url = CONFIG[el.dataset.cfgHref] || '#'; el.href = url;
   if (/^https?:/.test(url)) { el.target = '_blank'; el.rel = 'noopener'; }
 });
+const disc = CONFIG.onCallDiscount || 0;
+$$('[data-price]').forEach(el => { el.textContent = money(CONFIG[el.dataset.price] * (1 - disc/100)); });
+$$('[data-was]').forEach(el => { el.textContent = disc ? money(CONFIG[el.dataset.was]) : ''; });
+if (!disc) { $('.offer').remove(); $('#s-enroll').textContent = 'Get your onboarding started right away.'; }
+$('#today').textContent = new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+
 const MARK = `<svg viewBox="0 0 48 48" class="mark" aria-hidden="true"><defs>
   <linearGradient id="mk" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#00c2ff"/><stop offset="1" stop-color="#00f5a0"/></linearGradient></defs>
   <path d="M11 37V15h6.5l13 15.5V18h-3.2L33.5 9l6.2 9h-3.2v19H30L17.5 22.4V37z" fill="url(#mk)"/>
   <rect x="9" y="39.5" width="30" height="1.6" rx=".8" fill="#00f5a0" opacity=".35"/></svg>`;
-document.querySelectorAll('[data-logo]').forEach(box => {
+$$('[data-logo]').forEach(box => {
   box.innerHTML = MARK;
   if (!CONFIG.logo) return;
   const img = new Image(); img.alt = 'NRD Capital Group logo';
@@ -687,50 +842,191 @@ document.querySelectorAll('[data-logo]').forEach(box => {
   img.src = CONFIG.logo;
 });
 if (CONFIG.founderPhoto) {
-  const ph = document.getElementById('founderPhoto');
-  const img = new Image(); img.alt = CONFIG.founderName;
-  img.onload = () => { ph.innerHTML = ''; ph.appendChild(img); };
-  img.src = CONFIG.founderPhoto;
+  const ph = $('#founderPhoto'), img = new Image(); img.alt = CONFIG.founderName;
+  img.onload = () => { ph.innerHTML = ''; ph.appendChild(img); }; img.src = CONFIG.founderPhoto;
 }
 
-/* count-up */
-const fmt = n => n.toLocaleString('en-US');
+const store = { get(k){ try { return sessionStorage.getItem(k); } catch(e){ return null; } }, set(k,v){ try { sessionStorage.setItem(k,v); } catch(e){} } };
+const clientEl = $('#clientName');
+clientEl.textContent = params.get('client') || store.get('nrd-client') || '';
+const firstName = () => clientEl.textContent.trim().split(/\s+/)[0] || '';
+function applyClient(){
+  const f = firstName();
+  $$('[data-client-pos]').forEach(el => el.textContent = f ? f + "'s" : 'Your');
+  $$('[data-client-greet]').forEach(el => el.textContent = f ? f + ", let's get you" : "Let's get you");
+  $$('[data-badge]').forEach(el => el.textContent = f ? 'Recommended for ' + f : 'Recommended');
+}
+clientEl.addEventListener('input', () => { store.set('nrd-client', clientEl.textContent.trim()); applyClient(); });
+clientEl.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); clientEl.blur(); } });
+applyClient();
+
+/* ---------- funding snapshot ---------- */
+const snap = { score:700, goal:150000, util:25, inq:2, llc:1, bank:0, derog:0 };
+try { Object.assign(snap, JSON.parse(store.get('nrd-snap') || '{}')); } catch(e){}
+['score','goal','util','inq'].forEach(k => {
+  const el = $('#' + k); el.value = snap[k];
+  el.addEventListener('input', () => { snap[k] = +el.value; renderSnap(); });
+});
+$$('.seg').forEach(seg => {
+  const k = seg.dataset.key;
+  seg.querySelectorAll('button').forEach(b => b.addEventListener('click', () => { snap[k] = +b.dataset.v; renderSnap(); }));
+});
+function renderSnap(){
+  store.set('nrd-snap', JSON.stringify(snap));
+  $('#o-score').textContent = snap.score; $('#o-goal').textContent = money(snap.goal);
+  $('#o-util').textContent = snap.util + '%'; $('#o-inq').textContent = snap.inq;
+  $$('.seg').forEach(seg => seg.querySelectorAll('button').forEach(b => b.classList.toggle('on', +b.dataset.v === snap[seg.dataset.key])));
+
+  let level = 1; const focus = []; const bump = l => { level = Math.max(level, l); };
+  if (snap.score < 680) { bump(3); focus.push('Raise scores to 680+ across all three bureaus'); }
+  if (snap.derog) { bump(3); focus.push('Address recent late payments, collections or charge-offs'); }
+  if (snap.util > 50) { bump(3); focus.push('Bring card utilization under 30% (ideally under 10%)'); }
+  else if (snap.util > 30) { bump(2); focus.push('Pay utilization down under 30% (ideally under 10%)'); }
+  if (snap.inq > 6) { bump(3); focus.push('Let recent inquiries age and dispute any inaccurate ones'); }
+  else if (snap.inq > 3) { bump(2); focus.push('Pause new applications so inquiries can age'); }
+  if (!snap.llc) { bump(2); focus.push('Form a lender-ready LLC with consistent business info'); }
+  if (!snap.bank) { bump(2); focus.push('Open business checking and build deposit history'); }
+
+  const meta = {1:['Level 1','In position: plan and apply','~10 days'],2:['Level 2','A few fixes, then apply','≤ 30 days'],3:['Level 3','Build the foundation first','3–8 months']}[level];
+  const pkg = snap.goal > 100000 ? 'accelerator' : 'starter';
+  const pkgName = pkg === 'accelerator' ? 'Accelerator' : 'Starter';
+  $('#result').dataset.level = level;
+  $('#r-level').textContent = meta[0]; $('#r-desc').textContent = meta[1]; $('#r-time').textContent = meta[2];
+  $('#r-pkg').textContent = pkgName;
+  $('#g-score').textContent = snap.score;
+  $('#garc').setAttribute('stroke-dasharray', `${Math.round((snap.score-500)/350*100)} 100`);
+  $('#r-focus').innerHTML = (focus.length ? focus.slice(0,4).map(f => `<li>${icon('alert')}${f}</li>`) : [`<li class="ok">${icon('check')}You're in position. We build the plan and apply.</li>`]).join('');
+  $$('[data-pkg]').forEach(c => c.classList.toggle('feat', c.dataset.pkg === pkg));
+  $$('.grow[data-lv]').forEach(r => r.classList.toggle('me', +r.dataset.lv === level));
+  $('#s-level').innerHTML = `<i class="dot"></i>${meta[0]} · ${meta[2]}`;
+  $('#s-pkg').textContent = pkgName + ' Funding';
+  $('#s-goal').textContent = 'Goal ' + money(snap.goal);
+}
+renderSnap();
+
+/* ---------- count-up ---------- */
 function countUp(el){
-  if (el.dataset.done) return; el.dataset.done = 1;
   const end = +el.dataset.count, pre = el.dataset.prefix || '', t0 = performance.now(), dur = 1600;
   const step = t => { const p = Math.min(1,(t-t0)/dur), e = 1-Math.pow(1-p,3);
-    el.textContent = pre + fmt(Math.round(end*e)); if (p<1) requestAnimationFrame(step); };
+    el.textContent = pre + Math.round(end*e).toLocaleString('en-US'); if (p<1) requestAnimationFrame(step); };
   requestAnimationFrame(step);
 }
 
-/* navigation */
-const slides = [...document.querySelectorAll('.slide')];
-const counter = document.getElementById('counter'), bar = document.getElementById('progress'), dots = document.getElementById('dots');
+/* ---------- navigation ---------- */
+const slides = $$('.slide');
+const present = matchMedia('(min-width:981px)');
 const pad = n => String(n).padStart(2,'0');
-slides.forEach((s,i) => { const b = document.createElement('button'); b.title = s.dataset.name; b.setAttribute('aria-label', s.dataset.name); b.onclick = () => s.scrollIntoView({behavior:'smooth'}); dots.appendChild(b); });
 let current = 0;
-const setCurrent = i => {
-  current = i;
-  counter.innerHTML = `${pad(i+1)} <span>/ ${pad(slides.length)}</span>`;
-  bar.style.width = ((i+1)/slides.length*100) + '%';
-  [...dots.children].forEach((d,j) => d.classList.toggle('on', j===i));
-};
+function fit(){ document.documentElement.style.setProperty('--s', Math.min(innerWidth/1600, innerHeight/900)); }
+function updateHud(){
+  $('#counter').innerHTML = `${pad(current+1)} <span>/ ${pad(slides.length)}</span>`;
+  $('#progress').style.width = ((current+1)/slides.length*100) + '%';
+  syncNotes();
+}
+function show(i, push = true){
+  i = Math.max(0, Math.min(slides.length-1, i));
+  if (present.matches) {
+    slides.forEach((s,j) => { s.classList.toggle('active', j===i); if (j!==i) s.classList.remove('in'); });
+    const s = slides[i];
+    requestAnimationFrame(() => requestAnimationFrame(() => s.classList.add('in')));
+    s.querySelectorAll('[data-count]').forEach(countUp);
+  } else {
+    slides[i].scrollIntoView({behavior:'smooth'});
+  }
+  current = i; updateHud();
+  if (push) history.replaceState(null, '', location.pathname + location.search + '#' + (i+1));
+}
 const io = new IntersectionObserver(entries => entries.forEach(e => {
-  if (!e.isIntersecting) return;
+  if (present.matches || !e.isIntersecting) return;
   e.target.classList.add('in');
-  e.target.querySelectorAll('[data-count]').forEach(countUp);
-  if (e.intersectionRatio >= .5 || e.target.offsetHeight > innerHeight) setCurrent(slides.indexOf(e.target));
-}), { threshold: [.2,.5] });
+  e.target.querySelectorAll('[data-count]').forEach(el => { if (!el.dataset.done) { el.dataset.done = 1; countUp(el); } });
+  current = slides.indexOf(e.target); updateHud();
+}), { threshold: .35 });
 slides.forEach(s => io.observe(s));
-setCurrent(0);
-const go = d => slides[Math.max(0, Math.min(slides.length-1, current+d))].scrollIntoView({behavior:'smooth'});
-document.getElementById('prev').onclick = () => go(-1);
-document.getElementById('next').onclick = () => go(1);
+present.addEventListener('change', () => show(current, false));
+addEventListener('resize', fit); fit();
+
+const editing = e => e.target.closest && e.target.closest('[contenteditable="true"]');
 document.addEventListener('keydown', e => {
-  if (['ArrowDown','ArrowRight','PageDown',' '].includes(e.key)) { e.preventDefault(); go(1); }
-  if (['ArrowUp','ArrowLeft','PageUp'].includes(e.key)) { e.preventDefault(); go(-1); }
+  if (editing(e)) return;
+  if (e.target.type === 'range' && ['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Home','End','PageUp','PageDown'].includes(e.key)) return;
+  if (e.target.tagName === 'BUTTON' && (e.key === ' ' || e.key === 'Enter')) return;
+  const k = e.key;
+  if (['ArrowRight','ArrowDown','PageDown',' '].includes(k)) { e.preventDefault(); show(current+1); }
+  else if (['ArrowLeft','ArrowUp','PageUp'].includes(k)) { e.preventDefault(); show(current-1); }
+  else if (k === 'Home') show(0);
+  else if (k === 'End') show(slides.length-1);
+  else if (k === 'f' || k === 'F') toggleFs();
+  else if (k === 'n' || k === 'N') openNotes();
 });
-window.addEventListener('beforeprint', () => slides.forEach(s => s.classList.add('in')));
+$('#prev').onclick = () => show(current-1);
+$('#next').onclick = () => show(current+1);
+let tx = null;
+document.addEventListener('touchstart', e => { tx = e.target.closest('input') ? null : e.touches[0].clientX; }, {passive:true});
+document.addEventListener('touchend', e => {
+  if (tx === null || !present.matches) return; const dx = e.changedTouches[0].clientX - tx; tx = null;
+  if (Math.abs(dx) > 60) show(current + (dx < 0 ? 1 : -1));
+});
+function toggleFs(){ document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen?.().catch(()=>{}); }
+$('#fsBtn').onclick = toggleFs;
+
+/* fade controls while presenting */
+let idleT; const wake = () => { document.body.classList.remove('idle'); clearTimeout(idleT); idleT = setTimeout(() => document.body.classList.add('idle'), 3000); };
+['mousemove','keydown','touchstart'].forEach(ev => addEventListener(ev, wake)); wake();
+
+/* ---------- speaker notes window ---------- */
+let notesWin = null; const t0 = Date.now();
+function openNotes(){
+  if (notesWin && !notesWin.closed) { notesWin.focus(); return; }
+  notesWin = window.open('', 'nrd-notes', 'width=560,height=760');
+  if (!notesWin) { alert('Allow pop-ups for this page to open speaker notes.'); return; }
+  notesWin.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>Speaker notes · NRD</title><style>
+    body{margin:0;background:#05080f;color:#cbd5e1;font:16px/1.6 Inter,system-ui,sans-serif;padding:22px}
+    .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+    .n{font:800 13px system-ui;letter-spacing:.12em;color:#00f5a0}
+    .t{font:700 22px/1 system-ui;color:#fff;font-variant-numeric:tabular-nums}
+    h1{font:800 28px/1.15 system-ui;color:#fff;margin:4px 0 16px;letter-spacing:-.02em}
+    #notes p{margin:0 0 12px}#notes b{color:#fff}
+    .nx{margin-top:18px;padding:14px 16px;border:1px solid rgba(148,197,255,.2);border-radius:12px;color:#94a3b8;font-size:14px}
+    .nx b{color:#fff}
+    .ctl{display:flex;gap:8px;margin-top:16px}
+    button{flex:1;padding:14px;border-radius:12px;border:1px solid rgba(148,197,255,.25);background:#0b1220;color:#fff;font:700 15px system-ui;cursor:pointer}
+    button.p{background:linear-gradient(100deg,#00f5a0,#00c2ff);color:#021412;border:0}
+    .k{margin-top:14px;font-size:12px;color:#64748b}
+  </style></head><body>
+    <div class="top"><span class="n" id="n"></span><span class="t" id="t">00:00</span></div>
+    <h1 id="h"></h1><div id="notes"></div>
+    <div class="nx">Next: <b id="nx"></b></div>
+    <div class="ctl"><button id="pv">← Prev</button><button class="p" id="nt">Next →</button></div>
+    <div class="k">Keep this window off your shared screen. Share only the presentation tab.</div>
+  </body></html>`);
+  notesWin.document.close();
+  notesWin.document.getElementById('pv').onclick = () => show(current-1);
+  notesWin.document.getElementById('nt').onclick = () => show(current+1);
+  notesWin.addEventListener('keydown', e => {
+    if (['ArrowRight','PageDown',' '].includes(e.key)) { e.preventDefault(); show(current+1); }
+    if (['ArrowLeft','PageUp'].includes(e.key)) { e.preventDefault(); show(current-1); }
+  });
+  syncNotes();
+}
+function syncNotes(){
+  if (!notesWin || notesWin.closed) return;
+  const d = notesWin.document, s = slides[current], nx = slides[current+1];
+  d.getElementById('n').textContent = `SLIDE ${current+1} / ${slides.length}`;
+  d.getElementById('h').textContent = s.dataset.name;
+  d.getElementById('notes').innerHTML = s.querySelector('.notes')?.innerHTML || '<p>No notes.</p>';
+  d.getElementById('nx').textContent = nx ? nx.dataset.name : 'End of presentation';
+}
+setInterval(() => {
+  if (!notesWin || notesWin.closed) return;
+  const s = Math.floor((Date.now()-t0)/1000);
+  notesWin.document.getElementById('t').textContent = `${pad(Math.floor(s/60))}:${pad(s%60)}`;
+}, 1000);
+$('#notesBtn').onclick = openNotes;
+
+addEventListener('beforeprint', () => slides.forEach(s => s.classList.add('in')));
+const start = parseInt(location.hash.slice(1), 10);
+show(Number.isFinite(start) ? start-1 : 0, false);
 </script>
 </body>
 </html>
